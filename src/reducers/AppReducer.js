@@ -17,7 +17,8 @@ const INITIAL_STATE = {
     ], //DOM, SEG ... SAB // 1 é Valido, 0 é Inválido
     diasChanged: true,
     isExclusive: true,
-    promos: [] //
+    promos: [],
+    userLocation: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -58,6 +59,10 @@ export default (state = INITIAL_STATE, action) => {
         
         case 'modifica_dias_validos':
             return { ...state, diasValidosPromo: action.payload, diasChanged: !state.diasChanged}
+
+        case 'get_user_location':
+            return { ...state, userLocation: action.payload}
+            console.log(state.userLocation);
 
         default: 
             return state;

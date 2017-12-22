@@ -130,3 +130,27 @@ export const modificaDiasValidos = (dias) => {
         payload: dias
     }
 }
+
+export const getUserLocation = () => {
+
+    console.log('teste');
+
+    return dispatch => {
+
+        // navigator.geolocation.getCurrentPosition((position) => {alert(position)}, (error) => {alert(error)}, {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000});
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                dispatch({
+                    type: 'get_user_location',
+                    payload: position
+                })
+            },
+            (error) => {
+                alert(error.message);
+            }, 
+            {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
+        )
+    }
+
+}

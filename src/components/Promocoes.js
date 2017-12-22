@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, ActivityIndicator, Button, ListView } from 'react-native';
 import { Icon, List } from 'react-native-elements';
-import { listaPromocoes, listaPromoFetch } from '../actions/AppActions';
+import { listaPromocoes, listaPromoFetch, getUserLocation } from '../actions/AppActions';
 import { connect } from 'react-redux';
 import Promo from './Promo';
 import _ from 'lodash';
@@ -17,6 +17,10 @@ class Promocoes extends Component {
 
     componentWillReceiveProps(nextProps){
         this.criaFonteDeDados(nextProps.promos);   
+    }
+
+    componentDidMount(){
+        this.props.getUserLocation();
     }
     
     loading(){
@@ -84,6 +88,7 @@ export default connect(
     mapStateToProps, 
     {
         listaPromocoes,
-        listaPromoFetch
+        listaPromoFetch,
+        getUserLocation
     }
 )(Promocoes);
