@@ -17,8 +17,9 @@ const INITIAL_STATE = {
     ], //DOM, SEG ... SAB // 1 é Valido, 0 é Inválido
     diasChanged: true,
     isExclusive: true,
-    promos: [],
-    userLocation: {}
+    promos: [{nomePromo: ""}],
+    userLocation: {},
+    filtros: { texto: ''}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -62,7 +63,13 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'get_user_location':
             return { ...state, userLocation: action.payload}
-            console.log(state.userLocation);
+
+        case 'modifica_filtros':
+            alert(action.payload.texto);
+            return { ...state, filtros: action.payload}
+
+        case 'limpa_filtros':
+            return { ...state, filtros: {}}
 
         default: 
             return state;

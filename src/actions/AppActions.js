@@ -154,3 +154,16 @@ export const getUserLocation = () => {
     }
 
 }
+
+export const modificaFiltros = (filtro) => {
+    return {
+        type: 'modifica_filtros',
+        payload: {texto: filtro}
+    }
+}
+
+export const limpaFiltros = () => {
+    return {
+        type: 'limpa_filtros'
+    }
+}

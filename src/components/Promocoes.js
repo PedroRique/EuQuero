@@ -75,12 +75,13 @@ class Promocoes extends Component {
 const mapStateToProps = state => {
 
     const promos = _.map(state.AppReducer.promos, (val, uid) => {
-        return {...val, uid}
+            return {...val, uid}
     });
 
     return ({
         loadingPromocoes: state.AppReducer.loadingPromocoes,
-        promos
+        promos,
+        filtros: state.AppReducer.filtros
     })
 } 
 
