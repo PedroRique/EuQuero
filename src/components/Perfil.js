@@ -6,6 +6,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'react-native-fetch-blob';
 import firebase from 'firebase';
 import b64 from 'base-64';
+import { contaRede } from '../actions/AppActions';
 
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
@@ -73,6 +74,10 @@ class Perfil extends Component{
         });
     }
 
+    componentDidMount(){
+        this.props.contaRede();
+    }
+
     render(){
 
         const img = require('../imgs/avatar.jpg');
@@ -116,7 +121,7 @@ const mapStateToProps = state => (
     }
 )
 
-export default connect(mapStateToProps, {})(Perfil);
+export default connect(mapStateToProps, {contaRede})(Perfil);
 
 const styles = StyleSheet.create({
 

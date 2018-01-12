@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import b64 from 'base-64';
 import Voucher from 'voucher-code-generator';
+import _ from 'lodash';
 
 export const modificaEmail = (texto) => {
     return {

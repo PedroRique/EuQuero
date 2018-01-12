@@ -168,3 +168,41 @@ export const limpaFiltros = () => {
         type: 'limpa_filtros'
     }
 }
+
+export const contaRede = () => {
+
+    return dispatch => {
+        let chave = 'KPRMNBXP';
+        firebase.database().ref(`chaves/${chave}`).once('value')
+        .then(snapshot => {
+
+            var arr = [0,0,0];
+            const data = snapshot.val();
+            Object.keys(data.rede).map(
+                function(a,b){
+                    var x = data.rede[a].linha;
+                    
+                    switch(x){
+                        case 0:
+                            arr[0]++;
+                            break;
+                        case 1:
+                            arr[1]++;
+                            break;
+                        case 2:
+                            arr[2]++;
+                            break;
+                    }       
+            });
+
+            alert(arr[0] + ',' + arr[1] + ',' + arr[2]);
+            dispatch({type: 'conta_rede_sucesso'});
+        })
+        .catch(error => {
+            alert('e');
+            console.log(error);
+            dispatch({type: 'conta_rede_sucesso'});
+        })
+    }
+    
+}
