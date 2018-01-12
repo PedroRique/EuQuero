@@ -141,6 +141,7 @@ export const getUserLocation = () => {
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
+                console.log(position);
                 dispatch({
                     type: 'get_user_location',
                     payload: position

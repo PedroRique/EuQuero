@@ -1,56 +1,53 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, Button } from 'react-native';
+import { View, Text, ActivityIndicator, Button, StyleSheet} from 'react-native';
 import { Icon } from 'react-native-elements';
 import { listaPromocoes } from '../actions/AppActions';
 import { connect } from 'react-redux';
+import MapView from 'react-native-maps';
 
-class Promocoes extends Component {
+class Restaurantes extends Component {
     
-    loadingPromocoes = true;
-
-    loading(){
-        if(this.props.loadingPromocoes){
-
-            return(
-                <ActivityIndicator size="large"/>
-            );
-        }
-        return (
-            <View style={{ alignItems: 'center'}}>
-                <Text style={{fontSize: 18, color: '#666'}}>Nenhum restaurante perto de você.</Text>
-                <View style={{justifyContent: 'center', marginTop: 20}}>
-                    <Icon color="#888" name="autorenew" size={50} type="material" underlayColor="#ccc"
-                        onPress={ () => {
-                            setTimeout(() =>{
-                                this.props.listaPromocoes(false);
-                            }, 1500);
-
-                            this.props.listaPromocoes(true);
-                        }}
-                    />   
-                </View>
-            </View> 
-        );
+    constructor(props){
+        super(props);
+        this.state = this.getInitialState();
     }
-    
+
+    getInitialState() {
+        return {
+          region: {
+            latitude: -22.78825,
+            longitude: -43.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          },
+        };
+    }
+      
     render(){
         return(
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',  backgroundColor: '#fff'}}>
-                {this.loading()}
+            <View style ={styles.container}>
+                <MapView
+                    style={styles.map}
+                    region={this.state.region}
+                >
+                </MapView>
             </View>
         );
     }
 }
 
-const mapStateToProps = state => (
-    {
-        loadingPromocoes: state.AppReducer.loadingPromocoes,
-    }
-)
+const styles = StyleSheet.create({
+    container: {
+      ...StyleSheet.absoluteFillObject,
+      height: 400,
+      width: 400,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    map: {
+      ...StyleSheet.absoluteFillObject,
+    },
+  });
 
-export default connect(
-    mapStateToProps, 
-    {
-        listaPromocoes
-    }
-)(Promocoes);
+
+export default Restaurantes;
