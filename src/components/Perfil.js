@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Share } from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -49,6 +49,10 @@ class Perfil extends Component{
         this.state = { imagePath : ''};
     }
 
+    shareKey(){
+        Share.share({message:this.props.chave});
+    }
+
     pickImage(){
         ImagePicker.openPicker({
             width: 300,
@@ -80,7 +84,9 @@ class Perfil extends Component{
 
     render(){
 
-        const img = require('../imgs/avatar.jpg');
+        const img = require('../imgs/user.png');
+
+        //<ActivityIndicator containerStyle={{width: 200, height: 200}}/>
 
         return(
             <View style={styles.container}>
@@ -88,7 +94,7 @@ class Perfil extends Component{
                 <View style={styles.boxAvatar}>
                     <TouchableOpacity onPress={() => this.pickImage()} >
                         {this.state.imagePath ? <Image source={{ uri: this.state.imagePath }} style={{width: 200, height: 200, borderRadius: 100}}/> :
-                        <ActivityIndicator containerStyle={{width: 200, height: 200}}/>}
+                        <Image source={img} style={{width: 200, height: 200, borderRadius: 100}}/>}
                     </TouchableOpacity>
                     
                 </View>
@@ -97,9 +103,13 @@ class Perfil extends Component{
                 <Text style={styles.titulo}>{this.props.nome}</Text>
                 <Text style={styles.estab}>{this.props.email}</Text>
 
-                <View style={styles.card}>
-                    <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 25}}>Economia:</Text>
-                </View>
+                <TouchableOpacity onPress={() => this.shareKey()} >
+                    <View style={[styles.cardW,{borderColor: '#333', borderWidth: 1}]}>
+                        <Text style={{color: '#333', fontSize: 14}}>Sua Chave:</Text>
+
+                        <Text style={{color: '#881518', fontWeight: 'bold', fontSize: 25}}>{this.props.chave}</Text>
+                    </View>
+                </TouchableOpacity>
 
                 <View style={styles.card}>
                     <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 25}}>Economia:</Text>
@@ -110,7 +120,7 @@ class Perfil extends Component{
                 </View>
 
             </View>
-        );s
+        );
     } 
 }
 
@@ -118,6 +128,7 @@ const mapStateToProps = state => (
     {
         nome: state.AutenticacaoReducer.nome,
         email: state.AutenticacaoReducer.email,
+        chave: state.AutenticacaoReducer.chave
     }
 )
 
@@ -147,6 +158,16 @@ const styles = StyleSheet.create({
         padding: 20,
         alignSelf: 'stretch',
         backgroundColor: '#881518',
+        margin: 10,
+        borderRadius: 5,
+        elevation: 2
+    },
+    cardW: {
+        alignItems: 'center',
+        marginTop: 10,
+        padding: 20,
+        alignSelf: 'stretch',
+        backgroundColor: '#fff',
         margin: 10,
         borderRadius: 5,
         elevation: 2

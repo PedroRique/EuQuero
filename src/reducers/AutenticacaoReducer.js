@@ -8,7 +8,9 @@ const INITIAL_STATE = {
     loadingLogin: false,
     loadingCadastro: false,
     chaveEntrada: '',
-    loginAs: true //false eh Cliente, true eh Estabelecimento
+    loginAs: true, //false eh Cliente, true eh Estabelecimento
+    perfilImg: '',
+    chave: ''
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -42,7 +44,7 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, alertSendoExibido: action.payload}
 
         case 'login_usuario_sucesso':
-            return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false}
+            return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave}
 
         case 'loading_login':
             return { ...state, loadingLogin: true }

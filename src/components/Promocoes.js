@@ -31,10 +31,7 @@ class Promocoes extends Component {
                     <ListView
                         enableEmptySections
                         dataSource={this.fonteDeDados}
-                        renderRow={data => (
-                                <Promo key={data.nomePromo} item={data} />
-                            )
-                        }
+                        renderRow={data => (<Promo key={data.nomePromo} item={data} />)}
                     />
                 </ScrollView>
             )
@@ -74,14 +71,20 @@ class Promocoes extends Component {
 
 const mapStateToProps = state => {
 
+    console.log(state.AppReducer.filtros.texto);
+
     const promos = _.map(state.AppReducer.promos, (val, uid) => {
+        console.log(val);
+        if(val.nomePromo.toLowerCase().indexOf(state.AppReducer.filtros.texto.toLowerCase()) > -1){
             return {...val, uid}
+        }
     });
 
     return ({
         loadingPromocoes: state.AppReducer.loadingPromocoes,
-        promos,
-        filtros: state.AppReducer.filtros
+        promos: _.without(promos, undefined),
+        filtros: state.AppReducer.filtros,
+        filtroTexto: state.AppReducer.filtroTexto
     })
 } 
 

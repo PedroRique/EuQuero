@@ -19,7 +19,8 @@ const INITIAL_STATE = {
     isExclusive: true,
     promos: [{nomePromo: ""}],
     userLocation: {},
-    filtros: { texto: ''}
+    filtros: { texto: '' },
+    filtroTexto: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -65,7 +66,6 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, userLocation: action.payload}
 
         case 'modifica_filtros':
-            alert(action.payload.texto);
             return { ...state, filtros: action.payload}
 
         case 'limpa_filtros':
