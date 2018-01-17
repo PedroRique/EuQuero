@@ -7,6 +7,7 @@ import Principal from './components/Principal';
 import Promocao from './components/Promocao';
 import Perfil from './components/Perfil';
 import FormPromo from './components/FormPromo';
+import Cupons from './components/Cupons';
 
 export default props => (
     <Router>
@@ -22,6 +23,7 @@ export default props => (
             <Scene key='promocao' component={Promocao} hideNavBar={false} title='Promoção'/>
             <Scene key='perfil' component={Perfil} hideNavBar={false} title='Perfil'/>
             <Scene key='formPromo' component={FormPromo} hideNavBar={false} title='Nova Promoção'/>
+            <Scene key='cupons' component={Cupons} hideNavBar={false} title='Meus Cupons' />
         </Stack>       
     </Router>
 );

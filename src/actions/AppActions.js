@@ -103,6 +103,20 @@ export const listaPromoFetch = () => {
     }
 }
 
+export const listaCuponsFetch = () => {
+    const { currentUser } = firebase.auth();
+
+    return(dispatch) => {
+        currentEmail = currentUser ? currentUser.email : 'teste3@teste.com';
+        let emailUserB64 = b64.encode(currentEmail);
+
+        firebase.database().ref(`/cupons/${emailUserB64}`)
+            .on('value', snapshot => {
+                dispatch({ type: 'lista_cupons', payload: snapshot.val()})
+            })
+    }
+}
+
 export const modificaValorInicialPromo = (valor) => {
     return {
         type: 'modifica_valor_inicial_promo',

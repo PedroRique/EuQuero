@@ -20,7 +20,8 @@ const INITIAL_STATE = {
     promos: [{nomePromo: ""}],
     userLocation: {},
     filtros: { texto: '' },
-    filtroTexto: ''
+    filtroTexto: '',
+    cupons: [{key: ""}]
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -49,6 +50,9 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'lista_promos':
             return { ...state, promos: action.payload}
+
+        case 'lista_cupons':
+            return {...state, cupons: action.payload}
 
         case 'modifica_valor_inicial_promo':
             return { ...state, valorInicialPromo: action.payload}

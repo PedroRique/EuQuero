@@ -33,6 +33,21 @@ class Menu extends Component {
         }
     }
 
+    isClient(){
+        if(!this.props.loginAs){
+            return(
+                <View>
+                    <TouchableNativeFeedback onPress={() => Actions.cupons()}>
+                        <ListItem
+                            title='Meus Cupons'
+                            leftIcon={{name: 'ticket', color: '#333'}}
+                        />
+                    </TouchableNativeFeedback>
+                </View>
+            )
+        }
+    }
+
     render (){
         return (
             <View style={{justifyContent:'flex-start', flex:1}}>
@@ -50,6 +65,8 @@ class Menu extends Component {
                 </TouchableNativeFeedback>
 
                 {this.isEstab()}
+
+                {this.isClient()}
 
             </List>
         
