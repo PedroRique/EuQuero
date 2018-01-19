@@ -38,7 +38,7 @@ class Cupons extends Component {
     
     render(){
         return(
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff'}}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
                 {this.loading()}
             </View>
         );
@@ -60,5 +60,7 @@ const mapStateToProps = state => {
 
 export default connect(
     mapStateToProps, 
-    {}
+    {
+        listaCuponsFetch
+    }
 )(Cupons);
