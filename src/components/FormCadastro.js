@@ -47,8 +47,6 @@ class formCadastro extends Component {
             tipo = 'client';
         }
 
-        console.log(chaveEntrada);
-
         if(this.validateForm()){
             this.props.cadastraUsuario({ nome, email, senha, tipo, chaveEntrada});
         }else{

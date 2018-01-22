@@ -21,7 +21,7 @@ const INITIAL_STATE = {
     userLocation: {},
     filtros: { texto: '' },
     filtroTexto: '',
-    cupons: [{key: ""}]
+    cupons: []
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -74,6 +74,12 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'limpa_filtros':
             return { ...state, filtros: {}}
+
+        case 'gera_cupom':
+            return { ...state};
+        
+        case 'gera_cupom_erro':
+            return { ...state};
 
         default: 
             return state;

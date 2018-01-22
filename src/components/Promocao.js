@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView} from 'react-native';
 import {Rating, Icon} from 'react-native-elements';
 import Voucher from 'voucher-code-generator';
+import {geraCupom} from '../actions/AppActions';
+import { connect } from 'react-redux';
 
-export default class Promocao extends Component{
+class Promocao extends Component{
 
     constructor(props){
         super(props);
@@ -30,7 +32,7 @@ export default class Promocao extends Component{
 
         return (
             <TouchableOpacity onPress={ () => this.geraCodigo() }>
-                <Text style={styles.btnGerar}>Gerar código!</Text>
+                <Text style={styles.btnResgatar}>Resgatar Cupom</Text>
             </TouchableOpacity>
         );
     }
@@ -50,7 +52,22 @@ export default class Promocao extends Component{
         codigo = codigo.toString().toUpperCase();
 
         this.setState({codigo});
-        this.setModalVisible(true);
+        // this.setModalVisible(true);
+        
+        this._geraCupom(codigo);
+    }
+
+    _geraCupom(codigo){
+
+        console.log(this.props);
+
+        const { item
+        } = this.props;
+
+        this.props.geraCupom({
+            item,
+            codigo
+        });
     }
 
     setModalVisible(status){
@@ -150,6 +167,17 @@ export default class Promocao extends Component{
 
 }
 
+const mapStateToProps = state => {
+    return ({})
+} 
+
+export default connect(
+    mapStateToProps, 
+    {
+        geraCupom
+    }
+)(Promocao);
+
 const styles = StyleSheet.create({
     textCodigo:{
         fontSize: 30,
@@ -208,7 +236,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 10
     },
-    btnGerar: {
+    btnResgatar: {
         paddingVertical: 10,
         paddingHorizontal: 100,
         backgroundColor: '#881518',

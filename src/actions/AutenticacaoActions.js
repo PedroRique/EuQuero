@@ -30,45 +30,41 @@ export const cadastraUsuario = ({nome, email, senha, tipo, chaveEntrada}) => {
     return dispatch => {
 
         dispatch({ type: 'loading_cadastro' });
-        // /${chaveEntrada}
-        firebase.database().ref(`chaves`).once('value')
-        .then(snapshot => {
-            let novaChave = geraChave();
 
-            if(snapshot.val() != null){
+        const novaChave = geraChave();
 
-                
-                atualizaRede(snapshot.val(), chaveEntrada, novaChave, 0);
+        firebase.auth().createUserWithEmailAndPassword(email, senha)
+        .then(user => {
+            let emailB64 = b64.encode(email);
+            
+            firebase.database().ref(`/contatos/${emailB64}`)
+                .set({nome, email, tipo, chaveEntrada, chave: novaChave})
+                .then(value => {
+                    firebase.database().ref(`chaves`).once('value')
+                    .then(snapshot => {
+                        if(snapshot.val() != null){
+            
+                            atualizaRede(snapshot.val(), chaveEntrada, novaChave, 0);
+            
+                            firebase.database().ref(`chaves/${novaChave}`).set({chaveEntrada, tipo});
 
-                firebase.database().ref(`chaves/${novaChave}`).set({chaveEntrada, tipo});
-            //     // firebase.auth().createUserWithEmailAndPassword(email, senha)
-            //     // .then(user => {
-            //     //     let emailB64 = b64.encode(email);
-            //     //     
-            //     //     
-
-            //     //     firebase.database().ref(`/contatos/${emailB64}`)
-            //     //         .set({nome, email, tipo, chaveEntrada, chave})
-            //     //         .then(value => cadastraUsuarioSucesso(dispatch));
-            //     // })
-            //     // .catch(erro => cadastraUsuarioErro(erro, dispatch));
-                cadastraUsuarioErro({message:"Chave de Entrada válida"}, dispatch);
-            }else{
-                cadastraUsuarioErro({message:"Chave de Entrada inválida"}, dispatch);
-            }
+                            cadastraUsuarioSucesso(dispatch);
+            
+                        }else{
+                            cadastraUsuarioErro({message:"Chave de Entrada inválida"}, dispatch);
+                        }
+                    })
+                })
+                .catch((error) => {
+                    cadastraUsuarioErro({message:"Chave de Entrada inválida"}, dispatch);
+                })
         })
+        .catch(erro => cadastraUsuarioErro(erro, dispatch)); 
 
     }
 }
 
 const atualizaRede = (chaves, chaveEntrada, novaChave, i) => {
-
-    // firebase.database().ref(`chaves/${chaveEntrada}/filhos`).set(novaChave).then(() => {
-    //     i = i + 1;
-    //     if(chaves[chaveEntrada].chaveEntrada != "VANTAGEM" && i < 3){
-    //         atualizaRede(chaves, chaves[chaveEntrada].chaveEntrada, novaChave, i);
-    //     }
-    // })
 
     firebase.database().ref(`chaves/${chaveEntrada}/rede`).child(novaChave).set({linha: i})
     .then(() => {

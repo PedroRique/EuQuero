@@ -79,7 +79,7 @@ class Perfil extends Component{
     }
 
     componentDidMount(){
-        this.props.contaRede();
+        this.props.contaRede(this.props.chave);
     }
 
     render(){

@@ -40,7 +40,7 @@ class Menu extends Component {
                     <TouchableNativeFeedback onPress={() => Actions.cupons()}>
                         <ListItem
                             title='Meus Cupons'
-                            leftIcon={{name: 'ticket', color: '#333'}}
+                            leftIcon={{name: 'receipt', color: '#333'}}
                         />
                     </TouchableNativeFeedback>
                 </View>

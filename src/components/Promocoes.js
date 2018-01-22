@@ -71,10 +71,7 @@ class Promocoes extends Component {
 
 const mapStateToProps = state => {
 
-    console.log(state.AppReducer.filtros.texto);
-
     const promos = _.map(state.AppReducer.promos, (val, uid) => {
-        console.log(val);
         if(val.nomePromo.toLowerCase().indexOf(state.AppReducer.filtros.texto.toLowerCase()) > -1){
             return {...val, uid}
         }

@@ -89,16 +89,34 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
 }
 
 export const listaPromoFetch = () => {
-    const { currentUser } = firebase.auth();
-
     return (dispatch) => {
-        currentEmail = currentUser ? currentUser.email : 'teste3@teste.com';
-        let emailEstabB64 = b64.encode(currentEmail);
-
         firebase.database().ref(`/promocoes`)
             .on('value', snapshot => {
                 dispatch({ type: 'lista_promos', payload: snapshot.val()})
             });
+    }
+}
+
+
+export const geraCupom = ({item, codigo}) => {
+    return dispatch => {
+
+        const { currentUser } = firebase.auth();
+
+        currentEmail = currentUser ? currentUser.email : 'teste3@teste.com';
+        let emailClientB64 = b64.encode(currentEmail);
+
+        firebase.database().ref(`/cupons/${codigo}`).set({promo:item, codigo}).then(data => {
+
+            firebase.database().ref(`/cupons_client/${emailClientB64}/${codigo}`).set({promo: item, codigo}).then(data2 => {
+                dispatch({type: 'gera_cupom'});
+            }).catch( () => {
+                dispatch({type: 'gera_cupom_erro'});
+            })
+
+        }).catch(() => {
+            dispatch({ type: 'gera_cupom_erro'});
+        });
 
     }
 }
@@ -110,10 +128,10 @@ export const listaCuponsFetch = () => {
         currentEmail = currentUser ? currentUser.email : 'teste3@teste.com';
         let emailUserB64 = b64.encode(currentEmail);
 
-        firebase.database().ref(`/cupons/${emailUserB64}`)
+        firebase.database().ref(`/cupons_client/${emailUserB64}`)
             .on('value', snapshot => {
                 dispatch({ type: 'lista_cupons', payload: snapshot.val()})
-            })
+            });
     }
 }
 
@@ -184,10 +202,9 @@ export const limpaFiltros = () => {
     }
 }
 
-export const contaRede = () => {
+export const contaRede = (chave) => {
 
     return dispatch => {
-        let chave = 'KPRMNBXP';
         firebase.database().ref(`chaves/${chave}`).once('value')
         .then(snapshot => {
 

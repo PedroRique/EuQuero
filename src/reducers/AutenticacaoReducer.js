@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
     nome: 'Teste',
-    email: 'teste3@teste.com',
+    email: 'cliente@teste.com',
     senha: '123456',
     erroCadastro: '',
     erroLogin: '',
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
     loadingLogin: false,
     loadingCadastro: false,
     chaveEntrada: '',
-    loginAs: true, //false eh Cliente, true eh Estabelecimento
+    loginAs: false, //false eh Cliente, true eh Estabelecimento
     perfilImg: '',
     chave: ''
 }
