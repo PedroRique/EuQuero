@@ -124,7 +124,7 @@ export const geraCupom = ({item, codigo}) => {
 export const listaCuponsFetch = () => {
     const { currentUser } = firebase.auth();
 
-    return(dispatch) => {
+    return (dispatch) => {
         currentEmail = currentUser ? currentUser.email : 'teste3@teste.com';
         let emailUserB64 = b64.encode(currentEmail);
 

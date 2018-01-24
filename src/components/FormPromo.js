@@ -9,38 +9,12 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import b64 from 'base-64';
 import ImagePicker from 'react-native-image-crop-picker';
 import _ from 'lodash';
+import DatePicker from 'react-native-datepicker';
 
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
-
-// const uploadImage = (uri, mime = 'image/jpg') => {
-//     return new Promise((resolve, reject) => {
-//         const emailB64 = b64.encode(firebase.auth().currentUser.email);
-//         let uploadBlob = null;
-//         const imageRef = firebase.storage().ref('images').child(`${emailB64}`);
-  
-//         fs.readFile(uri, 'base64')
-//             .then((data) => {
-//                 return Blob.build(data, { type: `${mime};BASE64` });
-//             })
-//             .then((blob) => {
-//                 uploadBlob = blob;
-//                 return imageRef.put(blob, { contentType: mime });
-//             })
-//             .then(() => {
-//                 uploadBlob.close();
-//                 return imageRef.getDownloadURL();
-//             })
-//             .then((url) => {
-//                 resolve(url);
-//             })
-//             .catch((error) => {
-//                 reject(error);
-//             });
-//     })
-// }
 
 class FormPromo extends Component {
 
@@ -50,7 +24,9 @@ class FormPromo extends Component {
         this.state = {
             isExclusive: true,
             loading: false,
-            imagePath: ''
+            imagePath: '',
+            dateIni: '01/05/2016',
+            dateFim: '01/05/2016'
         }
     }
 
@@ -215,6 +191,58 @@ class FormPromo extends Component {
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaDescricaoPromo(texto)}
                     />
+
+                    <Text style={{fontSize:13, marginBottom: 10}}>Data de Início</Text>
+                    <DatePicker
+                        style={styles.datepicker}
+                        date={this.state.dateIni}
+                        mode="date"
+                        placeholder="Data de Início"
+                        format="DD/MM/YYYY"
+                        minDate="01/05/2016"
+                        maxDate="01/06/2017"
+                        confirmBtnText="Confirm"
+                        cancelBtnText="Cancel"
+                        customStyles={{
+                            dateIcon: {
+                              position: 'absolute',
+                              left: 0,
+                              top: 4,
+                              marginLeft: 0
+                            },
+                            dateInput: {
+                              marginLeft: 36,
+                              borderWidth: 0
+                            }
+                          }}
+                        onDateChange={(date) => {this.setState({date: date})}}
+                    />
+
+                    <Text style={{fontSize:13, marginBottom: 10}}>Data de Fim</Text>
+                    <DatePicker
+                        style={styles.datepicker}
+                        date={this.state.dateFim}
+                        mode="date"
+                        placeholder="Data de Início"
+                        format="DD/MM/YYYY"
+                        minDate="01/05/2016"
+                        maxDate="01/06/2017"
+                        confirmBtnText="Confirm"
+                        cancelBtnText="Cancel"
+                        customStyles={{
+                            dateIcon: {
+                              position: 'absolute',
+                              left: 0,
+                              top: 4,
+                              marginLeft: 0
+                            },
+                            dateInput: {
+                              marginLeft: 36,
+                              borderWidth: 0
+                            }
+                          }}
+                        onDateChange={(date) => {this.setState({date: date})}}
+                    />
                     
                     <CheckBox
                         title='Exclusiva'
@@ -304,6 +332,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         alignSelf: 'stretch',
+    },
+    datepicker: {
+        height: 45,
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        borderWidth: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20
     },
     btnEntrar: {
         paddingVertical: 10,

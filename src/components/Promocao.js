@@ -59,8 +59,6 @@ class Promocao extends Component{
 
     _geraCupom(codigo){
 
-        console.log(this.props);
-
         const { item
         } = this.props;
 
@@ -109,7 +107,7 @@ class Promocao extends Component{
     
                     <Text style={styles.descricao}>{this.props.item.descricaoPromo}</Text>
 
-                    {/* <View>
+                    <View style={{flex: 1, marginBottom: 20, marginTop: 20}}>
                         <Text style={styles.estab}>Dias Válidos</Text>
                         <ListView
                             contentContainerStyle={{flexDirection: 'row', alignItems: 'center', justifyContent:'center'}}
@@ -125,11 +123,16 @@ class Promocao extends Component{
                         />
 
 
-                    </View> */}
-                                    
+                    </View>
+
+                    <TouchableOpacity onPress={() => false}>
+                        <Text style={styles.regula}>Ver Regulamento</Text>
+                    </TouchableOpacity>
+
+                    {this.loading()}     
                 </ScrollView>
 
-                {this.loading()}
+                
 
                 <Modal
                     animationType="fade"
@@ -212,7 +215,8 @@ const styles = StyleSheet.create({
     estab:{
         color: '#666',
         fontSize: 20,
-        marginHorizontal: 5
+        marginHorizontal: 5,
+        textAlign: 'center'
     },
     desc:{
         fontSize:30,
@@ -231,7 +235,15 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignSelf: 'center',
         paddingHorizontal: 40
-    }, 
+    },
+    regula:{
+        fontSize: 14,
+        color: '#555',
+        textAlign: 'center',
+        alignSelf: 'center',
+        textDecorationLine: 'underline',
+        marginBottom: 20
+    },
     meio:{
         alignItems: 'center',
         paddingTop: 10

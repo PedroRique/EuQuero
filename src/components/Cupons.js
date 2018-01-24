@@ -3,6 +3,7 @@ import { ScrollView, View, Text, ActivityIndicator, Button, ListView } from 'rea
 import { Icon, List } from 'react-native-elements';
 import { listaCuponsFetch } from '../actions/AppActions';
 import { connect } from 'react-redux';
+import Cupom from './Cupom';
 import _ from 'lodash';
 
 class Cupons extends Component {
@@ -10,7 +11,6 @@ class Cupons extends Component {
     loadingPromocoes = true;
 
     componentWillMount(){
-        console.log(3);
         this.props.listaCuponsFetch();
         this.criaFonteDeDados(this.props.cupons);
     }
@@ -20,18 +20,12 @@ class Cupons extends Component {
     }
     
     loading(){
-        console.log(this.fonteDeDados);
         return(
             <ScrollView style={{alignSelf: 'stretch'}} contentContainerStyle={{justifyContent: 'space-between'}}>
                 <ListView
                     enableEmptySections
                     dataSource={this.fonteDeDados}
-                    renderRow={(data) => {
-                        console.log(data);
-                        return(
-                            <View key={data.codigo}> <Text>{data.codigo}</Text> </View>
-                        )
-                    }}
+                    renderRow={data => (<Cupom key={data.codigo} item={data}/>)}
                 />
             </ScrollView>
         )
@@ -54,9 +48,7 @@ class Cupons extends Component {
 
 const mapStateToProps = state => {
 
-    const cupons = _.map(state.AppReducer.cupons, (val, uid) => {
-        console.log(val);
-        
+    const cupons = _.map(state.AppReducer.cupons, (val, uid) => {        
         return {...val, uid}
     });
 

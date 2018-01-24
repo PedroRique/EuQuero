@@ -2,18 +2,18 @@ const INITIAL_STATE = {
     loadingPromocoes: false,
     loadingFormPromo: false,
     menuIsOpen: false,
-    nomePromo: 'Teste',
-    valorInicialPromo: '100',
-    descontoPromo: '20',
-    descricaoPromo: 'Descrição',
+    nomePromo: '',
+    valorInicialPromo: '',
+    descontoPromo: '',
+    descricaoPromo: '',
     diasValidosPromo: [
-        {dia: 'D', isValid: true, key: 0},
+        {dia: 'D', isValid: false, key: 0},
         {dia: 'S', isValid: false, key: 1},
         {dia: 'T', isValid: false, key: 2},
         {dia: 'Q', isValid: false, key: 3},
         {dia: 'Q', isValid: false, key: 4},
         {dia: 'S', isValid: false, key: 5},
-        {dia: 'S', isValid: true, key: 6}
+        {dia: 'S', isValid: false, key: 6}
     ], //DOM, SEG ... SAB // 1 é Valido, 0 é Inválido
     diasChanged: true,
     isExclusive: true,
