@@ -37,20 +37,7 @@ class Promocoes extends Component {
             )
         }
         return (
-            <View style={{ alignItems: 'center'}}>
-                <Text style={{fontSize: 18, color: '#666'}}>Nenhuma promoção perto de você.</Text>
-                <View style={{justifyContent: 'center', marginTop: 20}}>
-                    <Icon color="#888" name="autorenew" size={50} type="material" underlayColor="#ccc"
-                        onPress={ () => {
-                            setTimeout(() =>{
-                                this.props.listaPromocoes(false);
-                            }, 1500);
-
-                            this.props.listaPromocoes(true);
-                        }}
-                    />   
-                </View>
-            </View> 
+            <ActivityIndicator size="large" color='#881518'/>
         );
     }
 

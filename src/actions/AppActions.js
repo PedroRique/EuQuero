@@ -137,7 +137,18 @@ export const geraCupom = ({item, codigo}) => {
             firebase.database().ref(`/cupons_client/${emailClientB64}/${codigo}`).set({promo: item, codigo, emailClientB64}).then(data2 => {
                 
                 firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).set({promo: item, codigo, emailClientB64}).then(() =>{
-                    dispatch({type: 'gera_cupom'});
+
+                    firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/numeroCupons`)    
+                    .transaction((n) => {
+                        console.log(n);
+                        n = n + 1;
+                        return n;
+                    }).then(data => {
+                        dispatch({type: 'gera_cupom'});
+                    }).catch(() => {
+                        dispatch({type: 'gera_cupom_erro'});
+                    })                    
+                    
                 }).catch(() => {
                     dispatch({type: 'gera_cupom_erro'});
                 })

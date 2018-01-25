@@ -20,15 +20,22 @@ class Cupons extends Component {
     }
     
     loading(){
-        return(
-            <ScrollView style={{alignSelf: 'stretch'}} contentContainerStyle={{justifyContent: 'space-between'}}>
-                <ListView
-                    enableEmptySections
-                    dataSource={this.fonteDeDados}
-                    renderRow={data => (<Cupom key={data.codigo} item={data}/>)}
-                />
-            </ScrollView>
-        )
+        if(!this.props.loadingCupons){
+            return(
+                <ScrollView style={{alignSelf: 'stretch'}} contentContainerStyle={{justifyContent: 'space-between'}}>
+                    <ListView
+                        enableEmptySections
+                        dataSource={this.fonteDeDados}
+                        renderRow={data => (<Cupom key={data.codigo} item={data}/>)}
+                    />
+                </ScrollView>
+            )
+        }
+
+        return (
+            <ActivityIndicator size="large" color='#881518'/>
+        );
+        
     }
 
     criaFonteDeDados( cupons ){
@@ -53,7 +60,8 @@ const mapStateToProps = state => {
     });
 
     return ({
-        cupons: _.without(cupons, undefined)
+        cupons: _.without(cupons, undefined),
+        loadingCupons: state.AppReducer.loadingCupons
     })
 } 
 

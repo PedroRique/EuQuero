@@ -1,6 +1,8 @@
 const INITIAL_STATE = {
-    loadingPromocoes: false,
+    loadingPromocoes: true,
+    loadingMinhasPromocoes: true,
     loadingFormPromo: false,
+    loadingCupons: true,
     menuIsOpen: false,
     nomePromo: '',
     valorInicialPromo: '',
@@ -53,13 +55,13 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, loadingFormPromo: !state.loadingFormPromo}
 
         case 'lista_promos':
-            return { ...state, promos: action.payload}
+            return { ...state, promos: action.payload, loadingPromocoes: false}
 
         case 'lista_cupons':
-            return {...state, cupons: action.payload}
+            return {...state, cupons: action.payload, loadingCupons: false}
         
         case 'lista_minhas_promos':
-            return {...state, minhasPromos: action.payload}
+            return {...state, minhasPromos: action.payload, loadingMinhasPromocoes: false}
 
         case 'modifica_valor_inicial_promo':
             return { ...state, valorInicialPromo: action.payload}

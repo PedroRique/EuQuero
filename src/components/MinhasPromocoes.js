@@ -20,15 +20,22 @@ class MinhasPromocoes extends Component {
     }
     
     loading(){
-        return(
-            <ScrollView style={{alignSelf: 'stretch'}} contentContainerStyle={{justifyContent: 'space-between'}}>
-                <ListView
-                    enableEmptySections
-                    dataSource={this.fonteDeDados}
-                    renderRow={data => (<MinhaPromo key={data.nomePromo} item={data}/>)}
-                />
-            </ScrollView>
-        )
+        if(!this.props.loadingMinhasPromocoes){
+            return(
+                <ScrollView style={{alignSelf: 'stretch'}} contentContainerStyle={{justifyContent: 'space-between'}}>
+                    <ListView
+                        enableEmptySections
+                        dataSource={this.fonteDeDados}
+                        renderRow={data => (<MinhaPromo key={data.nomePromo} item={data}/>)}
+                    />
+                </ScrollView>
+            )
+        }
+
+        return (
+            <ActivityIndicator size="large" color='#881518'/>
+        );
+        
     }
 
     criaFonteDeDados( promos ){
@@ -53,7 +60,8 @@ const mapStateToProps = state => {
     });
 
     return ({
-        promos: _.without(promos, undefined)
+        promos: _.without(promos, undefined),
+        loadingMinhasPromocoes: state.AppReducer.loadingMinhasPromocoes
     })
 } 
 
