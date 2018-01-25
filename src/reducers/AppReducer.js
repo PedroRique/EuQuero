@@ -17,11 +17,15 @@ const INITIAL_STATE = {
     ], //DOM, SEG ... SAB // 1 é Valido, 0 é Inválido
     diasChanged: true,
     isExclusive: true,
+    dataIni: '',
+    dataFim: '',
     promos: [{nomePromo: ""}],
+    minhasPromos: [{nomePromo: ""}],
     userLocation: {},
     filtros: { texto: '' },
     filtroTexto: '',
-    cupons: []
+    cupons: [],
+    validaErro: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -53,6 +57,9 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'lista_cupons':
             return {...state, cupons: action.payload}
+        
+        case 'lista_minhas_promos':
+            return {...state, minhasPromos: action.payload}
 
         case 'modifica_valor_inicial_promo':
             return { ...state, valorInicialPromo: action.payload}
@@ -62,6 +69,12 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'modifica_descricao_promo':
             return { ...state, descricaoPromo: action.payload}
+
+        case 'modifica_data_ini':
+            return { ...state, dataIni: action.payload}
+
+        case 'modifica_data_fim':
+            return { ...state, dataFim: action.payload}
         
         case 'modifica_dias_validos':
             return { ...state, diasValidosPromo: action.payload, diasChanged: !state.diasChanged}
@@ -80,6 +93,12 @@ export default (state = INITIAL_STATE, action) => {
         
         case 'gera_cupom_erro':
             return { ...state};
+        
+        case 'valida_cupom':
+            return { ...state};
+        
+        case 'valida_cupom_erro':
+            return { ...state, validaErro: action.payload};
 
         default: 
             return state;

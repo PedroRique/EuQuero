@@ -116,7 +116,7 @@ class formLogin extends Component{
                     {this.loading()}
 
                     <TouchableOpacity onPress={ () => Actions.formCadastro() }>
-                        <Text style={{ fontSize: 16, color: '#EDEDED', marginVertical: 20 }}>Ainda não tem cadastro? Cadastre-se</Text>
+                        <Text style={{ fontSize: 16, color: '#EDEDED', marginVertical: 20, textDecorationLine: 'underline' }}>Ainda não tem cadastro? Cadastre-se</Text>
                     </TouchableOpacity>
                 </View>
 

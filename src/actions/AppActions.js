@@ -42,7 +42,21 @@ export const modificaTipoPromo = () => {
     }
 }
 
-export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, uri, imageURL, imageKey}) => {
+export const modificaDataIni = (dataIni) => {
+    return {
+        type: 'modifica_data_ini',
+        payload: dataIni
+    }
+}
+
+export const modificaDataFim = (dataFim) => {
+    return {
+        type: 'modifica_data_fim',
+        payload: dataFim
+    }
+}
+
+export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, uri, imageURL, imageKey}) => {
 
     return dispatch => {
 
@@ -57,13 +71,12 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
             .then((url) => {
                 estabImageURL = url;
                 firebase.database().ref(`/promocoes_estab/${emailEstabB64}`)
-                .push({nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, imageURL, imageKey, estabImageURL})
+                .push({nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, estabImageURL})
                 .once('value')
-                .then(() => {
+                .then((data) => {
     
-                    firebase.database().ref(`/promocoes`)
-                        .push({nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, imageURL, imageKey, estabImageURL})
-                        .once('value')
+                    firebase.database().ref(`/promocoes/${data.key}`)
+                        .set({nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, imageURL, imageKey, estabImageURL})
                         .then(() => {
                             Actions.principal();
                             dispatch({ type: 'loading_save_promo' });
@@ -97,6 +110,19 @@ export const listaPromoFetch = () => {
     }
 }
 
+export const listaPromosFetch = () => {
+    const { currentUser } = firebase.auth();
+
+    return (dispatch) => {
+        currentEmail = currentUser ? currentUser.email : 'teste3@teste.com';
+        let emailEstabB64 = b64.encode(currentEmail);
+
+        firebase.database().ref(`/promocoes_estab/${emailEstabB64}`)
+            .on('value', snapshot => {
+                dispatch({ type: 'lista_minhas_promos', payload: snapshot.val()})
+            });
+    }
+}
 
 export const geraCupom = ({item, codigo}) => {
     return dispatch => {
@@ -106,10 +132,16 @@ export const geraCupom = ({item, codigo}) => {
         currentEmail = currentUser ? currentUser.email : 'teste3@teste.com';
         let emailClientB64 = b64.encode(currentEmail);
 
-        firebase.database().ref(`/cupons/${codigo}`).set({promo:item, codigo}).then(data => {
+        firebase.database().ref(`/cupons/${codigo}`).set({promo:item, codigo, emailClientB64}).then(data => {
 
-            firebase.database().ref(`/cupons_client/${emailClientB64}/${codigo}`).set({promo: item, codigo}).then(data2 => {
-                dispatch({type: 'gera_cupom'});
+            firebase.database().ref(`/cupons_client/${emailClientB64}/${codigo}`).set({promo: item, codigo, emailClientB64}).then(data2 => {
+                
+                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).set({promo: item, codigo, emailClientB64}).then(() =>{
+                    dispatch({type: 'gera_cupom'});
+                }).catch(() => {
+                    dispatch({type: 'gera_cupom_erro'});
+                })
+                
             }).catch( () => {
                 dispatch({type: 'gera_cupom_erro'});
             })
@@ -119,6 +151,28 @@ export const geraCupom = ({item, codigo}) => {
         });
 
     }
+}
+
+export const validarCupom = ({item, codigo}) => {
+
+    return dispatch => {
+
+        firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).once('value').then(snapshot => {
+            console.log(snapshot.val());
+            if(snapshot.val() != null){
+
+                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).remove();
+                firebase.database().ref(`/cupons_client/${snapshot.val().emailClientB64}/${codigo}`).remove();
+                
+                dispatch({type: 'valida_cupom'});
+            }else{
+                dispatch({type: 'valida_cupom_erro', payload: 'Cupom inexistente!'});
+            }
+        }).catch(()=>{
+            dispatch({type: 'valida_cupom_erro', payload: 'Ocorreu um erro!'});
+        })
+    }
+
 }
 
 export const listaCuponsFetch = () => {

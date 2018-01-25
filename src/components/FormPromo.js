@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput, ActivityIndicator,
 import { Icon, CheckBox} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { modificaNomePromo, modificaTipoPromo, savePromo, modificaValorInicialPromo, modificaDescontoPromo, modificaDescricaoPromo, modificaDiasValidos } from '../actions/AppActions';
+import { modificaNomePromo, modificaTipoPromo, savePromo, modificaValorInicialPromo, modificaDescontoPromo, modificaDescricaoPromo, modificaDiasValidos, modificaDataIni, modificaDataFim } from '../actions/AppActions';
 import firebase from 'firebase';
 import RNFetchBlob from 'react-native-fetch-blob';
 import b64 from 'base-64';
@@ -25,8 +25,8 @@ class FormPromo extends Component {
             isExclusive: true,
             loading: false,
             imagePath: '',
-            dateIni: '01/05/2016',
-            dateFim: '01/05/2016'
+            dataIni: '01/05/2016',
+            dataFim: '01/05/2016'
         }
     }
 
@@ -90,7 +90,9 @@ class FormPromo extends Component {
             valorInicialPromo,
             descontoPromo,
             descricaoPromo,
-            diasValidosPromo
+            diasValidosPromo,
+            dataIni,
+            dataFim
         } = this.props;
         const {currentUser} = firebase.auth();
 
@@ -103,6 +105,8 @@ class FormPromo extends Component {
             descontoPromo,
             descricaoPromo,
             diasValidosPromo,
+            dataIni,
+            dataFim,
             uri: this.state.imagePath,
             imageURL,
             imageKey
@@ -195,7 +199,7 @@ class FormPromo extends Component {
                     <Text style={{fontSize:13, marginBottom: 10}}>Data de Início</Text>
                     <DatePicker
                         style={styles.datepicker}
-                        date={this.state.dateIni}
+                        date={this.state.dataIni}
                         mode="date"
                         placeholder="Data de Início"
                         format="DD/MM/YYYY"
@@ -215,13 +219,13 @@ class FormPromo extends Component {
                               borderWidth: 0
                             }
                           }}
-                        onDateChange={(date) => {this.setState({date: date})}}
+                        onDateChange={(dataIni) => this.props.modificaDataIni(dataIni)}
                     />
 
                     <Text style={{fontSize:13, marginBottom: 10}}>Data de Fim</Text>
                     <DatePicker
                         style={styles.datepicker}
-                        date={this.state.dateFim}
+                        date={this.state.dataFim}
                         mode="date"
                         placeholder="Data de Início"
                         format="DD/MM/YYYY"
@@ -241,7 +245,7 @@ class FormPromo extends Component {
                               borderWidth: 0
                             }
                           }}
-                        onDateChange={(date) => {this.setState({date: date})}}
+                        onDateChange={(dataFim) => this.props.modificaDataFim(dataFim)}
                     />
                     
                     <CheckBox
@@ -298,10 +302,24 @@ const mapStateToProps = state => (
         diasValidosPromo: state.AppReducer.diasValidosPromo,
         diasChanged: state.AppReducer.diasChanged,
         valorInicialPromo: state.AppReducer.valorInicialPromo,
+        dataIni: state.AppReducer.dataIni,
+        dataFim: state.AppReducer.dataFim
     }
 )
 
-export default connect( mapStateToProps, { modificaNomePromo, modificaTipoPromo, savePromo, modificaValorInicialPromo, modificaDescontoPromo, modificaDescricaoPromo, modificaDiasValidos} )(FormPromo);
+export default connect( mapStateToProps,
+    {
+        modificaNomePromo,
+        modificaTipoPromo,
+        savePromo,
+        modificaValorInicialPromo,
+        modificaDescontoPromo,
+        modificaDescricaoPromo,
+        modificaDiasValidos,
+        modificaDataIni,
+        modificaDataFim
+    } 
+)(FormPromo);
 
 
 const styles = StyleSheet.create({

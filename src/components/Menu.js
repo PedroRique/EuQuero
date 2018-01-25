@@ -22,12 +22,12 @@ class Menu extends Component {
                         />
                     </TouchableNativeFeedback>
 
-                    {/* <TouchableNativeFeedback onPress={() => Actions.formPromo()}>
+                    <TouchableNativeFeedback onPress={() => Actions.minhasPromos()}>
                         <ListItem
                             title='Minhas Promoções'
-                            leftIcon={{name: 'add', color: '#333'}}
+                            leftIcon={{name: 'description', color: '#333'}}
                         />
-                    </TouchableNativeFeedback> */}
+                    </TouchableNativeFeedback>
                 </View>
             );
         }
