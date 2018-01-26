@@ -64,6 +64,12 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
 
         const emailEstab = currentUser.email;
         emailEstabB64 = b64.encode(emailEstab);
+
+        const numeroCupons = {
+            ativos: 0,
+            utilizados: 0,
+            total: 0
+        }
         
         let estabImageURL;
 
@@ -71,12 +77,12 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
             .then((url) => {
                 estabImageURL = url;
                 firebase.database().ref(`/promocoes_estab/${emailEstabB64}`)
-                .push({nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, estabImageURL})
+                .push({nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, estabImageURL, numeroCupons})
                 .once('value')
                 .then((data) => {
     
                     firebase.database().ref(`/promocoes/${data.key}`)
-                        .set({nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, imageURL, imageKey, estabImageURL})
+                        .set({nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, imageURL, imageKey, estabImageURL, numeroCupons})
                         .then(() => {
                             Actions.principal();
                             dispatch({ type: 'loading_save_promo' });
@@ -140,14 +146,23 @@ export const geraCupom = ({item, codigo}) => {
 
                     firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/numeroCupons`)    
                     .transaction((n) => {
-                        console.log(n);
-                        n = n + 1;
-                        return n;
-                    }).then(data => {
-                        dispatch({type: 'gera_cupom'});
-                    }).catch(() => {
-                        dispatch({type: 'gera_cupom_erro'});
-                    })                    
+                        if(n != null){
+                            n.ativos++;
+                            n.total++;
+                            return n;
+                        }else{
+                            return 0;
+                        }
+                    },
+                    (error, committed, snapshot) => {
+                        if (error) {
+                            dispatch({type: 'gera_cupom_erro'});
+                        } else if (!committed) {
+                            dispatch({type: 'gera_cupom_erro'});
+                        } else {
+                            dispatch({type: 'gera_cupom'});
+                        }
+                    },true);
                     
                 }).catch(() => {
                     dispatch({type: 'gera_cupom_erro'});
@@ -174,8 +189,27 @@ export const validarCupom = ({item, codigo}) => {
 
                 firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).remove();
                 firebase.database().ref(`/cupons_client/${snapshot.val().emailClientB64}/${codigo}`).remove();
+
+                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/numeroCupons`)
+                .transaction((n) => {
+                    if(n != null){
+                        n.ativos--;
+                        n.utilizados++;
+                        return n;
+                    }else{
+                        return 0;
+                    }
+                },
+                (error, committed, snapshot) => {
+                    if (error) {
+                        dispatch({type: 'valida_cupom_erro'});
+                    } else if (!committed) {
+                        dispatch({type: 'valida_cupom_erro'});
+                    } else {
+                        dispatch({type: 'valida_cupom'});
+                    }
+                },true);
                 
-                dispatch({type: 'valida_cupom'});
             }else{
                 dispatch({type: 'valida_cupom_erro', payload: 'Cupom inexistente!'});
             }
@@ -184,6 +218,23 @@ export const validarCupom = ({item, codigo}) => {
         })
     }
 
+}
+
+export const resetValidacao = () => {
+    
+    Actions.minhasPromos();
+    
+    return{
+        type: 'reset_validacao'
+    }
+
+}
+
+export const resetResgate = () => {
+    
+    return{
+        type: 'reset_resgate'
+    }
 }
 
 export const listaCuponsFetch = () => {
@@ -289,16 +340,12 @@ export const contaRede = (chave) => {
                         case 2:
                             arr[2]++;
                             break;
-                    }       
+                    }
             });
-
-            alert(arr[0] + ',' + arr[1] + ',' + arr[2]);
-            dispatch({type: 'conta_rede_sucesso'});
+            dispatch({type: 'conta_rede_sucesso', payload: arr});
         })
         .catch(error => {
-            alert('e');
-            console.log(error);
-            dispatch({type: 'conta_rede_sucesso'});
+            dispatch({type: 'conta_rede_erro'});
         })
     }
     

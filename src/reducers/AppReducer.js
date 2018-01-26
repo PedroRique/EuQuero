@@ -27,7 +27,10 @@ const INITIAL_STATE = {
     filtros: { texto: '' },
     filtroTexto: '',
     cupons: [],
-    validaErro: ''
+    validaErro: '',
+    rede: [0,0,0],
+    validaCupomStatus: false,
+    geraCupomStatus: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -91,16 +94,25 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, filtros: {}}
 
         case 'gera_cupom':
-            return { ...state};
+            return { ...state, geraCupomStatus: true};
         
         case 'gera_cupom_erro':
-            return { ...state};
+            return { ...state, geraCupomStatus: false};
         
         case 'valida_cupom':
-            return { ...state};
+            return { ...state, validaCupomStatus: true};
         
         case 'valida_cupom_erro':
-            return { ...state, validaErro: action.payload};
+            return { ...state, validaErro: action.payload, validaCupomStatus: false};
+
+        case 'conta_rede_sucesso':
+            return { ...state, rede: action.payload}
+        
+        case 'reset_validacao':
+            return { ...state, validaCupomStatus: false}
+
+        case 'reset_resgate':
+            return { ...state, geraCupomStatus: false}
 
         default: 
             return state;

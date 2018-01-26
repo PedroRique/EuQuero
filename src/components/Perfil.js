@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Share } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Share, ScrollView} from 'react-native';
 import {Icon, Button} from 'react-native-elements';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -89,7 +89,7 @@ class Perfil extends Component{
         //<ActivityIndicator containerStyle={{width: 200, height: 200}}/>
 
         return(
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}>
 
                 <View style={styles.boxAvatar}>
                     <TouchableOpacity onPress={() => this.pickImage()} >
@@ -112,14 +112,20 @@ class Perfil extends Component{
                 </TouchableOpacity>
 
                 <View style={styles.card}>
-                    <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 25}}>Economia:</Text>
+                    <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 25}}>Rede:</Text>
+
+                    <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around'}}>
+                        <Text style={styles.linhaTxt}>1º Linha: {this.props.rede[0]}</Text>
+                        <Text style={styles.linhaTxt}>2º Linha: {this.props.rede[1]}</Text>
+                        <Text style={styles.linhaTxt}>3º Linha: {this.props.rede[2]}</Text>
+                    </View>
                 </View>
 
                 <View style={styles.card}>
                     <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 25}}>Economia:</Text>
                 </View>
 
-            </View>
+            </ScrollView>
         );
     } 
 }
@@ -128,7 +134,8 @@ const mapStateToProps = state => (
     {
         nome: state.AutenticacaoReducer.nome,
         email: state.AutenticacaoReducer.email,
-        chave: state.AutenticacaoReducer.chave
+        chave: state.AutenticacaoReducer.chave,
+        rede: state.AppReducer.rede
     }
 )
 
@@ -149,7 +156,6 @@ const styles = StyleSheet.create({
     container: {
         justifyContent:'flex-start', 
         alignItems: 'center', 
-        flex: 1,
         backgroundColor: '#fff'
     },
     card:{
@@ -181,6 +187,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center',
         marginTop: 10
+    },
+    linhaTxt: {
+        backgroundColor: '#fff',
+        padding: 10,
     }
 
 });

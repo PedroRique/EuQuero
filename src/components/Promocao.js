@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView} from 'react-native';
 import {Rating, Icon} from 'react-native-elements';
 import Voucher from 'voucher-code-generator';
-import {geraCupom} from '../actions/AppActions';
+import {geraCupom, resetResgate} from '../actions/AppActions';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 class Promocao extends Component{
 
@@ -21,6 +22,10 @@ class Promocao extends Component{
         const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         
         this.listDias = ds.cloneWithRows(dias);
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setModalVisible(nextProps.geraCupomStatus);
     }
    
     loading(){
@@ -150,16 +155,27 @@ class Promocao extends Component{
                     backgroundColor="transparent"
                     visible={this.state.modalVisible}
                     
-                    onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
+                    onRequestClose={() => {
+                        this.props.resetResgate();
+                        this.setModalVisible(!this.state.modalVisible)
+                    }}
                     >
                     <View style={{ padding:40,flex:1, backgroundColor: 'rgba(0, 0, 0, 0)', justifyContent: 'center', alignItems: 'center'}}>
-                        <View style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, borderColor: '#881518', borderWidth: 3, borderStyle: 'dotted'}}>
-                            <TouchableOpacity onPress={() => this.setModalVisible(false)}>
-                                <Icon name='close'  underlayColor="#999" containerStyle={{borderRadius: 5, alignSelf: 'flex-end'}}/>
-                            </TouchableOpacity>
-                            <Text style={styles.textCodigo}>{this.state.codigo}</Text>
-                        </View>
-                    </View>
+                    <View style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, borderColor: '#881518', borderWidth: 1, borderStyle: 'solid', alignSelf: 'stretch'}}>
+                        <TouchableOpacity onPress={() => {this.props.resetResgate();this.setModalVisible(false)}}>
+                            <Icon name='close'  underlayColor="#999" containerStyle={{borderRadius: 5, alignSelf: 'flex-end'}}/>
+                        </TouchableOpacity>
+                        
+                        <Text style={{marginBottom: 20, fontSize: 24,textAlign: 'center'}}>Cupom resgatado e adicionado em sua lista!</Text>
+
+                        <TouchableOpacity onPress={() => {
+                            this.setModalVisible(false);
+                            this.props.resetResgate();
+                            Actions.cupons();} }>
+                            <Text style={styles.btnVoltar}>Meus Cupons</Text>
+                        </TouchableOpacity>
+                    </View>                     
+                </View>
                 </Modal>
 
                 
@@ -171,13 +187,16 @@ class Promocao extends Component{
 }
 
 const mapStateToProps = state => {
-    return ({})
+    return ({
+        geraCupomStatus: state.AppReducer.geraCupomStatus
+    })
 } 
 
 export default connect(
     mapStateToProps, 
     {
-        geraCupom
+        geraCupom,
+        resetResgate
     }
 )(Promocao);
 
@@ -287,5 +306,16 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         fontWeight: 'bold',
         marginHorizontal: 2
-    }
+    },
+    btnVoltar:{
+        paddingVertical: 10,
+        alignSelf: 'stretch',
+        backgroundColor: '#881518',
+        color: 'white',
+        fontSize: 18,
+        textAlign: 'center',
+        borderRadius: 5,
+        elevation: 2,
+        marginBottom: 5
+    },
 });

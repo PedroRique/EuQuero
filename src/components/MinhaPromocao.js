@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView, TextInput} from 'react-native';
 import {Rating, Icon} from 'react-native-elements';
 import Voucher from 'voucher-code-generator';
-import { validarCupom } from '../actions/AppActions';
+import { validarCupom, resetValidacao } from '../actions/AppActions';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 class MinhaPromocao extends Component{
 
@@ -24,6 +25,7 @@ class MinhaPromocao extends Component{
     }
    
     loading(){
+        
         // if(this.props.loadingLogin){
         //     return(
         //         <ActivityIndicator size="large" color='#fff'/>
@@ -35,6 +37,56 @@ class MinhaPromocao extends Component{
                 <Text style={styles.btnResgatar}>Validar Cupom</Text>
             </TouchableOpacity>
         );
+    }
+
+    validaStatus(){
+
+        if(this.props.validaCupomStatus){//true se for validado com sucesso
+
+            return (
+                <View style={{ padding:40,flex:1, backgroundColor: 'rgba(0, 0, 0, 0)', justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, borderColor: '#881518', borderWidth: 1, borderStyle: 'solid', alignSelf: 'stretch'}}>
+                        <TouchableOpacity onPress={() => this.setModalVisible(false)}>
+                            <Icon name='close'  underlayColor="#999" containerStyle={{borderRadius: 5, alignSelf: 'flex-end'}}/>
+                        </TouchableOpacity>
+                        
+                        <Text style={{marginBottom: 20, fontSize: 24,textAlign: 'center'}}>Cupom válido!</Text>
+
+                        <TouchableOpacity onPress={() => {
+                            this.setModalVisible(false);
+                            this.props.resetValidacao();}}>
+                            <Text style={styles.btnValidar}>Voltar</Text>
+                        </TouchableOpacity>
+                    </View>                     
+                </View>
+                
+            );
+
+        }
+
+        return (
+            <View style={{ padding:40,flex:1, backgroundColor: 'rgba(0, 0, 0, 0)', justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, borderColor: '#881518', borderWidth: 1, borderStyle: 'solid', alignSelf: 'stretch'}}>
+                    <TouchableOpacity onPress={() => this.setModalVisible(false)}>
+                        <Icon name='close'  underlayColor="#999" containerStyle={{borderRadius: 5, alignSelf: 'flex-end'}}/>
+                    </TouchableOpacity>
+                    <TextInput
+                        maxLength={8}
+                        autoCapitalize="characters"
+                        value={this.state.codigo}
+                        style={[styles.input, {marginTop: 20, fontSize: 24, alignSelf: 'stretch', textAlign: 'center', marginBottom: 20}]}
+                        placeholderTextColor='#888'
+                        placeholder='Código do Cupom'
+                        underlineColorAndroid='transparent'
+                        onChangeText={texto => this.setState({codigo: texto})}
+                    />
+
+                    <TouchableOpacity onPress={() => this._validarCupom()}>
+                        <Text style={styles.btnValidar}>Validar!</Text>
+                    </TouchableOpacity>
+                </View>                     
+            </View>
+        )
     }
 
     calculaPreco(){
@@ -141,27 +193,7 @@ class MinhaPromocao extends Component{
                     visible={this.state.modalVisible}
                     onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
                     >
-                    <View style={{ padding:40,flex:1, backgroundColor: 'rgba(0, 0, 0, 0)', justifyContent: 'center', alignItems: 'center'}}>
-                        <View style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, borderColor: '#881518', borderWidth: 1, borderStyle: 'solid', alignSelf: 'stretch'}}>
-                            <TouchableOpacity onPress={() => this.setModalVisible(false)}>
-                                <Icon name='close'  underlayColor="#999" containerStyle={{borderRadius: 5, alignSelf: 'flex-end'}}/>
-                            </TouchableOpacity>
-                            <TextInput
-                                maxLength={8}
-                                autoCapitalize="characters"
-                                value={this.state.codigo}
-                                style={[styles.input, {marginTop: 20, fontSize: 24, alignSelf: 'stretch', textAlign: 'center', marginBottom: 20}]}
-                                placeholderTextColor='#888'
-                                placeholder='Código do Cupom'
-                                underlineColorAndroid='transparent'
-                                onChangeText={texto => this.setState({codigo: texto})}
-                            />
-
-                            <TouchableOpacity onPress={() => this._validarCupom()}>
-                                <Text style={styles.btnValidar}>Validar!</Text>
-                            </TouchableOpacity>
-                        </View>                        
-                    </View>
+                    {this.validaStatus()}
                 </Modal>
 
                 
@@ -174,14 +206,15 @@ class MinhaPromocao extends Component{
 
 const mapStateToProps = state => {
     return ({
-       
+        validaCupomStatus: state.AppReducer.validaCupomStatus
     })
 } 
 
 export default connect(
     mapStateToProps, 
     {
-        validarCupom
+        validarCupom,
+        resetValidacao
     }
 )(MinhaPromocao);
 
