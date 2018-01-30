@@ -15,7 +15,8 @@ import {
     TouchableHighlight,
     Alert,
     PixelRatio,
-    Platform
+    Platform,
+    FlatList
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -33,9 +34,34 @@ class formCadastro extends Component {
     constructor(props){
         super(props);
 
-        this.state = {modalVisible: false};
-    }
+        this.state = {
+            modalVisible: false,
+            modalCategVisible: false,
+            categs: [{
+                id: 'restaurante',
+                name: 'Restaurante',
+                status: false,
+                key: 0
+            }, {
+                id: 'beleza',
+                name: 'Beleza',
+                status: false,
+                key: 1
+            }, {
+                id: 'servico',
+                name: 'Serviço',
+                status: false,
+                key: 2
+            }, {
+                id: 'esporte',
+                name: 'Esporte',
+                status: true,
+                key: 3
+            }],
+            categTotal: '0' //maximo duas categorias permitido
+        };
 
+    }
 
     _cadastraUsuario(){
         const { nome, email, senha, loginAs, chaveEntrada } = this.props;
@@ -79,6 +105,10 @@ class formCadastro extends Component {
         this.setState({modalVisible: status})
     }
 
+    setModalCategVisible(status){
+        this.setState({modalCategVisible: status})
+    }
+
     alertQuestion(){
         Alert.alert(
         'Sobre Tipo',
@@ -102,7 +132,26 @@ class formCadastro extends Component {
             </TouchableOpacity>
         );
     }
+
+    changeIconStatus(i) {
+
+        const categs = this.state.categs;
+        // const copy = 0;
+
+        // if(categs[i].status){
+        //     copy--;
+        // }else{
+        //     copy++;
+        // }
+
+        categs[i].status = !categs[i].status;
+
+        this.setState({categs});
+
+    }
+
     render(){
+        const { selectedItems } = this.state;
         return (
             <ScrollView style={styles.container}>
                 <StatusBar backgroundColor='#721214' />
@@ -111,7 +160,11 @@ class formCadastro extends Component {
                     <Text style={styles.txtTopo}>Aproveite todas as nossas promoções! Descontos únicos para você!</Text>
                 </View>
 
-                <View style={styles.meio}>                     
+                <View style={styles.meio}>     
+
+                    <TouchableOpacity onPress={() => this.setModalCategVisible(true)}>
+                        <Text>Categorias</Text>
+                    </TouchableOpacity>                
 
                     <TextInput 
                         value={this.props.nome} 
@@ -181,13 +234,54 @@ class formCadastro extends Component {
                     <View style={{ padding:40, flex:1, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
                         <View style={{backgroundColor:'#fff', flex: 1, borderRadius: 5, padding: 20}}>
                             <Icon name='close' onPress={() => this.setModalVisible(false)} underlayColor="#999" containerStyle={{borderRadius: 5, alignSelf: 'flex-end'}}/>
-                            <Text>Hello World!</Text>
+                            <Text>Explicação!</Text>
 
 
                         </View>
                     </View>
                 </Modal>
 
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    backgroundColor="#000"
+                    visible={this.state.modalCategVisible}
+                    onRequestClose={() => this.setModalCategVisible(!this.state.modalCategVisible)}
+                    >
+                    <View style={{ padding:40, flex:1, backgroundColor: 'rgba(0, 0, 0, 0.8)', alignItems:'center', justifyContent: 'center'}}>
+                        <View style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, alignSelf: 'stretch', flex: 1}}>
+
+                            <FlatList
+                                data={this.state.categs}
+                                renderItem={({item}) => {
+
+                                    const icon = item.status ? 'check-circle' : 'add';
+                                    const color = item.status ? 'green' : '#666';
+                                    const lastchild = (item.key == this.state.categs.length - 1) ? styles.categItemLast : styles.categItem;
+
+                                    return(
+                                        <View style={lastchild}>
+                                        <TouchableOpacity style={{alignSelf: 'stretch', flexDirection: 'row', flex: 1, justifyContent: 'space-between'}} onPress={() => this.changeIconStatus(item.key)}>
+                                            <View style={{flexDirection: 'row'}}>
+                                                <Icon name='restaurant-menu' containerStyle={{marginRight: 5}} color='#881518'/>
+                                                <Text style={styles.categItemTxt}>{item.name}</Text>
+                                            </View>
+                                            <Icon name={icon} color={color}/>
+                                        </TouchableOpacity>
+                                        </View>
+                                    )
+                                }}
+                            />
+
+                            <TouchableOpacity onPress={ () => this.setModalCategVisible(false)}>
+                                <Text style={styles.btnConfirma}>Confirmar</Text>
+                            </TouchableOpacity>
+
+                            {/* <Text>{this.state.categTotal}</Text> */}
+                        </View>
+                    </View>
+                </Modal>
+ 
                 <View style={styles.rodape}>
                     {this.loading()}
                 </View>
@@ -281,6 +375,16 @@ const styles = StyleSheet.create({
         elevation: 1,
         marginBottom: 5
     },
+    btnConfirma: {
+        paddingVertical: 10,
+        backgroundColor: '#881518',
+        color: 'white',
+        fontSize: 18,
+        textAlign: 'center',
+        borderRadius: 5,
+        elevation: 1,
+        marginBottom: 5
+    },
     question: {
         elevation: 2, 
         marginLeft: 10, 
@@ -299,5 +403,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         
     },
+    categItem:{
+        flexDirection: 'row',
+        paddingVertical: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#333'
+    },
+    categItemLast:{
+        flexDirection: 'row',
+        paddingVertical: 15,
+        borderBottomWidth: 0
+    },
+    categItemTxt: {
+        fontSize: 20,
+        color: '#333'
+    }
     
 });

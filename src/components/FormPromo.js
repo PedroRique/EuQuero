@@ -26,7 +26,8 @@ class FormPromo extends Component {
             loading: false,
             imagePath: '',
             dataIni: '01/05/2016',
-            dataFim: '01/05/2016'
+            dataFim: '01/05/2016',
+            selectedItems: [],
         }
     }
 
@@ -156,6 +157,7 @@ class FormPromo extends Component {
                 <View>
                     {this.renderImage()}
                 </View>
+
                 <View style={styles.meio}>
 
                     <TextInput 
@@ -195,6 +197,8 @@ class FormPromo extends Component {
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaDescricaoPromo(texto)}
                     />
+
+                    
 
                     <Text style={{fontSize:13, marginBottom: 10}}>Data de Início</Text>
                     <DatePicker
