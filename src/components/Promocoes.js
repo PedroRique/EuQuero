@@ -21,6 +21,8 @@ class Promocoes extends Component {
 
     componentDidMount(){
         this.props.getUserLocation();
+
+        console.log(this.props.userLocation);
     }
     
     loading(){
@@ -72,11 +74,14 @@ const mapStateToProps = state => {
         }
     });
 
+    console.log(state.AppReducer.userLocation);
+
     return ({
         loadingPromocoes: state.AppReducer.loadingPromocoes,
         promos: _.without(promos, undefined),
         filtros: state.AppReducer.filtros,
-        filtroTexto: state.AppReducer.filtroTexto
+        filtroTexto: state.AppReducer.filtroTexto,
+        userLocation: state.AppReducer.userLocation
     })
 } 
 

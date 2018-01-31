@@ -64,6 +64,13 @@ class Menu extends Component {
                     />
                 </TouchableNativeFeedback>
 
+                <TouchableNativeFeedback onPress={() => Actions.exemplo()}>
+                    <ListItem
+                        title='Exemplo'
+                        leftIcon={{name: 'square', color: 'blue'}}
+                    />
+                </TouchableNativeFeedback>
+
                 {this.isEstab()}
 
                 {this.isClient()}
