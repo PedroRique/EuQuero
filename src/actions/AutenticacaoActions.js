@@ -26,6 +26,13 @@ export const modificaNome = (texto) => {
     }
 }
 
+export const modificaCategTotal = (n) => {
+    return {
+        type: 'modifica_categ_total',
+        payload: n
+    }
+}
+
 export const cadastraUsuario = ({nome, email, senha, tipo, chaveEntrada}) => {
     return dispatch => {
 

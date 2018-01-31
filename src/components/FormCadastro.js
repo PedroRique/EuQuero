@@ -26,7 +26,8 @@ import {
     modificaNome, 
     cadastraUsuario,
     modificaLoginAs,
-    modificaChaveEntrada
+    modificaChaveEntrada,
+    modificaCategTotal
 } from '../actions/AutenticacaoActions';
 
 class formCadastro extends Component {
@@ -38,27 +39,49 @@ class formCadastro extends Component {
             modalVisible: false,
             modalCategVisible: false,
             categs: [{
-                id: 'restaurante',
-                name: 'Restaurante',
+                id: 'gastronomia',
+                name: 'Gastronomia',
                 status: false,
+                icon: 'restaurant-menu',
                 key: 0
             }, {
-                id: 'beleza',
-                name: 'Beleza',
+                id: 'bemestar',
+                name: 'Bem-Estar',
                 status: false,
+                icon: 'favorite',
                 key: 1
             }, {
-                id: 'servico',
-                name: 'Serviço',
+                id: 'cultura',
+                name: 'Cultura',
                 status: false,
+                icon: 'theaters',
                 key: 2
             }, {
-                id: 'esporte',
-                name: 'Esporte',
-                status: true,
+                id: 'mercados',
+                name: 'Mercados',
+                status: false,
+                icon: 'shopping-cart',
                 key: 3
+            }, {
+                id: 'servicos',
+                name: 'Serviços',
+                status: false,
+                icon: 'work',
+                key: 4
+            }, {
+                id: 'esportelazer',
+                name: 'Esporte e Lazer',
+                status: false,
+                icon: 'fitness-center',
+                key: 5
+            }, {
+                id: 'saudebeleza',
+                name: 'Saúde e Beleza',
+                status: false,
+                icon: 'local-hospital',
+                key: 6
             }],
-            categTotal: '0' //maximo duas categorias permitido
+            teste: 0
         };
 
     }
@@ -136,17 +159,23 @@ class formCadastro extends Component {
     changeIconStatus(i) {
 
         const categs = this.state.categs;
-        // const copy = 0;
+        let n = this.props.categTotal;
+        let teste = this.state.teste + 1;
 
-        // if(categs[i].status){
-        //     copy--;
-        // }else{
-        //     copy++;
-        // }
+        if(n < 2 || categs[i].status){
 
-        categs[i].status = !categs[i].status;
+            categs[i].status = !categs[i].status;
+            this.setState({categs, teste});
+    
+            categs[i].status ?
+            this.props.modificaCategTotal(++n) :
+            this.props.modificaCategTotal(--n);
 
-        this.setState({categs});
+        }else{
+
+            alert('maximo 2');
+            
+        }
 
     }
 
@@ -249,7 +278,7 @@ class formCadastro extends Component {
                     onRequestClose={() => this.setModalCategVisible(!this.state.modalCategVisible)}
                     >
                     <View style={{ padding:40, flex:1, backgroundColor: 'rgba(0, 0, 0, 0.8)', alignItems:'center', justifyContent: 'center'}}>
-                        <View style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, alignSelf: 'stretch', flex: 1}}>
+                        <View  key={this.state.teste} style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, alignSelf: 'stretch', flex: 1}}>
 
                             <FlatList
                                 data={this.state.categs}
@@ -263,7 +292,7 @@ class formCadastro extends Component {
                                         <View style={lastchild}>
                                         <TouchableOpacity style={{alignSelf: 'stretch', flexDirection: 'row', flex: 1, justifyContent: 'space-between'}} onPress={() => this.changeIconStatus(item.key)}>
                                             <View style={{flexDirection: 'row'}}>
-                                                <Icon name='restaurant-menu' containerStyle={{marginRight: 5}} color='#881518'/>
+                                                <Icon name={item.icon} containerStyle={{marginRight: 5}} color='#881518'/>
                                                 <Text style={styles.categItemTxt}>{item.name}</Text>
                                             </View>
                                             <Icon name={icon} color={color}/>
@@ -277,7 +306,7 @@ class formCadastro extends Component {
                                 <Text style={styles.btnConfirma}>Confirmar</Text>
                             </TouchableOpacity>
 
-                            {/* <Text>{this.state.categTotal}</Text> */}
+                            <Text>{this.props.categTotal}</Text>
                         </View>
                     </View>
                 </Modal>
@@ -299,7 +328,8 @@ const mapStateToProps = state => (
         erroCadastro: state.AutenticacaoReducer.erroCadastro,
         loadingCadastro: state.AutenticacaoReducer.loadingCadastro,
         loginAs: state.AutenticacaoReducer.loginAs,
-        chaveEntrada: state.AutenticacaoReducer.chaveEntrada
+        chaveEntrada: state.AutenticacaoReducer.chaveEntrada,
+        categTotal: state.AutenticacaoReducer.categTotal
     }
 )
 
@@ -312,6 +342,7 @@ export default connect(
         cadastraUsuario,
         modificaLoginAs,
         modificaChaveEntrada,
+        modificaCategTotal
     }
 )(formCadastro);
 

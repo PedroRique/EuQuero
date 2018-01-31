@@ -10,7 +10,8 @@ const INITIAL_STATE = {
     chaveEntrada: '',
     loginAs: true, //false eh Cliente, true eh Estabelecimento
     perfilImg: '',
-    chave: ''
+    chave: '',
+    categTotal: 0
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -57,6 +58,9 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'logout_usuario':
             return { ...state, nome: '', email: ''}
+
+        case 'modifica_categ_total':
+            return { ...state, categTotal: action.payload}
 
         default:
             return state;
