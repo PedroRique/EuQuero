@@ -70,6 +70,10 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
             utilizados: 0,
             total: 0
         }
+
+        let objEnvio = {nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, estabImageURL, numeroCupons};
+
+        objEnvio.categs = "";
         
         let estabImageURL;
 
@@ -77,12 +81,12 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
             .then((url) => {
                 estabImageURL = url;
                 firebase.database().ref(`/promocoes_estab/${emailEstabB64}`)
-                .push({nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, estabImageURL, numeroCupons})
+                .push(objEnvio)
                 .once('value')
                 .then((data) => {
     
                     firebase.database().ref(`/promocoes/${data.key}`)
-                        .set({nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, imageURL, imageKey, estabImageURL, numeroCupons})
+                        .set(objEnvio)
                         .then(() => {
                             Actions.principal();
                             dispatch({ type: 'loading_save_promo' });

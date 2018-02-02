@@ -28,11 +28,11 @@ class formCadastro extends Component {
     }
 
     _cadastraUsuario(){
-        const { nome, email, senha, loginAs, chaveEntrada, cpf, cnpj, endereco } = this.props;
+        const { nome, email, senha, loginAs, chaveEntrada, cpf, cnpj, endereco, placeObj } = this.props;
         let tipo = loginAs ? 'estab' : 'client';
 
         if(this.validateForm()){
-            this.props.cadastraUsuario({ nome, email, senha, tipo, chaveEntrada, cpf, cnpj, endereco});
+            this.props.cadastraUsuario({ nome, email, senha, tipo, chaveEntrada, cpf, cnpj, endereco, placeObj});
         }else{ alert('tem erro'); }
 
     }
@@ -106,12 +106,12 @@ class formCadastro extends Component {
                 <View>
                     <TextInput 
                         autoCapitalize="none"
-                        value={this.props.cnpj} 
+                        value={this.props.cnpj}
                         style={styles.input}
                         placeholderTextColor='#888' 
                         placeholder='CNPJ'
                         underlineColorAndroid='transparent'
-                        onChangeText={texto => this.props.modificaEmail(texto)}
+                        onChangeText={texto => this.props.modificaCNPJ(texto)}
                     />
                     <TextInput 
                         autoCapitalize="none"
@@ -328,6 +328,7 @@ const mapStateToProps = state => (
         endereco: state.AutenticacaoReducer.endereco,
         cpf: state.AutenticacaoReducer.cpf,
         cnpj: state.AutenticacaoReducer.cnpj,
+        placeObj: state.AutenticacaoReducer.placeObj
     }
 )
 
