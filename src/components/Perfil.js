@@ -59,12 +59,10 @@ class Perfil extends Component{
             height: 300,
             cropping: true
         }).then(image => {
-            console.log('s',image);
             this.setState({imagePath : image.path});
 
             uploadImage(image.path);
         }).catch(error => {
-            console.log('e',error);
         });
     }
 

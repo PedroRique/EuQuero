@@ -1,38 +1,9 @@
 import React, { Component } from 'react';
-import {
-    ScrollView,
-    View,
-    TextInput,
-    Text,
-    Button, 
-    StyleSheet, 
-    TouchableOpacity, 
-    Image, 
-    ActivityIndicator, 
-    StatusBar, 
-    Switch, 
-    Modal, 
-    TouchableHighlight,
-    Alert,
-    PixelRatio,
-    Platform,
-    FlatList
-} from 'react-native';
+import { ScrollView, View, TextInput, Text, Button, StyleSheet, TouchableOpacity, Image, ActivityIndicator, StatusBar, Switch, Modal, TouchableHighlight, Alert, PixelRatio, Platform, FlatList } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import RNGooglePlaces from 'react-native-google-places';
-import { 
-    modificaEmail, 
-    modificaSenha, 
-    modificaNome, 
-    cadastraUsuario,
-    modificaLoginAs,
-    modificaChaveEntrada,
-    modificaCategTotal,
-    modificaEndereco,
-    modificaCPF,
-    modificaCNPJ
-} from '../actions/AutenticacaoActions';
+import { modificaEmail, modificaSenha, modificaNome, cadastraUsuario, modificaLoginAs, modificaChaveEntrada, modificaCategTotal, modificaEndereco, modificaCPF, modificaCNPJ } from '../actions/AutenticacaoActions';
 
 class formCadastro extends Component {
 
@@ -42,49 +13,15 @@ class formCadastro extends Component {
         this.state = {
             modalVisible: false,
             modalCategVisible: false,
-            categs: [{
-                id: 'gastronomia',
-                name: 'Gastronomia',
-                status: false,
-                icon: 'restaurant-menu',
-                key: 0
-            }, {
-                id: 'bemestar',
-                name: 'Bem-Estar',
-                status: false,
-                icon: 'favorite',
-                key: 1
-            }, {
-                id: 'cultura',
-                name: 'Cultura',
-                status: false,
-                icon: 'theaters',
-                key: 2
-            }, {
-                id: 'mercados',
-                name: 'Mercados',
-                status: false,
-                icon: 'shopping-cart',
-                key: 3
-            }, {
-                id: 'servicos',
-                name: 'Serviços',
-                status: false,
-                icon: 'work',
-                key: 4
-            }, {
-                id: 'esportelazer',
-                name: 'Esporte e Lazer',
-                status: false,
-                icon: 'fitness-center',
-                key: 5
-            }, {
-                id: 'saudebeleza',
-                name: 'Saúde e Beleza',
-                status: false,
-                icon: 'local-hospital',
-                key: 6
-            }],
+            categs: [
+                { id: 'gastronomia', name: 'Gastronomia', status: false, icon: 'restaurant-menu', key: 0},
+                { id: 'bemestar', name: 'Bem-Estar', status: false, icon: 'favorite', key: 1 },
+                { id: 'cultura', name: 'Cultura', status: false, icon: 'theaters', key: 2 },
+                { id: 'mercados', name: 'Mercados', status: false, icon: 'shopping-cart', key: 3 },
+                { id: 'servicos', name: 'Serviços', status: false, icon: 'work', key: 4 },
+                { id: 'esportelazer', name: 'Esporte e Lazer', status: false, icon: 'fitness-center', key: 5 },
+                { id: 'saudebeleza', name: 'Saúde e Beleza', status: false, icon: 'local-hospital', key: 6 }
+            ],
             teste: 0
         };
 
@@ -92,19 +29,11 @@ class formCadastro extends Component {
 
     _cadastraUsuario(){
         const { nome, email, senha, loginAs, chaveEntrada, cpf, cnpj, endereco } = this.props;
-        let tipo = '';
-
-        if(loginAs) {
-            tipo = 'estab';
-        }else {
-            tipo = 'client';
-        }
+        let tipo = loginAs ? 'estab' : 'client';
 
         if(this.validateForm()){
             this.props.cadastraUsuario({ nome, email, senha, tipo, chaveEntrada, cpf, cnpj, endereco});
-        }else{
-            alert('tem erro');
-        }
+        }else{ alert('tem erro'); }
 
     }
 
@@ -112,19 +41,16 @@ class formCadastro extends Component {
         const { nome, email, senha, loginAs, chaveEntrada, cpf, cnpj, endereco } = this.props;
         let status = true;
 
-        if(chaveEntrada.length < 8){
+        if(chaveEntrada.length < 8)
             status = false;
-        }
 
-        if(nome == "" || email == "" || senha == "" || chaveEntrada == ""){
+        if(nome == "" || email == "" || senha == "" || chaveEntrada == "")
             status = false;
-        }
 
-        if(loginAs) {
+        if(loginAs)
             this.validaCNPJ(cnpj);
-        }else {
+        else
             this.validaCPF(cpf);
-        }
 
         return status;
 
@@ -155,7 +81,7 @@ class formCadastro extends Component {
         'Sobre Tipo',
         'Pedimos que você escolha entre Cliente e Estabelecimento para disponibilizar as funções necessárias do aplica. \nEscolha o perfil que representa você e aproveite!',
         [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
+            {text: 'OK', onPress: () => false},
         ],
         { cancelable: false }
         )
@@ -178,24 +104,24 @@ class formCadastro extends Component {
         if(this.props.loginAs){
             return(
                 <View>
-                <TextInput 
-                    autoCapitalize="none"
-                    value={this.props.cnpj} 
-                    style={styles.input}
-                    placeholderTextColor='#888' 
-                    placeholder='CNPJ'
-                    underlineColorAndroid='transparent'
-                    onChangeText={texto => this.props.modificaEmail(texto)}
-                />
-                <TextInput 
-                    autoCapitalize="none"
-                    value={this.props.endereco}
-                    style={styles.input}
-                    placeholderTextColor='#888'
-                    placeholder='Endereço'
-                    underlineColorAndroid='transparent'
-                    onChangeText={texto => this.props.modificaEndereco(texto)}
-                />
+                    <TextInput 
+                        autoCapitalize="none"
+                        value={this.props.cnpj} 
+                        style={styles.input}
+                        placeholderTextColor='#888' 
+                        placeholder='CNPJ'
+                        underlineColorAndroid='transparent'
+                        onChangeText={texto => this.props.modificaEmail(texto)}
+                    />
+                    <TextInput 
+                        autoCapitalize="none"
+                        value={this.props.endereco}
+                        style={styles.input}
+                        placeholderTextColor='#888'
+                        placeholder='Endereço'
+                        underlineColorAndroid='transparent'
+                        onChangeText={texto => this.props.modificaEndereco(texto)}
+                    />
                 </View>
             );
 
@@ -230,9 +156,7 @@ class formCadastro extends Component {
             this.props.modificaCategTotal(--n);
 
         }else{
-
             alert('maximo 2');
-            
         }
 
     }
@@ -240,10 +164,9 @@ class formCadastro extends Component {
     openSearchModal() {
         RNGooglePlaces.openAutocompleteModal({country: 'BR'})
         .then((place) => {
-            console.log(place);
             this.props.modificaEndereco(place);
         })
-        .catch(error => console.log(error.message));  // error is a Javascript Error object 
+        .catch(error => false);
       }
 
     render(){
@@ -338,8 +261,6 @@ class formCadastro extends Component {
                         <View style={{backgroundColor:'#fff', flex: 1, borderRadius: 5, padding: 20}}>
                             <Icon name='close' onPress={() => this.setModalVisible(false)} underlayColor="#999" containerStyle={{borderRadius: 5, alignSelf: 'flex-end'}}/>
                             <Text>Explicação!</Text>
-
-
                         </View>
                     </View>
                 </Modal>
@@ -412,18 +333,7 @@ const mapStateToProps = state => (
 
 export default connect(
     mapStateToProps, 
-    { 
-        modificaEmail, 
-        modificaSenha, 
-        modificaNome,
-        cadastraUsuario,
-        modificaLoginAs,
-        modificaChaveEntrada,
-        modificaCategTotal,
-        modificaEndereco,
-        modificaCPF,
-        modificaCNPJ
-    }
+    { modificaEmail, modificaSenha, modificaNome, cadastraUsuario, modificaLoginAs, modificaChaveEntrada, modificaCategTotal, modificaEndereco, modificaCPF, modificaCNPJ }
 )(formCadastro);
 
 const styles = StyleSheet.create({

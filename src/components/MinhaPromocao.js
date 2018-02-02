@@ -100,7 +100,6 @@ class MinhaPromocao extends Component{
         } = this.props;
 
         const codigo = this.state.codigo;
-        console.log(codigo);
 
         if(codigo.length == 8){
             this.props.validarCupom({

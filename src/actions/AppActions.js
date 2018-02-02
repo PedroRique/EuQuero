@@ -96,13 +96,8 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
                     dispatch({ type: 'loading_save_promo' });
                 })
             }).catch((e) => {
-                console.log(e);
                 dispatch({ type: 'loading_save_promo' });
             });
-        
-        
-
-        
     }
 
 }
@@ -184,7 +179,6 @@ export const validarCupom = ({item, codigo}) => {
     return dispatch => {
 
         firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).once('value').then(snapshot => {
-            console.log(snapshot.val());
             if(snapshot.val() != null){
 
                 firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).remove();

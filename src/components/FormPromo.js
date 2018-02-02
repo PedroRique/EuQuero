@@ -46,9 +46,7 @@ class FormPromo extends Component {
             cropping: true
         }).then(image => {
             this.setState({imagePath : image.path});
-        }).catch(error => {
-            console.log('e',error);
-        });
+        }).catch(error => false);
     }
 
     _modificaTipoPromo(isExclusive){
@@ -77,7 +75,6 @@ class FormPromo extends Component {
             firebase.storage().ref('images/promos').child(key).put(blob, { contentType : 'image/jpg' }).then((snapshot) => {
                 this._savePromo(snapshot.downloadURL, key);
             }).catch((e) => {
-                console.log(e);
             })
         })
     
