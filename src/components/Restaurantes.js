@@ -1,15 +1,37 @@
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator, Button, StyleSheet} from 'react-native';
 import { Icon } from 'react-native-elements';
-import { listaPromocoes } from '../actions/AppActions';
+import { listaPromoFetch, modificaCoords } from '../actions/AppActions';
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
+import geolib from 'geolib';
+import _ from 'lodash';
 
 class Restaurantes extends Component {
     
     constructor(props){
         super(props);
         this.state = this.getInitialState();
+    }
+
+    componentWillMount(){
+        this.props.listaPromoFetch();
+    }
+
+    getDistance(){
+        const app = this;
+
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                app.props.modificaCoords(position.coords);
+            },
+            function() {
+                alert('Position could not be determined.')
+            },
+            {
+                enableHighAccuracy: false
+            }
+        );
     }
 
     getInitialState() {
@@ -22,6 +44,10 @@ class Restaurantes extends Component {
           },
         };
     }
+
+    componentDidMount(){
+        this.getDistance();
+    }
       
     render(){
         return(
@@ -31,6 +57,8 @@ class Restaurantes extends Component {
                     region={this.state.region}
                 >
                 </MapView>
+
+                <Button onPress={() => this.getDistance()} title='Teste' color='red'/>
             </View>
         );
     }
@@ -47,7 +75,40 @@ const styles = StyleSheet.create({
     map: {
       ...StyleSheet.absoluteFillObject,
     },
-  });
+});
 
 
-export default Restaurantes;
+const mapStateToProps = state => {
+
+    const promos = _.map(state.AppReducer.promos, (val, uid) => {
+
+        if(state.AppReducer.userCoords.latitude && val.coords){ //confere se existe latitude ou se eh apenas um objeto vazio e se as promos ja foram carregadas
+            
+            let isInside = geolib.isPointInCircle(
+                val.coords,
+                state.AppReducer.userCoords,
+                10000
+            );
+
+            if(isInside)
+                return {...val, uid}
+        }else{
+            return {...val, uid}
+        }
+       
+    });
+
+    return ({
+        promos: state.AppReducer.promos,
+        userCoords: state.AppReducer.userCoords
+    });
+
+}
+
+export default connect(
+    mapStateToProps, 
+    { 
+        listaPromoFetch,
+        modificaCoords
+    }
+)(Restaurantes);

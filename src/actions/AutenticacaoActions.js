@@ -33,7 +33,28 @@ export const modificaCategTotal = (n) => {
     }
 }
 
-export const cadastraUsuario = ({nome, email, senha, tipo, chaveEntrada}) => {
+export const modificaEndereco = (placeObj) => {
+    return {
+        type: 'modifica_endereco',
+        payload: placeObj
+    }
+}
+
+export const modificaCPF = (cpf) => {
+    return {
+        type: 'modifica_cpf',
+        payload: cpf
+    }
+}
+
+export const modificaCNPJ = (cnpj) => {
+    return {
+        type: 'modifica_cnpj',
+        payload: cnpj
+    }
+}
+
+export const cadastraUsuario = ({nome, email, senha, tipo, chaveEntrada, cpf, cnpj, endereco}) => {
     return dispatch => {
 
         dispatch({ type: 'loading_cadastro' });
@@ -43,9 +64,18 @@ export const cadastraUsuario = ({nome, email, senha, tipo, chaveEntrada}) => {
         firebase.auth().createUserWithEmailAndPassword(email, senha)
         .then(user => {
             let emailB64 = b64.encode(email);
+
+            let objEnvio = {nome, email, tipo, chaveEntrada, chave: novaChave};
+
+            if(tipo == 'estab') {
+                objEnvio.cnpj = cnpj;
+                objEnvio.endereco = endereco;
+            }else if(tipo == 'client'){
+                objEnvio.cpf = cpf;
+            }
             
             firebase.database().ref(`/contatos/${emailB64}`)
-                .set({nome, email, tipo, chaveEntrada, chave: novaChave})
+                .set(objEnvio)
                 .then(value => {
                     firebase.database().ref(`chaves`).once('value')
                     .then(snapshot => {
@@ -65,6 +95,7 @@ export const cadastraUsuario = ({nome, email, senha, tipo, chaveEntrada}) => {
                 .catch((error) => {
                     cadastraUsuarioErro({message:"Chave de Entrada inválida"}, dispatch);
                 })
+
         })
         .catch(erro => cadastraUsuarioErro(erro, dispatch)); 
 
@@ -75,9 +106,8 @@ const atualizaRede = (chaves, chaveEntrada, novaChave, i) => {
 
     firebase.database().ref(`chaves/${chaveEntrada}/rede`).child(novaChave).set({linha: i})
     .then(() => {
-        i = i + 1;
         if(chaves[chaveEntrada].chaveEntrada != "VANTAGEM" && i < 3){
-            atualizaRede(chaves, chaves[chaveEntrada].chaveEntrada, novaChave, i);
+            atualizaRede(chaves, chaves[chaveEntrada].chaveEntrada, novaChave, ++i);
         }
     })
 }

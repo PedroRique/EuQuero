@@ -287,7 +287,6 @@ export const getUserLocation = () => {
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                console.log(position);
                 dispatch({
                     type: 'get_user_location',
                     payload: position
@@ -349,4 +348,11 @@ export const contaRede = (chave) => {
         })
     }
     
+}
+
+export const modificaCoords = (coords) => {
+    return {
+        type: 'modifica_coords',
+        payload: coords
+    }
 }

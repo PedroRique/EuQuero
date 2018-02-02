@@ -30,7 +30,8 @@ const INITIAL_STATE = {
     validaErro: '',
     rede: [0,0,0],
     validaCupomStatus: false,
-    geraCupomStatus: false
+    geraCupomStatus: false,
+    userCoords: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -113,6 +114,9 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'reset_resgate':
             return { ...state, geraCupomStatus: false}
+
+        case 'modifica_coords': 
+            return { ...state, userCoords: action.payload}
 
         default: 
             return state;

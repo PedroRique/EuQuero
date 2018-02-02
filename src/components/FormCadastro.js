@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
+import RNGooglePlaces from 'react-native-google-places';
 import { 
     modificaEmail, 
     modificaSenha, 
@@ -27,7 +28,10 @@ import {
     cadastraUsuario,
     modificaLoginAs,
     modificaChaveEntrada,
-    modificaCategTotal
+    modificaCategTotal,
+    modificaEndereco,
+    modificaCPF,
+    modificaCNPJ
 } from '../actions/AutenticacaoActions';
 
 class formCadastro extends Component {
@@ -87,7 +91,7 @@ class formCadastro extends Component {
     }
 
     _cadastraUsuario(){
-        const { nome, email, senha, loginAs, chaveEntrada } = this.props;
+        const { nome, email, senha, loginAs, chaveEntrada, cpf, cnpj, endereco } = this.props;
         let tipo = '';
 
         if(loginAs) {
@@ -97,7 +101,7 @@ class formCadastro extends Component {
         }
 
         if(this.validateForm()){
-            this.props.cadastraUsuario({ nome, email, senha, tipo, chaveEntrada});
+            this.props.cadastraUsuario({ nome, email, senha, tipo, chaveEntrada, cpf, cnpj, endereco});
         }else{
             alert('tem erro');
         }
@@ -105,7 +109,7 @@ class formCadastro extends Component {
     }
 
     validateForm(){
-        const { nome, email, senha, loginAs, chaveEntrada } = this.props;
+        const { nome, email, senha, loginAs, chaveEntrada, cpf, cnpj, endereco } = this.props;
         let status = true;
 
         if(chaveEntrada.length < 8){
@@ -116,8 +120,22 @@ class formCadastro extends Component {
             status = false;
         }
 
+        if(loginAs) {
+            this.validaCNPJ(cnpj);
+        }else {
+            this.validaCPF(cpf);
+        }
+
         return status;
 
+    }
+
+    validaCNPJ(cnpj){ //validacao falsa, temporária
+        return cnpj.length == 13;
+    }
+
+    validaCPF(cpf){ //validacao falsa, temporária
+        return cpf.length == 13;
     }
 
     _modificaLoginAs(newValue){
@@ -156,6 +174,46 @@ class formCadastro extends Component {
         );
     }
 
+    isEstab(){
+        if(this.props.loginAs){
+            return(
+                <View>
+                <TextInput 
+                    autoCapitalize="none"
+                    value={this.props.cnpj} 
+                    style={styles.input}
+                    placeholderTextColor='#888' 
+                    placeholder='CNPJ'
+                    underlineColorAndroid='transparent'
+                    onChangeText={texto => this.props.modificaEmail(texto)}
+                />
+                <TextInput 
+                    autoCapitalize="none"
+                    value={this.props.endereco}
+                    style={styles.input}
+                    placeholderTextColor='#888'
+                    placeholder='Endereço'
+                    underlineColorAndroid='transparent'
+                    onChangeText={texto => this.props.modificaEndereco(texto)}
+                />
+                </View>
+            );
+
+        }else{
+            return(
+                <TextInput 
+                    autoCapitalize="none"
+                    value={this.props.cpf} 
+                    style={styles.input}
+                    placeholderTextColor='#888' 
+                    placeholder='CPF'
+                    underlineColorAndroid='transparent'
+                    onChangeText={texto => this.props.modificaEmail(texto)}
+                />
+            );
+        }
+    }
+
     changeIconStatus(i) {
 
         const categs = this.state.categs;
@@ -179,6 +237,15 @@ class formCadastro extends Component {
 
     }
 
+    openSearchModal() {
+        RNGooglePlaces.openAutocompleteModal({country: 'BR'})
+        .then((place) => {
+            console.log(place);
+            this.props.modificaEndereco(place);
+        })
+        .catch(error => console.log(error.message));  // error is a Javascript Error object 
+      }
+
     render(){
         const { selectedItems } = this.state;
         return (
@@ -191,9 +258,11 @@ class formCadastro extends Component {
 
                 <View style={styles.meio}>     
 
-                    <TouchableOpacity onPress={() => this.setModalCategVisible(true)}>
-                        <Text>Categorias</Text>
+                    <TouchableOpacity onPress={() => this.openSearchModal()}>
+                        <Text style={{fontSize: 24, color: '#fff', marginBottom: 25}}>Categorias</Text>
                     </TouchableOpacity>                
+
+                    {/* {GooglePlacesInput()} */}
 
                     <TextInput 
                         value={this.props.nome} 
@@ -221,6 +290,9 @@ class formCadastro extends Component {
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaSenha(texto)}
                     />
+
+                    {this.isEstab()}
+
                     <TextInput
                         maxLength={8}
                         autoCapitalize="characters"
@@ -249,6 +321,8 @@ class formCadastro extends Component {
                         <Text style={{color: '#fff'}}>Estabalecimento</Text>
                         <Icon name='question' color='#fff' type='font-awesome' size={24} containerStyle={styles.question} underlayColor='#721214' onPress={() => this.setModalVisible(true)}/>
                     </View>
+
+                    
                     
                 </View>
 
@@ -329,7 +403,10 @@ const mapStateToProps = state => (
         loadingCadastro: state.AutenticacaoReducer.loadingCadastro,
         loginAs: state.AutenticacaoReducer.loginAs,
         chaveEntrada: state.AutenticacaoReducer.chaveEntrada,
-        categTotal: state.AutenticacaoReducer.categTotal
+        categTotal: state.AutenticacaoReducer.categTotal,
+        endereco: state.AutenticacaoReducer.endereco,
+        cpf: state.AutenticacaoReducer.cpf,
+        cnpj: state.AutenticacaoReducer.cnpj,
     }
 )
 
@@ -342,7 +419,10 @@ export default connect(
         cadastraUsuario,
         modificaLoginAs,
         modificaChaveEntrada,
-        modificaCategTotal
+        modificaCategTotal,
+        modificaEndereco,
+        modificaCPF,
+        modificaCNPJ
     }
 )(formCadastro);
 

@@ -2,6 +2,11 @@ const INITIAL_STATE = {
     nome: 'Estabelecimento',
     email: 'estab1@teste.com',
     senha: '123456',
+    cnpf: '',
+    cpf: '',
+    endereco: '',
+    placeObj: {},
+    coords: {},
     erroCadastro: '',
     erroLogin: '',
     sendoExibido: false,
@@ -28,6 +33,15 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'modifica_chave_entrada':
             return { ...state, chaveEntrada: action.payload}
+
+        case 'modifica_endereco':
+            return { ...state, endereco: action.payload.address, placeObj: action.payload}
+
+        case 'modifica_cpf':
+            return { ...state, cpf: action.payload}
+
+        case 'modifica_cnpj':
+            return { ...state, cnpj: action.payload}
 
         case 'cadastra_usuario_erro':
             return { ...state, erroCadastro: action.payload, loadingCadastro: false }

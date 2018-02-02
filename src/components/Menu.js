@@ -67,7 +67,7 @@ class Menu extends Component {
                 <TouchableNativeFeedback onPress={() => Actions.exemplo()}>
                     <ListItem
                         title='Exemplo'
-                        leftIcon={{name: 'square', color: 'blue'}}
+                        leftIcon={{name: 'arrow-back', color: 'blue'}}
                     />
                 </TouchableNativeFeedback>
 
