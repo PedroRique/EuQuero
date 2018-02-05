@@ -137,11 +137,15 @@ export const geraCupom = ({item, codigo}) => {
         currentEmail = currentUser ? currentUser.email : 'teste3@teste.com';
         let emailClientB64 = b64.encode(currentEmail);
 
-        firebase.database().ref(`/cupons/${codigo}`).set({promo:item, codigo, emailClientB64}).then(data => {
+        let objEnvio = {promo:item, codigo, emailClientB64};
 
-            firebase.database().ref(`/cupons_client/${emailClientB64}/${codigo}`).set({promo: item, codigo, emailClientB64}).then(data2 => {
+        objEnvio.dataResgate = new Date().toLocaleString();
+
+        firebase.database().ref(`/cupons/${codigo}`).set(objEnvio).then(data => {
+
+            firebase.database().ref(`/cupons_client/${emailClientB64}/${codigo}`).set(objEnvio).then(data2 => {
                 
-                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).set({promo: item, codigo, emailClientB64}).then(() =>{
+                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).set(objEnvio).then(() =>{
 
                     firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/numeroCupons`)    
                     .transaction((n) => {

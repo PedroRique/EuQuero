@@ -29,17 +29,17 @@ class Promocao extends Component{
     }
    
     loading(){
-        // if(this.props.loadingLogin){
-        //     return(
-        //         <ActivityIndicator size="large" color='#fff'/>
-        //     );
-        // }
-
-        return (
-            <TouchableOpacity onPress={ () => this.geraCodigo() }>
-                <Text style={styles.btnResgatar}>Resgatar Cupom</Text>
-            </TouchableOpacity>
-        );
+        if(!this.props.loginAs){
+            return (
+                <TouchableOpacity onPress={ () => this.geraCodigo() }>
+                    <Text style={styles.btnResgatar}>Resgatar Cupom</Text>
+                </TouchableOpacity>
+            );
+        }else{
+            return (
+                <Text style={[styles.btnResgatar,{backgroundColor: '#999', color: '#666'}]}>Resgatar Cupom</Text>
+            );
+        }
     }
 
     calculaPreco(){
@@ -188,7 +188,8 @@ class Promocao extends Component{
 
 const mapStateToProps = state => {
     return ({
-        geraCupomStatus: state.AppReducer.geraCupomStatus
+        geraCupomStatus: state.AppReducer.geraCupomStatus,
+        loginAs: state.AutenticacaoReducer.loginAs
     })
 } 
 
