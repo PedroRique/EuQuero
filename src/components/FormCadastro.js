@@ -100,28 +100,54 @@ class formCadastro extends Component {
         );
     }
 
+    renderCategsEscolhidas(){
+
+        let teste = [];
+
+        this.state.categs.forEach((a)=> {
+            if(a.status){
+                teste.push(
+                    <View style={{backgroundColor: '#fff', borderRadius: 5, padding: 5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+                        <Icon name={a.icon} color='#881518'/>
+                        <Text style={{color: '#333',fontSize: 16, padding:5, flex: 1, flexWrap: 'wrap'}}>{a.name}</Text>                    
+                    </View>
+                )
+            }            
+        })
+
+        return teste;
+    }
+
     isEstab(){
         if(this.props.loginAs){
+            
             return(
-                <View>
+                <View style={{alignSelf: 'stretch'}}>
                     <TextInput 
                         autoCapitalize="none"
                         value={this.props.cnpj}
                         style={styles.input}
-                        placeholderTextColor='#888' 
+                        placeholderTextColor='#888'
                         placeholder='CNPJ'
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaCNPJ(texto)}
                     />
-                    <TextInput 
-                        autoCapitalize="none"
-                        value={this.props.endereco}
-                        style={styles.input}
-                        placeholderTextColor='#888'
-                        placeholder='Endereço'
-                        underlineColorAndroid='transparent'
-                        onChangeText={texto => this.props.modificaEndereco(texto)}
-                    />
+
+                    <TouchableOpacity onPress={() => this.setModalCategVisible(true)} >
+                        <Text style={styles.categBtnTxt}>Categorias</Text>
+                    </TouchableOpacity>
+                    <View style={{alignSelf: 'stretch',alignItems: 'center',justifyContent: 'center', flexDirection: 'row', padding: 5, backgroundColor: '#ededed',borderBottomLeftRadius: 5, borderBottomRightRadius: 5,marginBottom: 20, flexWrap: 'wrap'}}>
+                        {this.renderCategsEscolhidas()}
+                    </View>
+
+                    <TouchableOpacity onPress={() => this.openSearchModal()} >
+                        <Text style={styles.categBtnTxt}>Endereço</Text>
+                    </TouchableOpacity>
+                    <View style={{alignSelf: 'stretch', flexDirection: 'row', padding: 5,backgroundColor: '#ededed',borderBottomLeftRadius: 5, borderBottomRightRadius: 5,marginBottom: 20}}>
+                        {this.props.endereco ? <Icon name='location-on' color='#333'/> : false}
+                        {this.props.endereco ? <Text style={{color: '#333',fontSize: 16, padding:5, flex: 1, flexWrap: 'wrap'}}>{this.props.endereco}</Text> : false}
+                        
+                    </View>
                 </View>
             );
 
@@ -181,9 +207,9 @@ class formCadastro extends Component {
 
                 <View style={styles.meio}>     
 
-                    <TouchableOpacity onPress={() => this.openSearchModal()}>
+                    {/* <TouchableOpacity onPress={() => this.openSearchModal()}>
                         <Text style={{fontSize: 24, color: '#fff', marginBottom: 25}}>Categorias</Text>
-                    </TouchableOpacity>                
+                    </TouchableOpacity>                 */}
 
                     {/* {GooglePlacesInput()} */}
 
@@ -280,7 +306,7 @@ class formCadastro extends Component {
                                 renderItem={({item}) => {
 
                                     const icon = item.status ? 'check-circle' : 'add';
-                                    const color = item.status ? 'green' : '#666';
+                                    const color = item.status ? 'green' : '#333';
                                     const lastchild = (item.key == this.state.categs.length - 1) ? styles.categItemLast : styles.categItem;
 
                                     return(
@@ -301,7 +327,7 @@ class formCadastro extends Component {
                                 <Text style={styles.btnConfirma}>Confirmar</Text>
                             </TouchableOpacity>
 
-                            <Text>{this.props.categTotal}</Text>
+                            {/* <Text>{this.props.categTotal}</Text> */}
                         </View>
                     </View>
                 </Modal>
@@ -376,7 +402,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     input: {
-        width: 230, 
+        alignSelf: 'stretch', 
         height: 45,
         backgroundColor: 'white',
         borderWidth: 0,
@@ -429,7 +455,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 15,
         borderBottomWidth: 1,
-        borderBottomColor: '#333'
+        borderBottomColor: '#ededed'
     },
     categItemLast:{
         flexDirection: 'row',
@@ -439,6 +465,19 @@ const styles = StyleSheet.create({
     categItemTxt: {
         fontSize: 20,
         color: '#333'
+    },
+    categBtnTxt:{
+        fontSize: 18,
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 20,
+        alignSelf: 'stretch',
+        color: '#000',
+        textAlign: 'center',
+        marginBottom:0,
+        borderBottomLeftRadius:0,
+        borderBottomRightRadius:0
     }
     
 });
