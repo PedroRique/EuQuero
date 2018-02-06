@@ -140,6 +140,7 @@ class formCadastro extends Component {
                         value={this.props.cnpj}
                         style={styles.input}
                         placeholderTextColor='#888'
+                        keyboardType = 'numeric'
                         placeholder='CNPJ'
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaCNPJ(texto)}
@@ -169,7 +170,8 @@ class formCadastro extends Component {
                     autoCapitalize="none"
                     value={this.props.cpf} 
                     style={styles.input}
-                    placeholderTextColor='#888' 
+                    placeholderTextColor='#888'
+                    keyboardType = 'numeric'
                     placeholder='CPF'
                     underlineColorAndroid='transparent'
                     onChangeText={texto => this.props.modificaEmail(texto)}
