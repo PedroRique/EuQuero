@@ -54,7 +54,7 @@ export const modificaCNPJ = (cnpj) => {
     }
 }
 
-export const cadastraUsuario = ({nome, email, senha, tipo, chaveEntrada, cpf, cnpj, endereco, placeObj}) => {
+export const cadastraUsuario = ({nome, email, senha, tipo, chaveEntrada, cpf, cnpj, endereco, placeObj, stringCateg}) => {
     return dispatch => {
 
         dispatch({ type: 'loading_cadastro' });
@@ -71,6 +71,7 @@ export const cadastraUsuario = ({nome, email, senha, tipo, chaveEntrada, cpf, cn
                 objEnvio.cnpj = cnpj;
                 objEnvio.endereco = endereco;
                 objEnvio.placeObj = placeObj;
+                objEnvio.stringCateg = stringCateg;
             }else if(tipo == 'client'){
                 objEnvio.cpf = cpf;
             }

@@ -30,9 +30,9 @@ class formCadastro extends Component {
     _cadastraUsuario(){
         const { nome, email, senha, loginAs, chaveEntrada, cpf, cnpj, endereco, placeObj } = this.props;
         let tipo = loginAs ? 'estab' : 'client';
-
+        let stringCateg = this.criaStringCateg()
         if(this.validateForm()){
-            this.props.cadastraUsuario({ nome, email, senha, tipo, chaveEntrada, cpf, cnpj, endereco, placeObj});
+            this.props.cadastraUsuario({ nome, email, senha, tipo, chaveEntrada, cpf, cnpj, endereco, placeObj, stringCateg});
         }else{ alert('tem erro'); }
 
     }
@@ -107,15 +107,27 @@ class formCadastro extends Component {
         this.state.categs.forEach((a)=> {
             if(a.status){
                 teste.push(
-                    <View style={{backgroundColor: '#fff', borderRadius: 5, padding: 5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+                    <View key={a.id} style={{backgroundColor: '#fff', borderRadius: 5, padding: 5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
                         <Icon name={a.icon} color='#881518'/>
                         <Text style={{color: '#333',fontSize: 16, padding:5, flex: 1, flexWrap: 'wrap'}}>{a.name}</Text>                    
                     </View>
-                )
-            }            
-        })
+                );
+            }
+        });
 
         return teste;
+    }
+
+    criaStringCateg(){
+        let stringCateg = "";
+
+        this.state.categs.forEach((a)=> {
+            if(a.status){
+                stringCateg += `${a.id},`;
+            }            
+        });
+
+        return stringCateg.slice(0,-1);
     }
 
     isEstab(){
