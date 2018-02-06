@@ -61,7 +61,7 @@ const mapStateToProps = state => {
     const promos = _.map(state.AppReducer.promos, (val, uid) => {
         if(val.nomePromo.toLowerCase().indexOf(state.AppReducer.filtros.texto.toLowerCase()) > -1){
 
-            let categs = val.categs.split(',');
+            let categs = val.stringCateg.split(',');
 
             let hasCateg = categs.some(categ => state.AppReducer.filtros.categs.includes(categ));
 

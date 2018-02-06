@@ -56,7 +56,7 @@ export const modificaDataFim = (dataFim) => {
     }
 }
 
-export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, uri, imageURL, imageKey, placeObj}) => {
+export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, uri, imageURL, imageKey, placeObj, stringCateg}) => {
 
     return dispatch => {
 
@@ -71,9 +71,7 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
             total: 0
         }
 
-        let objEnvio = {nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, numeroCupons, placeObj};
-
-        objEnvio.categs = "";
+        let objEnvio = {nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, numeroCupons, placeObj, stringCateg};
 
         firebase.storage().ref(`/images/avatars/${emailEstabB64}`).getDownloadURL()
             .then((url) => {
