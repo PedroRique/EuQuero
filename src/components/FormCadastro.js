@@ -270,7 +270,7 @@ class formCadastro extends Component {
                     </Text>
 
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={{color: '#fff'}}>Cliente</Text>
+                        <Text style={{color: '#fff',fontFamily: 'segoeui'}}>Cliente</Text>
                         <Switch
                             style={{marginHorizontal: 5}}
                             onValueChange={value => {this._modificaLoginAs(value)}}
@@ -279,7 +279,7 @@ class formCadastro extends Component {
                             tintColor='#721214'
                             thumbTintColor='#fff'
                         />
-                        <Text style={{color: '#fff'}}>Estabalecimento</Text>
+                        <Text style={{color: '#fff',fontFamily: 'segoeui'}}>Estabalecimento</Text>
                         <Icon name='question' color='#fff' type='font-awesome' size={24} containerStyle={styles.question} underlayColor='#721214' onPress={() => this.setModalVisible(true)}/>
                     </View>
 
@@ -388,7 +388,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#881518',
         padding: 20,
         borderRadius: 5,
-        elevation: 3
+        elevation: 3,
+        fontFamily: 'segoeui'
     },
     topo: {
         backgroundColor: '#e56c25',
@@ -422,7 +423,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         fontSize: 18,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'segoeui'
     },
     btnEntrar: {
         paddingVertical: 10,
@@ -433,7 +435,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRadius: 5,
         elevation: 1,
-        marginBottom: 5
+        marginBottom: 5,
+        fontFamily: 'segoeui'
     },
     btnConfirma: {
         paddingVertical: 10,
@@ -443,7 +446,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRadius: 5,
         elevation: 1,
-        marginBottom: 5
+        marginBottom: 5,
+        fontFamily: 'segoeui'
     },
     question: {
         elevation: 2, 
@@ -476,7 +480,8 @@ const styles = StyleSheet.create({
     },
     categItemTxt: {
         fontSize: 20,
-        color: '#333'
+        color: '#333',
+        fontFamily: 'segoeui'
     },
     categBtnTxt:{
         fontSize: 18,
@@ -489,7 +494,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom:0,
         borderBottomLeftRadius:0,
-        borderBottomRightRadius:0
+        borderBottomRightRadius:0,
+        fontFamily: 'segoeui'
     }
     
 });

@@ -42,6 +42,8 @@ export default class Promo extends Component{
                             <Text style={styles.btnEntrar}>Eu Quero!</Text>
                         </TouchableOpacity>
                     </View>
+
+                    <Text>{this.props.item.stringCateg}</Text>
                 </View>
     
             </View>

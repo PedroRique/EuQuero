@@ -13,6 +13,8 @@ export default class Cupom extends Component{
     img = require('../imgs/plate.jpg');
 
     render(){
+        let resgatado = new Date(this.props.item.dataResgate).toLocaleString();
+
         return (
             <View style={styles.container}>
                 <View style={{flex: 2}}>
@@ -24,6 +26,8 @@ export default class Cupom extends Component{
                     <View style={{flexDirection:'column',justifyContent: 'space-around', alignItems: 'center', alignSelf: 'stretch'}}>
                         <Text style={styles.titulo}>{this.props.item.codigo}</Text>
                     </View>
+
+                    <Text>Resgatado: {resgatado}</Text>
                 </View>
     
             </View>

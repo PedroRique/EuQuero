@@ -98,16 +98,16 @@ class formLogin extends Component{
                         onChangeText={texto => this.props.modificaSenha(texto)}
                     />
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={{color: '#fff'}}>Cliente</Text>
+                        <Text style={{color: '#fff', fontFamily: 'segoeui'}}>Cliente</Text>
                         <Switch 
                             style={{marginHorizontal: 5}} 
                             onValueChange={value => {this._modificaLoginAs(value)}}
-                            value={this.props.loginAs} 
-                            onTintColor='#721214' 
+                            value={this.props.loginAs}
+                            onTintColor='#721214'
                             tintColor='#721214' 
                             thumbTintColor='#fff'
                         />
-                        <Text style={{color: '#fff'}}>Estabalecimento</Text>
+                        <Text style={{color: '#fff', fontFamily: 'segoeui'}}>Estabalecimento</Text>
                     </View>
 
                 </View>
@@ -116,7 +116,7 @@ class formLogin extends Component{
                     {this.loading()}
 
                     <TouchableOpacity onPress={ () => Actions.formCadastro() }>
-                        <Text style={{ fontSize: 16, color: '#EDEDED', marginVertical: 20, textDecorationLine: 'underline' }}>Ainda não tem cadastro? Cadastre-se</Text>
+                        <Text style={{ fontSize: 16, color: '#EDEDED', marginVertical: 20, textDecorationLine: 'underline', fontFamily: 'segoeui' }}>Ainda não tem cadastro? Cadastre-se</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -214,7 +214,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRadius: 5,
         elevation: 1,
-        marginBottom: 5
+        marginBottom: 5,
+        fontFamily: 'segoeui'
     },
     txtErro: {
         color: '#881518',
