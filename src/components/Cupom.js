@@ -13,7 +13,8 @@ export default class Cupom extends Component{
     img = require('../imgs/plate.jpg');
 
     render(){
-        let resgatado = new Date(this.props.item.dataResgate).toLocaleString();
+        let resgatado = new Date(this.props.item.dataResgate);
+        resgatado = resgatado.toLocaleString().slice(0,-3);
 
         return (
             <View style={styles.container}>
