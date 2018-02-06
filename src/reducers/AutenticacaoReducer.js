@@ -59,7 +59,12 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, alertSendoExibido: action.payload}
 
         case 'login_usuario_sucesso':
-            return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave}
+            if(action.payload.tipo == 'estab'){
+                return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave, placeObj: action.payload.placeObj}
+            }else{
+                return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave}
+            }
+            
 
         case 'loading_login':
             return { ...state, loadingLogin: true }

@@ -90,7 +90,8 @@ class FormPromo extends Component {
             descricaoPromo,
             diasValidosPromo,
             dataIni,
-            dataFim
+            dataFim,
+            placeObj
         } = this.props;
         const {currentUser} = firebase.auth();
 
@@ -107,7 +108,8 @@ class FormPromo extends Component {
             dataFim,
             uri: this.state.imagePath,
             imageURL,
-            imageKey
+            imageKey,
+            placeObj
         });
     }
 
@@ -304,7 +306,8 @@ const mapStateToProps = state => (
         diasChanged: state.AppReducer.diasChanged,
         valorInicialPromo: state.AppReducer.valorInicialPromo,
         dataIni: state.AppReducer.dataIni,
-        dataFim: state.AppReducer.dataFim
+        dataFim: state.AppReducer.dataFim,
+        placeObj: state.AutenticacaoReducer.placeObj
     }
 )
 
