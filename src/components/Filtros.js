@@ -34,9 +34,25 @@ class Filtros extends Component {
         return categs;
     }
 
+    renderDias(){
+        const dias = [];
+
+        this.props.diasValidos.forEach((dia)=>{
+
+            let estilo = dia.isValid ? styles.txtDiaValid : styles.txtDia;
+
+            dias.push(
+                <Text style={estilo}>{dia.dia}</Text>
+            );
+            
+        });
+
+        return dias;
+    }
+
     render(){
         return(
-            <ScrollView contentContainerStyle={{flex: 1, padding: 10}}>
+            <ScrollView contentContainerStyle={{padding: 10}}>
 
                 <View>
                     <Text style={styles.titulo}>Categorias</Text>
@@ -60,6 +76,7 @@ class Filtros extends Component {
 
                 <View>
                     <Text style={styles.titulo}>Dias Válidos</Text>
+                    <View style={{flexDirection: 'row'}}>{this.renderDias()}</View>
                 </View>
 
             </ScrollView>
@@ -88,13 +105,43 @@ const styles = StyleSheet.create({
         fontSize: 16,
         padding:5,
         flex: 1,
-        flexWrap: 'wrap'
-    }
+        flexWrap: 'wrap',
+        fontFamily: "segoeui",
+    },
+    txtDia: {
+        padding: 5,
+        backgroundColor: '#333',
+        color: 'white',
+        borderRadius: 15,
+        width: 30,
+        height: 30,
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'stretch',
+        fontWeight: 'bold',
+        marginHorizontal: 2
+    },
+    txtDiaValid: {
+        padding: 5,
+        backgroundColor: '#e56c25',
+        color: 'white',
+        borderRadius: 15,
+        width: 30,
+        height: 30,
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'stretch',
+        fontWeight: 'bold',
+        marginHorizontal: 2
+    },
 });
 
 const mapStateToProps = state => {
     return ({
-        categs: state.AppReducer.categs
+        categs: state.AppReducer.categs,
+        diasValidos: state.AppReducer.diasValidosPromo
     })
 } 
 
