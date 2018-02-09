@@ -10,7 +10,8 @@ class Filtros extends Component {
         super(props);
 
         this.state = {
-            value: 5000
+            value: 5000,
+            categs: this.props.categs
         }
     }
 
@@ -18,15 +19,25 @@ class Filtros extends Component {
 
     }
 
+    selectCateg(key){
+        let categs = this.state.categs;
+        categs[key].status = !categs[key].status;
+
+        this.setState({categs});
+    }
+
     renderCategs(){
         const categs = [];
 
         this.props.categs.forEach((categ)=> {
+            let estilo = categ.status ? styles.categItemSelected : styles.categItem;
+            let estiloTxt = categ.status ? styles.categItemSelectedTxt : styles.categItemTxt;
+
             categs.push(
-                <TouchableOpacity onPress={() => false}>
-                    <View key={categ.id} style={styles.categItem}>
+                <TouchableOpacity onPress={() => this.selectCateg(categ.key)}>
+                    <View key={categ.id} style={estilo}>
                         <Icon name={categ.icon} color='#881518'/>
-                        <Text style={styles.categItemTxt}>{categ.name}</Text>
+                        <Text style={estiloTxt}>{categ.name}</Text>
                     </View>
                 </TouchableOpacity>
             );
@@ -109,12 +120,26 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginLeft: 5
     },
+    categItemSelected: {
+        backgroundColor: '#333',
+        borderRadius: 5,
+        padding: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginBottom: 5,
+        marginLeft: 5,
+    },
     categItemTxt: {
         color: '#333',
         fontSize: 15,
         padding:5,
-        // flex: 1,
-        // flexWrap: 'wrap',
+        fontFamily: "segoeui",
+    },
+    categItemSelectedTxt: {
+        color: 'white',
+        fontSize: 15,
+        padding:5,
         fontFamily: "segoeui",
     },
     txtDia: {
