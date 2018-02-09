@@ -11,6 +11,7 @@ import Cupons from './components/Cupons';
 import MinhasPromocoes from './components/MinhasPromocoes';
 import MinhaPromocao from './components/MinhaPromocao';
 import Exemplo from './components/Exemplo';
+import Filtros from './components/Filtros';
 
 export default props => (
     <Router>
@@ -25,6 +26,7 @@ export default props => (
             <Scene key='minhasPromos' component={MinhasPromocoes} hideNavBar={false} title='Minhas Promoções'/>
             <Scene key='minhaPromocao' component={MinhaPromocao} hideNavBar={false} title='Minha Promoção'/>
             <Scene key='exemplo' component={Exemplo} hideNavBar={false} title='Exemplo' />
+            <Scene key='filtros' component={Filtros} hideNavBar={false} title='Filtros' initial/>
         </Stack>       
     </Router>
 );

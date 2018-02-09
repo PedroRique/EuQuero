@@ -31,7 +31,16 @@ const INITIAL_STATE = {
     rede: [0,0,0],
     validaCupomStatus: false,
     geraCupomStatus: false,
-    userCoords: {}
+    userCoords: {},
+    categs: [
+        { id: 'gastronomia', name: 'Gastronomia', status: false, icon: 'restaurant-menu', key: 0},
+        { id: 'bemestar', name: 'Bem-Estar', status: false, icon: 'favorite', key: 1 },
+        { id: 'cultura', name: 'Cultura', status: false, icon: 'theaters', key: 2 },
+        { id: 'mercados', name: 'Mercados', status: false, icon: 'shopping-cart', key: 3 },
+        { id: 'servicos', name: 'Serviços', status: false, icon: 'work', key: 4 },
+        { id: 'esportelazer', name: 'Esporte e Lazer', status: false, icon: 'fitness-center', key: 5 },
+        { id: 'saudebeleza', name: 'Saúde e Beleza', status: false, icon: 'local-hospital', key: 6 }
+    ],
 };
 
 export default (state = INITIAL_STATE, action) => {

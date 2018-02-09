@@ -71,6 +71,13 @@ class Menu extends Component {
                     />
                 </TouchableNativeFeedback>
 
+                <TouchableNativeFeedback onPress={() => Actions.filtros()}>
+                    <ListItem
+                        title='Filtros'
+                        leftIcon={{name: 'filter-list', color: '#333'}}
+                    />
+                </TouchableNativeFeedback>
+
                 {this.isEstab()}
 
                 {this.isClient()}
