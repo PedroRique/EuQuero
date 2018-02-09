@@ -26,7 +26,7 @@ export default props => (
             <Scene key='minhasPromos' component={MinhasPromocoes} hideNavBar={false} title='Minhas Promoções'/>
             <Scene key='minhaPromocao' component={MinhaPromocao} hideNavBar={false} title='Minha Promoção'/>
             <Scene key='exemplo' component={Exemplo} hideNavBar={false} title='Exemplo' />
-            <Scene key='filtros' component={Filtros} hideNavBar={false} title='Filtros' initial/>
+            <Scene key='filtros' component={Filtros} hideNavBar={false} title='Filtros'/>
         </Stack>       
     </Router>
 );
