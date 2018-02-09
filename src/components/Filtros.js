@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { View, ScrollView, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { modificaFiltros } from "../actions/AppActions";
 import { Icon, Slider } from "react-native-elements";
-
 
 class Filtros extends Component {
 
@@ -24,10 +23,12 @@ class Filtros extends Component {
 
         this.props.categs.forEach((categ)=> {
             categs.push(
-                <View key={categ.id} style={styles.categItem}>
-                    <Icon name={categ.icon} color='#881518'/>
-                    <Text style={styles.categItemTxt}>{categ.name}</Text>                    
-                </View>
+                <TouchableOpacity onPress={() => false}>
+                    <View key={categ.id} style={styles.categItem}>
+                        <Icon name={categ.icon} color='#881518'/>
+                        <Text style={styles.categItemTxt}>{categ.name}</Text>
+                    </View>
+                </TouchableOpacity>
             );
         });
 
@@ -42,7 +43,9 @@ class Filtros extends Component {
             let estilo = dia.isValid ? styles.txtDiaValid : styles.txtDia;
 
             dias.push(
-                <Text style={estilo}>{dia.dia}</Text>
+                <TouchableOpacity onPress={() => false}>
+                    <Text style={estilo}>{dia.dia}</Text>
+                </TouchableOpacity>
             );
             
         });
@@ -52,12 +55,11 @@ class Filtros extends Component {
 
     render(){
         return(
-            <ScrollView contentContainerStyle={{padding: 10}}>
+            <ScrollView contentContainerStyle={{padding: 20}}>
 
                 <View>
-                    <Text style={styles.titulo}>Categorias</Text>
-
-                    {this.renderCategs()}
+                    <Text style={[styles.titulo,{marginTop:5}]}>Categorias</Text>
+                    <View style={{flexDirection:'row',flexWrap:'wrap'}}>{this.renderCategs()}</View>
                 </View>
 
                 <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
@@ -71,13 +73,17 @@ class Filtros extends Component {
                         minimumValue={0}
                         maximumValue={10000}
                     />                        
-                    <Text>Metros: {this.state.value}m</Text>
+                    <Text style={{backgroundColor: '#333', color: 'white', borderRadius: 5, padding: 5, alignSelf: 'flex-start'}}>{this.state.value}m</Text>
                 </View>
 
                 <View>
                     <Text style={styles.titulo}>Dias Válidos</Text>
                     <View style={{flexDirection: 'row'}}>{this.renderDias()}</View>
                 </View>
+
+                <TouchableOpacity onPress={() => false}>
+                    <Text style={styles.btnAplicar}>Aplicar Filtros</Text>
+                </TouchableOpacity>
 
             </ScrollView>
         )
@@ -88,8 +94,10 @@ class Filtros extends Component {
 const styles = StyleSheet.create({
     titulo: {
         fontFamily: "segoeui",
-        fontSize: 24,
+        fontSize: 21,
         color: '#333',
+        marginBottom: 10,
+        marginTop: 30
     },
     categItem: {
         backgroundColor: '#fff',
@@ -98,14 +106,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        marginBottom: 5
+        marginBottom: 5,
+        marginLeft: 5
     },
     categItemTxt: {
         color: '#333',
-        fontSize: 16,
+        fontSize: 15,
         padding:5,
-        flex: 1,
-        flexWrap: 'wrap',
+        // flex: 1,
+        // flexWrap: 'wrap',
         fontFamily: "segoeui",
     },
     txtDia: {
@@ -135,6 +144,18 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         fontWeight: 'bold',
         marginHorizontal: 2
+    },
+    btnAplicar: {
+        paddingVertical: 10,
+        paddingHorizontal: 100,
+        backgroundColor: '#881518',
+        color: 'white',
+        fontSize: 18,
+        textAlign: 'center',
+        borderRadius: 5,
+        elevation: 2,
+        marginTop: 30,
+        fontFamily: 'segoeui'
     },
 });
 
