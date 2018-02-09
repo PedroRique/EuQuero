@@ -59,13 +59,13 @@ class Promocoes extends Component {
 const mapStateToProps = state => {
 
     const promos = _.map(state.AppReducer.promos, (val, uid) => {
-        if(val.nomePromo.toLowerCase().indexOf(state.AppReducer.filtros.texto.toLowerCase()) > -1){
+        if(val.nomePromo.toLowerCase().indexOf(state.AppReducer.filtrosTexto.texto.toLowerCase()) > -1){
 
             let categs = val.stringCateg.split(',');
 
-            let hasCateg = categs.some(categ => state.AppReducer.filtros.categs.includes(categ));
+            let hasCateg = categs.some(categ => state.AppReducer.filtrosTexto.categs.includes(categ));
 
-            if(hasCateg || state.AppReducer.filtros.categs.length == 0){
+            if(hasCateg || state.AppReducer.filtrosTexto.categs.length == 0){
                 return {...val, uid}
             }
             
@@ -75,8 +75,7 @@ const mapStateToProps = state => {
     return ({
         loadingPromocoes: state.AppReducer.loadingPromocoes,
         promos: _.without(promos, undefined),
-        filtros: state.AppReducer.filtros,
-        filtroTexto: state.AppReducer.filtroTexto,
+        filtrosTexto: state.AppReducer.filtrosTexto,
         userLocation: state.AppReducer.userLocation
     })
 } 

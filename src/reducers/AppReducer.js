@@ -24,8 +24,8 @@ const INITIAL_STATE = {
     promos: [{nomePromo: "", stringCateg:""}],
     minhasPromos: [{nomePromo: ""}],
     userLocation: {},
-    filtros: { texto: '', categs: []},
-    filtroTexto: '',
+    filtrosTexto: { texto: '', categs: []},
+    filtros: {},
     cupons: [],
     validaErro: '',
     rede: [0,0,0],
@@ -88,7 +88,7 @@ export default (state = INITIAL_STATE, action) => {
         case 'get_user_location':
             return { ...state, userLocation: action.payload}
 
-        case 'modifica_filtros':
+        case 'modifica_filtros_texto':
             return { ...state, filtros: action.payload}
 
         case 'limpa_filtros':
@@ -117,6 +117,9 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'modifica_coords': 
             return { ...state, userCoords: action.payload}
+
+        case 'modifica_filtros':
+            return { ...state, filtros: action.payload}
 
         default: 
             return state;
