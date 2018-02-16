@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import RNGooglePlaces from 'react-native-google-places';
 import { modificaEmail, modificaSenha, modificaNome, cadastraUsuario, modificaLoginAs, modificaChaveEntrada, modificaCategTotal, modificaEndereco, modificaCPF, modificaCNPJ } from '../actions/AutenticacaoActions';
+import { TextInputMask } from 'react-native-masked-text';
 
 class formCadastro extends Component {
 
@@ -135,7 +136,22 @@ class formCadastro extends Component {
             
             return(
                 <View style={{alignSelf: 'stretch'}}>
-                    <TextInput 
+
+                    <TextInputMask
+                        autoCapitalize='none'
+                        type={'datetime'}
+                        value={this.props.cnpj}
+                        placeholder='CNPJ'
+                        style={styles.input}
+                        placeholderTextColor='#888'
+                        underlineColorAndroid='transparent'
+                        onChangeText={texto => this.props.modificaCNPJ(texto)}
+                        options={{
+                            format: '99.999.999/9999-99'
+                        }}
+                    /> 
+
+                    {/* <TextInput 
                         autoCapitalize="none"
                         value={this.props.cnpj}
                         style={styles.input}
@@ -144,7 +160,7 @@ class formCadastro extends Component {
                         placeholder='CNPJ'
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaCNPJ(texto)}
-                    />
+                    /> */}
 
                     <TouchableOpacity onPress={() => this.setModalCategVisible(true)} >
                         <Text style={styles.categBtnTxt}>Categorias</Text>
@@ -166,16 +182,31 @@ class formCadastro extends Component {
 
         }else{
             return(
-                <TextInput 
-                    autoCapitalize="none"
-                    value={this.props.cpf} 
-                    style={styles.input}
-                    placeholderTextColor='#888'
-                    keyboardType = 'numeric'
-                    placeholder='CPF'
-                    underlineColorAndroid='transparent'
-                    onChangeText={texto => this.props.modificaEmail(texto)}
-                />
+
+                <TextInputMask
+                        autoCapitalize='none'
+                        type={'datetime'}
+                        value={this.props.cpf}
+                        placeholder='CPF'
+                        style={styles.input}
+                        placeholderTextColor='#888'
+                        underlineColorAndroid='transparent'
+                        onChangeText={texto => this.props.modificaCPF(texto)}
+                        options={{
+                            format: '999.999.999-99'
+                        }}
+                    />
+
+                // <TextInput 
+                //     autoCapitalize="none"
+                //     value={this.props.cpf} 
+                //     style={styles.input}
+                //     placeholderTextColor='#888'
+                //     keyboardType = 'numeric'
+                //     placeholder='CPF'
+                //     underlineColorAndroid='transparent'
+                //     onChangeText={texto => this.props.modificaCPF(texto)}
+                // />
             );
         }
     }
@@ -244,6 +275,7 @@ class formCadastro extends Component {
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaEmail(texto)}
                     />
+           
                     <TextInput 
                         secureTextEntry 
                         value={this.props.senha}
@@ -272,7 +304,7 @@ class formCadastro extends Component {
                     </Text>
 
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={{color: '#fff'}}>Cliente</Text>
+                        <Text style={{color: '#fff',fontFamily: 'segoeui'}}>Cliente</Text>
                         <Switch
                             style={{marginHorizontal: 5}}
                             onValueChange={value => {this._modificaLoginAs(value)}}
@@ -281,7 +313,7 @@ class formCadastro extends Component {
                             tintColor='#721214'
                             thumbTintColor='#fff'
                         />
-                        <Text style={{color: '#fff'}}>Estabalecimento</Text>
+                        <Text style={{color: '#fff',fontFamily: 'segoeui'}}>Estabalecimento</Text>
                         <Icon name='question' color='#fff' type='font-awesome' size={24} containerStyle={styles.question} underlayColor='#721214' onPress={() => this.setModalVisible(true)}/>
                     </View>
 
@@ -390,7 +422,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#881518',
         padding: 20,
         borderRadius: 5,
-        elevation: 3
+        elevation: 3,
+        fontFamily: 'segoeui'
     },
     topo: {
         backgroundColor: '#e56c25',
@@ -424,7 +457,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         fontSize: 18,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'segoeui'
     },
     btnEntrar: {
         paddingVertical: 10,
@@ -435,7 +469,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRadius: 5,
         elevation: 1,
-        marginBottom: 5
+        marginBottom: 5,
+        fontFamily: 'segoeui'
     },
     btnConfirma: {
         paddingVertical: 10,
@@ -445,7 +480,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRadius: 5,
         elevation: 1,
-        marginBottom: 5
+        marginBottom: 5,
+        fontFamily: 'segoeui'
     },
     question: {
         elevation: 2, 
@@ -478,7 +514,8 @@ const styles = StyleSheet.create({
     },
     categItemTxt: {
         fontSize: 20,
-        color: '#333'
+        color: '#333',
+        fontFamily: 'segoeui'
     },
     categBtnTxt:{
         fontSize: 18,
@@ -491,7 +528,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom:0,
         borderBottomLeftRadius:0,
-        borderBottomRightRadius:0
+        borderBottomRightRadius:0,
+        fontFamily: 'segoeui'
     }
     
 });
