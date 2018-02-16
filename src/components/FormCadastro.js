@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import RNGooglePlaces from 'react-native-google-places';
 import { modificaEmail, modificaSenha, modificaNome, cadastraUsuario, modificaLoginAs, modificaChaveEntrada, modificaCategTotal, modificaEndereco, modificaCPF, modificaCNPJ } from '../actions/AutenticacaoActions';
+import { TextInputMask } from 'react-native-masked-text';
 
 class formCadastro extends Component {
 
@@ -135,7 +136,22 @@ class formCadastro extends Component {
             
             return(
                 <View style={{alignSelf: 'stretch'}}>
-                    <TextInput 
+
+                    <TextInputMask
+                        autoCapitalize='none'
+                        type={'datetime'}
+                        value={this.props.cnpj}
+                        placeholder='CNPJ'
+                        style={styles.input}
+                        placeholderTextColor='#888'
+                        underlineColorAndroid='transparent'
+                        onChangeText={texto => this.props.modificaCNPJ(texto)}
+                        options={{
+                            format: '99.999.999/9999-99'
+                        }}
+                    /> 
+
+                    {/* <TextInput 
                         autoCapitalize="none"
                         value={this.props.cnpj}
                         style={styles.input}
@@ -144,7 +160,7 @@ class formCadastro extends Component {
                         placeholder='CNPJ'
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaCNPJ(texto)}
-                    />
+                    /> */}
 
                     <TouchableOpacity onPress={() => this.setModalCategVisible(true)} >
                         <Text style={styles.categBtnTxt}>Categorias</Text>
@@ -166,16 +182,31 @@ class formCadastro extends Component {
 
         }else{
             return(
-                <TextInput 
-                    autoCapitalize="none"
-                    value={this.props.cpf} 
-                    style={styles.input}
-                    placeholderTextColor='#888'
-                    keyboardType = 'numeric'
-                    placeholder='CPF'
-                    underlineColorAndroid='transparent'
-                    onChangeText={texto => this.props.modificaEmail(texto)}
-                />
+
+                <TextInputMask
+                        autoCapitalize='none'
+                        type={'datetime'}
+                        value={this.props.cpf}
+                        placeholder='CPF'
+                        style={styles.input}
+                        placeholderTextColor='#888'
+                        underlineColorAndroid='transparent'
+                        onChangeText={texto => this.props.modificaCPF(texto)}
+                        options={{
+                            format: '999.999.999-99'
+                        }}
+                    />
+
+                // <TextInput 
+                //     autoCapitalize="none"
+                //     value={this.props.cpf} 
+                //     style={styles.input}
+                //     placeholderTextColor='#888'
+                //     keyboardType = 'numeric'
+                //     placeholder='CPF'
+                //     underlineColorAndroid='transparent'
+                //     onChangeText={texto => this.props.modificaCPF(texto)}
+                // />
             );
         }
     }
@@ -244,6 +275,7 @@ class formCadastro extends Component {
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaEmail(texto)}
                     />
+           
                     <TextInput 
                         secureTextEntry 
                         value={this.props.senha}
