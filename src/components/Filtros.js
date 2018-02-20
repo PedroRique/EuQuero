@@ -10,13 +10,20 @@ class Filtros extends Component {
         super(props);
 
         this.state = {
-            value: 5000,
-            categs: this.props.categs
+            distancia: 5000,
+            categs: this.props.categs,
+            dias: this.props.diasValidos
         }
     }
 
     _modificaFiltros(){
+        objFiltros = {};
 
+        objFiltros.diasValidos = this.state.dias;
+        objFiltros.distancia = this.state.distancia;
+        objFiltros.categs = this.state.categs;
+
+        this.props.modificaFiltros(objFiltros);
     }
 
     selectCateg(key){
@@ -24,6 +31,13 @@ class Filtros extends Component {
         categs[key].status = !categs[key].status;
 
         this.setState({categs});
+    }
+
+    selectDia(key){
+        let dias = this.state.dias;
+        dias[key].isValid = !dias[key].isValid;
+
+        this.setState({dias});
     }
 
     renderCategs(){
@@ -54,7 +68,7 @@ class Filtros extends Component {
             let estilo = dia.isValid ? styles.txtDiaValid : styles.txtDia;
 
             dias.push(
-                <TouchableOpacity onPress={() => false}>
+                <TouchableOpacity onPress={() => this.selectDia(dia.key)}>
                     <Text style={estilo}>{dia.dia}</Text>
                 </TouchableOpacity>
             );
@@ -77,14 +91,14 @@ class Filtros extends Component {
                     <Text style={styles.titulo}>Distância</Text>
                     <Slider
                         step={100}
-                        value={this.state.value}
-                        onValueChange={(value) => this.setState({value})}
+                        value={this.state.distancia}
+                        onValueChange={(distancia) => this.setState({distancia})}
                         thumbTintColor='#721214'
                         thumbTouchSize={{width: 40, height: 40}}
                         minimumValue={0}
                         maximumValue={10000}
                     />                        
-                    <Text style={{backgroundColor: '#333', color: 'white', borderRadius: 5, padding: 5, alignSelf: 'flex-start'}}>{this.state.value}m</Text>
+                    <Text style={{backgroundColor: '#333', color: 'white', borderRadius: 5, padding: 5, alignSelf: 'flex-start'}}>{this.state.distancia}m</Text>
                 </View>
 
                 <View>
@@ -92,7 +106,7 @@ class Filtros extends Component {
                     <View style={{flexDirection: 'row'}}>{this.renderDias()}</View>
                 </View>
 
-                <TouchableOpacity onPress={() => false}>
+                <TouchableOpacity onPress={() => this._modificaFiltros()}>
                     <Text style={styles.btnAplicar}>Aplicar Filtros</Text>
                 </TouchableOpacity>
 
@@ -187,7 +201,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return ({
         categs: state.AppReducer.categs,
-        diasValidos: state.AppReducer.diasValidosPromo
+        diasValidos: state.AppReducer.diasValidosPromo,
     })
 } 
 
