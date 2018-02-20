@@ -303,9 +303,9 @@ export const getUserLocation = () => {
 
 }
 
-export const modificaFiltros = (filtro) => {
+export const modificaFiltrosTexto = (filtro) => {
     return {
-        type: 'modifica_filtros',
+        type: 'modifica_filtros_texto',
         payload: {texto: filtro}
     }
 }
@@ -353,5 +353,12 @@ export const modificaCoords = (coords) => {
     return {
         type: 'modifica_coords',
         payload: coords
+    }
+}
+
+export const modificaFiltros = (filtros) => {
+    return {
+        type: 'modifica_filtros',
+        payload: filtros
     }
 }

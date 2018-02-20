@@ -9,6 +9,7 @@
   "dependencies": {
     "base-64": "^0.1.0",
     "firebase": "^4.6.1",
+    "firebase-admin": "^5.8.2",
     "geolib": "^2.0.24",
     "lodash": "^4.17.4",
     "react": "^16.0.0",

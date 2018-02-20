@@ -3,7 +3,7 @@ import { View, Text, StatusBar, Image, TouchableHighlight } from 'react-native';
 import { TabBar } from 'react-native-tab-view';
 import { Icon, SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { modificaFiltros, limpaFiltros } from '../actions/AppActions';
+import { modificaFiltrosTexto, limpaFiltros } from '../actions/AppActions';
 
 
 class TabBarMenu extends Component{
@@ -21,7 +21,7 @@ class TabBarMenu extends Component{
                     </View>
                     <View style={{justifyContent: 'center', flex: 4}}>
                         <SearchBar
-                            onChangeText={(texto) => this.props.modificaFiltros(texto)}
+                            onChangeText={(texto) => this.props.modificaFiltrosTexto(texto)}
                             onClearText={() => this.props.limpaFiltros()}
                             lightTheme
                             containerStyle={{borderTopWidth: 0, borderBottomWidth:0, backgroundColor: 'transparent'}}
@@ -56,7 +56,7 @@ const mapStateToProps = state => (
 export default connect(
     mapStateToProps, 
     {
-        modificaFiltros,
+        modificaFiltrosTexto,
         limpaFiltros
     }
 )(TabBarMenu);
