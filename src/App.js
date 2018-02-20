@@ -18,7 +18,6 @@ export default class App extends Component{
 			storageBucket: "euquerovantagens.appspot.com",
 			messagingSenderId: "314049588599"
 		  };
-		//firebase.initializeApp(config);
 
 		if (!firebase.apps.length) {
 			firebase.initializeApp(config);
