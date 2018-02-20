@@ -63,20 +63,22 @@ const mapStateToProps = state => {
 
             let categs = val.stringCateg.split(',');
 
-            let hasCateg = categs.some(categ => state.AppReducer.filtrosTexto.categs.includes(categ));
+            let hasCateg = categs.some(categ => state.AppReducer.filtros.categs.includes(categ));
 
             if(hasCateg || state.AppReducer.filtrosTexto.categs.length == 0){
                 return {...val, uid}
             }
             
         }
+
     });
 
     return ({
         loadingPromocoes: state.AppReducer.loadingPromocoes,
         promos: _.without(promos, undefined),
         filtrosTexto: state.AppReducer.filtrosTexto,
-        userLocation: state.AppReducer.userLocation
+        userLocation: state.AppReducer.userLocation,
+        filtros: state.AppReducer.filtros
     })
 } 
 
