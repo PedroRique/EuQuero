@@ -102,16 +102,16 @@ class formLogin extends Component{
                     </View>
 
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={{color: '#fff', fontFamily: 'segoeui'}}>Cliente</Text>
+                        <Text style={{color: '#fff', fontFamily: 'segoeuii'}}>Cliente</Text>
                         <Switch 
                             style={{marginHorizontal: 5}} 
                             onValueChange={value => {this._modificaLoginAs(value)}}
                             value={this.props.loginAs}
-                            onTintColor='#721214'
+                            onTintColor='#FF9900'
                             tintColor='#FF9900' 
                             thumbTintColor='#fff'
                         />
-                        <Text style={{color: '#fff', fontFamily: 'segoeui'}}>Estabalecimento</Text>
+                        <Text style={{color: '#fff', fontFamily: 'segoeuii'}}>Estabalecimento</Text>
                     </View>
 
                     <View>
@@ -129,7 +129,7 @@ class formLogin extends Component{
                         <Text style={{ fontSize: 16, color: '#EDEDED', fontFamily: 'segoeuii'}}>Ainda não faz parte do nosso clube?</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => false} style={{alignSelf: 'stretch',borderTopLeftRadius: 20,borderTopRightRadius: 20,}}>
+                    <TouchableOpacity onPress={() => false} style={{alignSelf: 'stretch',borderTopLeftRadius: 20,borderTopRightRadius: 20,}} activeOpacity={0.4}>
                         <View style={{alignSelf:'stretch'}}><Text style={styles.btnCadastrar}>CADASTRE-SE</Text>
                         <View style={styles.barraFinal}>
                         </View></View>
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     },
     input: {
         alignSelf: 'stretch',
-        height: 55,
+        height: 52,
         backgroundColor: 'white',
         borderWidth: 0,
         marginBottom: 10,
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
         marginBottom: 25
     },
     btnEntrar: {
-        paddingVertical: 10,
+        paddingVertical: 8,
         paddingHorizontal: 100,
         backgroundColor: '#FF9900',
         color: 'white',
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         elevation: 1,
         marginBottom: 5,
-        fontFamily: 'segoeuib',
+        fontFamily: 'segoeui',
     },
     txtErro: {
         color: '#881518',
@@ -246,12 +246,12 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         backgroundColor: '#FF9900',
         color: 'white',
-        fontFamily: 'segoeuib',
+        fontFamily: 'segoeui',
         textAlign: 'center',
-        paddingTop: 15,
-        paddingBottom: 10,
+        paddingTop: 13,
+        paddingBottom: 8,
         paddingHorizontal: 20,
-        fontSize: 18,
+        fontSize: 16,
         alignSelf: 'center'
     }
     
