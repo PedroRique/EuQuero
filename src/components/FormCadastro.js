@@ -23,7 +23,8 @@ class formCadastro extends Component {
                 { id: 'esportelazer', name: 'Esporte e Lazer', status: false, icon: 'fitness-center', key: 5 },
                 { id: 'saudebeleza', name: 'Saúde e Beleza', status: false, icon: 'local-hospital', key: 6 }
             ],
-            teste: 0
+            teste: 0,
+            cnpjData: {}
         };
 
     }
@@ -59,6 +60,25 @@ class formCadastro extends Component {
 
     validaCNPJ(cnpj){ //validacao falsa, temporária
         return cnpj.length == 13;
+    }
+
+    _validaCNPJFetch(){
+        var request = new XMLHttpRequest();
+
+        request.onreadystatechange = (e) => {
+            if (request.readyState !== 4) {
+                return;
+            }
+
+            if (request.status === 200) {
+                console.log('success', request.responseText);
+            } else {
+                console.warn('error');
+            }
+        };
+
+        request.open('GET', 'https://www.receitaws.com.br/v1/cnpj/27865757000103');
+        request.send();
     }
 
     validaCPF(cpf){ //validacao falsa, temporária
