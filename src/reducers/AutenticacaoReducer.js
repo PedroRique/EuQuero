@@ -1,7 +1,7 @@
 const INITIAL_STATE = {
     nome: 'Estabelecimento',
-    email: 'client1@teste.com',
-    senha: '123456',
+    email: '',
+    senha: '',
     cnpf: '',
     cpf: '',
     endereco: '',
