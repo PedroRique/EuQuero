@@ -54,6 +54,8 @@
 		C67B2280AE9D4AAB9CFA9910 /* libRNGooglePlaces.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07C2AE998C724AAC82F67244 /* libRNGooglePlaces.a */; };
 		E0D2C5666B26482E80E1E4B7 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F65AF0E6679A43619B373404 /* libAirMaps.a */; };
 		2630B7177DE9437682B4C356 /* segoeui.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 735AB4C4CC9849F1B46DE230 /* segoeui.ttf */; };
+		2FDCE9070267487DAE531BA2 /* segoeuib.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A2FF7E209E4403A89E616CD /* segoeuib.ttf */; };
+		6CCEDB538E8643B38D29D38B /* segoeuii.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5D9D7A288724BBFA3F0447E /* segoeuii.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -305,6 +307,8 @@
 		00B7D044378847368CB5AF6B /* AirMaps.xcodeproj */ = {isa = PBXFileReference; name = "AirMaps.xcodeproj"; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		F65AF0E6679A43619B373404 /* libAirMaps.a */ = {isa = PBXFileReference; name = "libAirMaps.a"; path = "libAirMaps.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		735AB4C4CC9849F1B46DE230 /* segoeui.ttf */ = {isa = PBXFileReference; name = "segoeui.ttf"; path = "../src/fonts/segoeui.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6A2FF7E209E4403A89E616CD /* segoeuib.ttf */ = {isa = PBXFileReference; name = "segoeuib.ttf"; path = "../src/fonts/segoeuib.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F5D9D7A288724BBFA3F0447E /* segoeuii.ttf */ = {isa = PBXFileReference; name = "segoeuii.ttf"; path = "../src/fonts/segoeuii.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -574,6 +578,8 @@
 				78CBEE7917B5408E955856A4 /* SimpleLineIcons.ttf */,
 				5B15936CEB084D878F4E660E /* Zocial.ttf */,
 				735AB4C4CC9849F1B46DE230 /* segoeui.ttf */,
+				6A2FF7E209E4403A89E616CD /* segoeuib.ttf */,
+				F5D9D7A288724BBFA3F0447E /* segoeuii.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -960,6 +966,8 @@
 				58B0664B85C6459A9D5458DF /* SimpleLineIcons.ttf in Resources */,
 				8729C393CFD94862B830C732 /* Zocial.ttf in Resources */,
 				2630B7177DE9437682B4C356 /* segoeui.ttf in Resources */,
+				2FDCE9070267487DAE531BA2 /* segoeuib.ttf in Resources */,
+				6CCEDB538E8643B38D29D38B /* segoeuii.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
