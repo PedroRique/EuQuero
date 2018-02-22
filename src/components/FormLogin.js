@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import {ScrollView, StatusBar, View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Switch, Alert, Modal } from 'react-native';
+import {ScrollView, StatusBar, View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Switch, Alert, Modal, TouchableHighlight } from 'react-native';
 import {Icon} from 'react-native-elements';
 import { modificaEmail, modificaSenha, autenticaUsuario, modificaLoginAs, limpaErroLogin, modificaSendoExibido} from '../actions/AutenticacaoActions';
 
@@ -65,58 +65,74 @@ class formLogin extends Component{
         }
         return (
             <TouchableOpacity onPress={ () => { this._autenticaUsuario(); } }>
-                <Text style={styles.btnEntrar}>Entrar</Text>
+                <Text style={styles.btnEntrar}>ENTRAR</Text>
             </TouchableOpacity>
         );
     }
 
     render(){
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container} contentContainerStyle={{flex:1}}>
                 
                 <StatusBar backgroundColor='#721214' />
-                <View style={styles.topo}>
+                {/* <View style={styles.topo}>
                     <Image style={{height: 65 , width: 190}} source={ require('../imgs/logow.png') } />
-                </View>
+                </View> */}
                 <View style={styles.meio}>
-                    <Image style={styles.user} source={ require('../imgs/user.png') } />
-                    <TextInput 
-                        value={ this.props.email }
-                        style={styles.input}
-                        placeholder='E-mail' 
-                        placeholderTextColor='#888'
-                        underlineColorAndroid='transparent'
-                        onChangeText={texto => this.props.modificaEmail(texto)}
-                    />
-                    <TextInput 
-                        secureTextEntry 
-                        value={ this.props.senha } 
-                        style={styles.input}
-                        placeholder='Senha'
-                        placeholderTextColor='#888'
-                        underlineColorAndroid='transparent'
-                        onChangeText={texto => this.props.modificaSenha(texto)}
-                    />
+                    {/* <Image style={styles.user} source={ require('../imgs/user.png') } /> */}
+                    <Image style={{height: 82 , width: 250, marginVertical: 40}} source={ require('../imgs/logo.png') } />
+                    <View style={{alignSelf: 'stretch'}}>
+                        <TextInput 
+                            value={ this.props.email }
+                            style={styles.input}
+                            placeholder='E-mail' 
+                            placeholderTextColor='#aaa'
+                            underlineColorAndroid='transparent'
+                            onChangeText={texto => this.props.modificaEmail(texto)}
+                        />
+                        <TextInput 
+                            secureTextEntry 
+                            value={ this.props.senha } 
+                            style={styles.input}
+                            placeholder='Senha'
+                            placeholderTextColor='#aaa'
+                            underlineColorAndroid='transparent'
+                            onChangeText={texto => this.props.modificaSenha(texto)}
+                        />
+                    </View>
+
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={{color: '#fff', fontFamily: 'segoeui'}}>Cliente</Text>
+                        <Text style={{color: '#fff', fontFamily: 'segoeuii'}}>Cliente</Text>
                         <Switch 
                             style={{marginHorizontal: 5}} 
                             onValueChange={value => {this._modificaLoginAs(value)}}
                             value={this.props.loginAs}
-                            onTintColor='#721214'
-                            tintColor='#721214' 
+                            onTintColor='#FF9900'
+                            tintColor='#FF9900' 
                             thumbTintColor='#fff'
                         />
-                        <Text style={{color: '#fff', fontFamily: 'segoeui'}}>Estabalecimento</Text>
+                        <Text style={{color: '#fff', fontFamily: 'segoeuii'}}>Estabalecimento</Text>
                     </View>
 
+                    <View>
+                        {this.loading()}
+                    </View>
                 </View>
 
                 <View style={styles.rodape}>
-                    {this.loading()}
+                   
+                    <TouchableOpacity onPress={ () => false }>
+                        <Text style={{ fontSize: 16, color: '#EDEDED', fontFamily: 'segoeuii'}}>Esqueceu a senha?</Text>
+                    </TouchableOpacity>
 
                     <TouchableOpacity onPress={ () => Actions.formCadastro() }>
-                        <Text style={{ fontSize: 16, color: '#EDEDED', marginVertical: 20, textDecorationLine: 'underline', fontFamily: 'segoeui' }}>Ainda não tem cadastro? Cadastre-se</Text>
+                        <Text style={{ fontSize: 16, color: '#EDEDED', fontFamily: 'segoeuii'}}>Ainda não faz parte do nosso clube?</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => false} style={{alignSelf: 'stretch',borderTopLeftRadius: 20,borderTopRightRadius: 20,}} activeOpacity={0.4}>
+                        <View style={{alignSelf:'stretch'}}><Text style={styles.btnCadastrar}>CADASTRE-SE</Text>
+                        <View style={styles.barraFinal}>
+                        </View></View>
                     </TouchableOpacity>
                 </View>
 
@@ -167,38 +183,37 @@ export default connect(
 const styles = StyleSheet.create({
     
     container: {
-        backgroundColor: '#e56c25'
+        backgroundColor: '#B30404',
     },
     topo: {
         backgroundColor: '#881518',
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,
     },
     meio: {
-        backgroundColor: '#e56c25',
-        flex: 8,
-        justifyContent: 'center',
+        backgroundColor: '#B30404',
+        flex: 3,
+        justifyContent: 'space-around',
         alignItems: 'center',
-        padding: 20
+        padding: 25
     },
     rodape: {
-        backgroundColor: '#e56c25',
-        flex: 2,
-        justifyContent: 'center',
+        backgroundColor: '#B30404',
+        justifyContent: 'space-between',
         alignItems: 'center',
+        flex: 1
     },
     input: {
-        width: 230, 
-        height: 45,
+        alignSelf: 'stretch',
+        height: 52,
         backgroundColor: 'white',
         borderWidth: 0,
-        marginBottom: 20,
-        borderRadius: 5,
+        marginBottom: 10,
         padding: 10,
         fontSize: 18,
-        textAlign: 'center'
+        textAlign: 'left',
+        fontFamily: 'segoeuii'
     },
     user: {
         height: 150,
@@ -206,21 +221,38 @@ const styles = StyleSheet.create({
         marginBottom: 25
     },
     btnEntrar: {
-        paddingVertical: 10,
+        paddingVertical: 8,
         paddingHorizontal: 100,
-        backgroundColor: '#881518',
+        backgroundColor: '#FF9900',
         color: 'white',
         fontSize: 18,
         textAlign: 'center',
-        borderRadius: 5,
         elevation: 1,
         marginBottom: 5,
-        fontFamily: 'segoeui'
+        fontFamily: 'segoeui',
     },
     txtErro: {
         color: '#881518',
         fontSize: 24,
         alignSelf: 'center',
+    },
+    barraFinal: {
+        height: 10,
+        backgroundColor: '#FF9900',
+        alignSelf: 'stretch'
+    },
+    btnCadastrar: {
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        backgroundColor: '#FF9900',
+        color: 'white',
+        fontFamily: 'segoeui',
+        textAlign: 'center',
+        paddingTop: 13,
+        paddingBottom: 8,
+        paddingHorizontal: 20,
+        fontSize: 16,
+        alignSelf: 'center'
     }
     
 });
