@@ -165,7 +165,7 @@ class formCadastro extends Component {
                         style={styles.input}
                         placeholderTextColor='#888'
                         underlineColorAndroid='transparent'
-                        onChangeText={texto => this.props.modificaCNPJ(texto)}
+                        onChangeText={cnpj => this.props.modificaCNPJ(cnpj)}
                         options={{
                             format: '99.999.999/9999-99'
                         }}
@@ -211,7 +211,7 @@ class formCadastro extends Component {
                         style={styles.input}
                         placeholderTextColor='#888'
                         underlineColorAndroid='transparent'
-                        onChangeText={texto => this.props.modificaCPF(texto)}
+                        onChangeText={cpf => this.props.modificaCPF(cpf)}
                         options={{
                             format: '999.999.999-99'
                         }}
