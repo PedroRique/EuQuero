@@ -80,7 +80,7 @@ class Filtros extends Component {
 
     render(){
         return(
-            <ScrollView contentContainerStyle={{padding: 20}}>
+            <ScrollView contentContainerStyle={{padding: 20, backgroundColor: '#ddd'}}>
 
                 <View>
                     <Text style={[styles.titulo,{marginTop:5}]}>Categorias</Text>

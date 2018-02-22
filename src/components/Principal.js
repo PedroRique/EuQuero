@@ -5,7 +5,7 @@ import TabBarMenu from './TabBarMenu';
 import SideMenu from 'react-native-side-menu';
 
 import Promocoes from './Promocoes';
-import Restaurantes from './Restaurantes';
+import Filtros from './Filtros';
 import Menu from './Menu';
 import { connect } from 'react-redux';
 import { toggleMenu, atualizaIsOpen } from '../actions/AppActions';
@@ -16,18 +16,18 @@ import { toggleMenu, atualizaIsOpen } from '../actions/AppActions';
   state = {
     index: 0,
     routes: [
-      { key: '1', title: 'Promoções' },
-      { key: '2', title: 'Restaurantes' },
+      { key: '1', title: 'HOME', icon: 'home'},
+      { key: '2', title: 'FILTROS', icon: 'filter-list'},
     ],
   };
 
   _handleIndexChange = index => this.setState({ index });
 
-  _renderHeader = props => <TabBarMenu {...props} funcao={this.props.funcao} />;
+  _renderHeader = props => <TabBarMenu {...props} funcao={this.props.funcao}/>;
 
   _renderScene = SceneMap({
     '1': Promocoes,
-    '2': Restaurantes,
+    '2': Filtros,
   });
 
   render() {

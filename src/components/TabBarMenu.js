@@ -39,7 +39,11 @@ class TabBarMenu extends Component{
                     </View>
                 </View>
         
-                <TabBar {...this.props} style={{backgroundColor: '#881518', elevation: 0}} indicatorStyle={{backgroundColor: '#e56d25', height: 5}}/>
+                <TabBar {...this.props} labelStyle={{fontSize: 14}} style={{backgroundColor: '#881518', elevation: 0}} indicatorStyle={{backgroundColor: '#e56d25', height: 5}}
+                
+                    renderIcon={(tab) => {
+                        return(<Icon name={tab.route.icon} color='white' size={30}/>);
+                    }}/>
             </View>
         
         );
