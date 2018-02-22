@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, Modal, TouchableHighlight, TouchableOpacity} fr
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 
+//Usage:
+//<Alerta type='erro | info | sucesso' message='Mensagem a ser exibida' visible={true | false} setAlert={this.setAlert.bind(this)}/>
+
 class Alerta extends Component {
 
     constructor(props){
