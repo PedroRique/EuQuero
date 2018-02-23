@@ -57,11 +57,12 @@ export default class Promo extends Component{
     render(){
         const sizeStar = 14;
         return (
-            // onPress={() => {Actions.promocao({item: this.props.item, title: this.props.item.nomePromo})}}
+            <TouchableOpacity onPress={() => {Actions.promocao({item: this.props.item, title: this.props.item.nomePromo})}} activeOpacity={0.5}>
             <View style={styles.container}>
-                <View style={{flex: 2, alignItems: 'center', justifyContent:'center', alignSelf:'stretch'}}>
-                    {this.props.item.imageURL ? <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage} resizeMode="cover"/> :
-                    <Image source={this.img} style={styles.promoImage} resizeMode="cover"/>}
+                <View style={{flex: 2,  alignItens:'center', alignSelf:'stretch', justifyContent: 'center'}}>
+                    <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/>
+                    {/* {this.props.item.imageURL ? <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/> :
+                    <Image source={this.img} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/>} */}
                 </View>
     
                 <View style={{alignSelf:'stretch', alignItems: 'center', justifyContent: 'space-between', flex: 3, padding: 10}}>
@@ -95,11 +96,12 @@ export default class Promo extends Component{
                         <Icon name='star' color='#AE0505' size={sizeStar}/>
                         <Icon name='star' color='#AE0505' size={sizeStar}/>
                         <Icon name='star' color='#AE0505' size={sizeStar}/>
-                        <Icon name='star' color='#ededed' size={sizeStar}/>
+                        <Icon name='star' color='#999' size={sizeStar}/>
                     </View>
                 </View>
     
             </View>
+        </TouchableOpacity>
         );
     }
 
@@ -115,14 +117,11 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: '#333'
     },
-    promoImage: {
-        width: null,
-        height: 100,
+    promoImage:{
         alignSelf: 'stretch',
-        marginVertical: 5,
-        marginHorizontal: 5,
+        flex: 1, 
+        marginTop: 5
     },
-
     titulo: {
         fontSize: 18,
         color: '#980000',
@@ -181,7 +180,8 @@ const styles = StyleSheet.create({
         marginBottom:8
     },
     txtDia: {
-        backgroundColor:'#ddd',
+        backgroundColor:'#999',
+        color: 'white',
         marginHorizontal: 1,
         paddingHorizontal: 5,
         paddingVertical: 0,
@@ -190,7 +190,8 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     txtDiaValid: {
-        backgroundColor: 'red',
+        backgroundColor: '#b30404',
+        color: 'white',
         marginHorizontal: 1,
         paddingHorizontal: 5,
         paddingVertical: 0,

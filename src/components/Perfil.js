@@ -91,8 +91,8 @@ class Perfil extends Component{
 
                 <View style={styles.boxAvatar}>
                     <TouchableOpacity onPress={() => this.pickImage()} >
-                        {this.state.imagePath ? <Image source={{ uri: this.state.imagePath }} style={{width: 200, height: 200, borderRadius: 100}}/> :
-                        <Image source={img} style={{width: 200, height: 200, borderRadius: 100}}/>}
+                        {this.state.imagePath ? <Image source={{ uri: this.state.imagePath }} style={{width: 150, height: 150, borderRadius: 75}}/> :
+                        <Image source={img} style={{width: 150, height: 150, borderRadius: 75}}/>}
                     </TouchableOpacity>
                     
                 </View>
@@ -102,14 +102,14 @@ class Perfil extends Component{
                 <Text style={styles.estab}>{this.props.email}</Text>
 
                 <TouchableOpacity onPress={() => this.shareKey()} >
-                    <View style={[styles.cardW,{borderColor: '#333', borderWidth: 1}]}>
-                        <Text style={{color: '#333', fontSize: 14}}>Sua Chave:</Text>
+                    <View style={styles.card}>
+                        <Text style={{color: 'white', fontSize: 14, fontFamily: 'segoeuii'}}>Sua Chave:</Text>
 
-                        <Text style={{color: '#881518', fontWeight: 'bold', fontSize: 25}}>{this.props.chave}</Text>
+                        <Text style={{color: 'white', fontFamily: 'segoeuib', fontSize: 25}}>{this.props.chave}</Text>
                     </View>
                 </TouchableOpacity>
 
-                <View style={styles.card}>
+                {/* <View style={styles.card}>
                     <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 25}}>Rede:</Text>
 
                     <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around'}}>
@@ -121,7 +121,7 @@ class Perfil extends Component{
 
                 <View style={styles.card}>
                     <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 25}}>Economia:</Text>
-                </View>
+                </View> */}
 
             </ScrollView>
         );
@@ -142,28 +142,31 @@ export default connect(mapStateToProps, {contaRede})(Perfil);
 const styles = StyleSheet.create({
 
     titulo: {
-        fontSize: 30,
-        color: '#333',
+        fontSize: 32,
+        color: '#b30404',
+        fontFamily: 'segoeuii',
         fontWeight: 'bold',
-        
+        marginBottom: 5
     },
     estab:{
-        color: '#777',
-        fontSize: 18
+        color: 'white',
+        fontSize: 18,
+        fontFamily: 'segoeuii',
+        marginBottom: 30
     },
     container: {
         justifyContent:'flex-start', 
-        alignItems: 'center', 
-        backgroundColor: '#fff'
+        alignItems: 'center',
+        backgroundColor: '#ff9900',
+        flex: 1
     },
     card:{
         alignItems: 'center',
         marginTop: 10,
         padding: 20,
         alignSelf: 'stretch',
-        backgroundColor: '#881518',
+        backgroundColor: '#b30404',
         margin: 10,
-        borderRadius: 5,
         elevation: 2
     },
     cardW: {
@@ -173,18 +176,17 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#fff',
         margin: 10,
-        borderRadius: 5,
         elevation: 2
     },
     boxAvatar: { 
-        elevation: 4,
+        elevation: 20,
         backgroundColor: '#ededed',
-        width: 220, 
-        height: 220, 
-        borderRadius: 110, 
+        width: 170, 
+        height: 170, 
+        borderRadius: 85,
         justifyContent: 'center', 
         alignItems: 'center',
-        marginTop: 10
+        marginVertical: 30
     },
     linhaTxt: {
         backgroundColor: '#fff',

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { TabViewAnimated, SceneMap } from 'react-native-tab-view';
+import { TabViewAnimated, SceneMap, TabBar } from 'react-native-tab-view';
 import TabBarMenu from './TabBarMenu';
 import SideMenu from 'react-native-side-menu';
 
 import Promocoes from './Promocoes';
 import Filtros from './Filtros';
+import Restaurantes from './Restaurantes';
 import Menu from './Menu';
 import { connect } from 'react-redux';
 import { toggleMenu, atualizaIsOpen } from '../actions/AppActions';
@@ -18,16 +19,18 @@ import { toggleMenu, atualizaIsOpen } from '../actions/AppActions';
     routes: [
       { key: '1', title: 'HOME', icon: 'home'},
       { key: '2', title: 'FILTROS', icon: 'filter-list'},
+      { key: '3', title: 'ESTAB', icon: 'restaurant-menu'},
     ],
   };
 
   _handleIndexChange = index => this.setState({ index });
 
-  _renderHeader = props => <TabBarMenu {...props} funcao={this.props.funcao}/>;
+  _renderHeader = props => <TabBarMenu {...props} funcao={this.props.funcao} navigationState={this.state}/>;
 
   _renderScene = SceneMap({
     '1': Promocoes,
     '2': Filtros,
+    '3': Restaurantes
   });
 
   render() {
