@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView} from 'react-native';
-import {Rating, Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 import Voucher from 'voucher-code-generator';
 import {geraCupom, resetResgate} from '../actions/AppActions';
 import { connect } from 'react-redux';
@@ -12,16 +12,6 @@ class Promocao extends Component{
         super(props);
 
         this.state =  {codigo: '', modalVisible: false};
-    }
-
-    componentWillMount(){
-        this.criaFonteDeDados(this.props.item.diasValidosPromo);
-    }
-
-    criaFonteDeDados(dias){
-        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-        
-        this.listDias = ds.cloneWithRows(dias);
     }
 
     componentWillReceiveProps(nextProps){
@@ -77,68 +67,97 @@ class Promocao extends Component{
         this.setState({modalVisible: status});
     }
 
+    renderCateg(){
+        let categs = this.props.item.stringCateg.split(',');
+        let str = '';
+
+        categs.forEach((element,i) => {
+
+            let categ = '';
+
+            switch(element){
+                case 'gastronomia': categ = 'Gastronomia'; break;
+                case 'bemestar': categ = 'Bem-Estar'; break;
+                case 'cultura': categ = 'Cultura'; break;
+                case 'mercados': categ = 'Mercados'; break;
+                case 'servicos': categ = 'Serviços'; break;
+                case 'esportelazer': categ = 'Esporte e Lazer'; break;
+                case 'saudebeleza': categ = 'Saúde e Beleza'; break;
+                default: categ = '';
+            }
+
+            if(i == categs.length - 1){
+                str = `${str} | ${categ}`;
+            }else{
+                str = `${categ}`
+            }
+            
+        });
+
+        return (<Text style={styles.txtBasico}>{str}</Text>);
+    }
+
+    renderDias(){
+        let dias = this.props.item.diasValidosPromo;
+        let diasArray = [];
+
+        dias.forEach(element => {            
+
+            let estilo = element.isValid ? styles.txtDiaValid : styles.txtDia;
+
+            diasArray.push(
+                <Text style={estilo}>{element.dia}</Text>
+            )
+        });
+
+        return diasArray;
+    }
+
     render(){
         return (
-            <View style={styles.container}>
-                
 
-                <ScrollView contentContainerStyle={styles.meio}>
+            <ScrollView contentContainerStyle={styles.meio}>
+            
                 <Image source={{uri: this.props.item.imageURL}} style={{alignSelf: 'stretch',width: null, height: 200}}/>
                     
-                    
-                    <Text style={styles.titulo}>{this.props.item.title}</Text>
-                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                        <View style={styles.boxAvatar}>
-                            <Image source={{uri: this.props.item.estabImageURL}} style={{width:60, height: 60, borderRadius: 30}}/>
-                        </View>
+                <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'flex-start', alignSelf:'stretch'}}>
+                    <View style={styles.boxAvatar}>
+                        <Image source={{uri: this.props.item.estabImageURL}} style={{width:100, height: 100}}/>
+                    </View>
+
+                    <View style={{alignSelf: 'stretch', alignItems: 'flex-start'}}>
                         <Text style={styles.estab}>{this.props.item.nomeEstab}</Text>
-                        <Rating
-                            showRating={false}
-                            imageSize={20}
-                            type="star"
-                            onFinishRating={this.ratingCompleted}
-                            style={{ paddingVertical: 10 , marginLeft: 7}}
-                        />
-                    </View>
-                    
-                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
-                        <Text style={styles.desc}>{this.props.item.descontoPromo}% OFF</Text>
-                        <View style={{borderRadius: 5, borderWidth: 1, borderColor: '#888',backgroundColor: '#eeeeee', paddingHorizontal: 20, paddingVertical: 5, marginLeft: 10}}>
-                            <Text style={styles.valorInicial}>de R${this.props.item.valorInicialPromo} por</Text>  
-                            <Text style={styles.preco}>R${this.calculaPreco()}</Text> 
+
+                        {this.renderCateg()}
+
+                        <View style={{flexDirection: 'row', alignSelf:'stretch'}}>
+                            <Text style={styles.txtBasico}>Dias Válidos</Text>
+                            {this.renderDias()}
                         </View>
                     </View>
-                                 
-    
-                    <Text style={styles.descricao}>{this.props.item.descricaoPromo}</Text>
-
-                    <View style={{flex: 1, marginBottom: 20, marginTop: 20}}>
-                        <Text style={styles.estab}>Dias Válidos</Text>
-                        <ListView
-                            contentContainerStyle={{flexDirection: 'row', alignItems: 'center', justifyContent:'center'}}
-                            enableEmptySections
-                            dataSource={this.listDias}
-                            renderRow={data =>(
-                                    <View key={data.key}>
-                                            {data.isValid ? <Text style={styles.txtDiaValid}>{data.dia}</Text> :
-                                            <Text style={styles.txtDia}>{data.dia}</Text>}
-                                    </View>
-                                )
-                            }
-                        />
-
-
+                </View>
+                
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
+                    <Text style={styles.desc}>{this.props.item.descontoPromo}% OFF</Text>
+                    <View style={{borderRadius: 5, borderWidth: 1, borderColor: '#888',backgroundColor: '#eeeeee', paddingHorizontal: 20, paddingVertical: 5, marginLeft: 10}}>
+                        <Text style={styles.valorInicial}>de R${this.props.item.valorInicialPromo} por</Text>  
+                        <Text style={styles.preco}>R${this.calculaPreco()}</Text> 
                     </View>
+                </View>
+                                
 
-                    <TouchableOpacity onPress={() => false}>
-                        <Text style={styles.regula}>Ver Regulamento</Text>
-                    </TouchableOpacity>
-
-                    {this.loading()}     
-                </ScrollView>
+                <Text style={styles.descricao}>{this.props.item.descricaoPromo}</Text>
 
                 
 
+
+                <TouchableOpacity onPress={() => false}>
+                    <Text style={styles.regula}>Ver Regulamento</Text>
+                </TouchableOpacity>
+
+                {this.loading()}     
+
+                    
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -177,10 +196,8 @@ class Promocao extends Component{
                     </View>                     
                 </View>
                 </Modal>
-
-                
+            </ScrollView>
     
-            </View>
         );
     }
 
@@ -220,9 +237,8 @@ const styles = StyleSheet.create({
     boxAvatar: { 
         elevation: 2,
         backgroundColor: '#ededed',
-        width: 70, 
-        height: 70, 
-        borderRadius: 35, 
+        width: 100, 
+        height: 100, 
         justifyContent: 'center', 
         alignItems: 'center',
         marginTop: 10
@@ -233,10 +249,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     estab:{
-        color: '#666',
+        color: '#b30404',
         fontSize: 20,
         marginHorizontal: 5,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily:'segoeuib'
+    },
+    txtBasico:{
+        color: '#666',
+        fontSize: 16,
+        marginHorizontal: 5,
+        textAlign: 'center',
+        fontFamily:'segoeuii'
     },
     desc:{
         fontSize:30,
@@ -266,7 +290,8 @@ const styles = StyleSheet.create({
     },
     meio:{
         alignItems: 'center',
-        paddingTop: 10
+        padding: 8,
+        backgroundColor: 'white'
     },
     btnResgatar: {
         paddingVertical: 10,
@@ -279,35 +304,6 @@ const styles = StyleSheet.create({
         elevation: 2,
         marginBottom: 5
     },
-    txtDia: {
-        padding: 5,
-        backgroundColor: '#333',
-        color: 'white',
-        borderRadius: 15,
-        width: 30,
-        height: 30,
-        textAlign: 'center',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'stretch',
-        fontWeight: 'bold',
-        marginHorizontal: 2
-    },
-
-    txtDiaValid: {
-        padding: 5,
-        backgroundColor: '#e56c25',
-        color: 'white',
-        borderRadius: 15,
-        width: 30,
-        height: 30,
-        textAlign: 'center',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'stretch',
-        fontWeight: 'bold',
-        marginHorizontal: 2
-    },
     btnVoltar:{
         paddingVertical: 10,
         alignSelf: 'stretch',
@@ -319,4 +315,24 @@ const styles = StyleSheet.create({
         elevation: 2,
         marginBottom: 5
     },
+    txtDia: {
+        backgroundColor:'#999',
+        color: 'white',
+        marginHorizontal: 1,
+        paddingHorizontal: 5,
+        paddingVertical: 0,
+        fontFamily: 'segoeuib',
+        fontSize: 10,
+        borderRadius: 2,
+    },
+    txtDiaValid: {
+        backgroundColor: '#b30404',
+        color: 'white',
+        marginHorizontal: 1,
+        paddingHorizontal: 5,
+        paddingVertical: 0,
+        fontFamily: 'segoeuib',
+        fontSize: 10,
+        borderRadius: 2
+    }
 });

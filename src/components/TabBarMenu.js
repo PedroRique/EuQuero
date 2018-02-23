@@ -16,11 +16,11 @@ class TabBarMenu extends Component{
         
                 <StatusBar backgroundColor='#5F0E10' />
         
-                <View style={{ justifyContent: 'space-around', alignItems: 'center', paddingVertical: 10, flexDirection: 'row'}}>
-                    <View style={{justifyContent: 'center', flex: 1, backgroundColor: '#881518'}}>
-                        <Icon color="white" name="menu" size={50} containerStyle={{backgroundColor:'#881518'}} type="material" underlayColor="#721214" onPress={() => {this.props.funcao.toggleMenu()}}/>
+                <View style={{ justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row'}}>
+                    <View style={{justifyContent: 'center', flex: 2, backgroundColor: '#881518'}}>
+                        <Icon color="white" name="menu" size={50} containerStyle={{backgroundColor:'#CE0707', flex: 1}} type="material" underlayColor="#ce0707" onPress={() => {this.props.funcao.toggleMenu()}}/>
                     </View>
-                    <View style={{justifyContent: 'center', flex: 4, alignItems: 'center'}}>
+                    <View style={{justifyContent: 'center', flex: 6, alignItems: 'center'}}>
                         {/* <SearchBar
                             onChangeText={(texto) => this.props.modificaFiltrosTexto(texto)}
                             onClearText={() => this.props.limpaFiltros()}
@@ -38,12 +38,12 @@ class TabBarMenu extends Component{
                             indicatorStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
                             style={{borderWidth:0, borderColor: 'transparent'}}/> */}
 
-                            <Image style={{height: 60 , width: 183, marginVertical: 2}} source={ require('../imgs/logo.png') } />
+                            <Image style={{height: 60 , width: 183, marginVertical: 10}} source={ require('../imgs/logo.png') } />
                     </View>
                 </View>
         
-                <TabBar {...this.props} labelStyle={{fontSize: 10, fontFamily: 'segoeui', flexWrap: 'wrap'}}
-
+                <TabBar {...this.props} 
+                
                     indicatorStyle={{backgroundColor:'white', flex:1, alignSelf:'stretch', height:200}}
 
                     style={{backgroundColor:'#b30404'}}
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     },
     text:{
         fontFamily: 'segoeui',
-        fontSize: 16
+        fontSize: 12
     }
 });
 
