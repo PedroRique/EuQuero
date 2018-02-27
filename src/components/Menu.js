@@ -78,6 +78,13 @@ class Menu extends Component {
                     />
                 </TouchableNativeFeedback>
 
+                <TouchableNativeFeedback onPress={() => Actions.rede()}>
+                    <ListItem
+                        title='Rede'
+                        leftIcon={{name: 'people', color: '#333'}}
+                    />
+                </TouchableNativeFeedback>
+
                 {this.isEstab()}
 
                 {this.isClient()}

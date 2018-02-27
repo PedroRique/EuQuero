@@ -12,6 +12,7 @@ import MinhasPromocoes from './components/MinhasPromocoes';
 import MinhaPromocao from './components/MinhaPromocao';
 import Exemplo from './components/Exemplo';
 import Filtros from './components/Filtros';
+import Rede from './components/Rede';
 
 export default props => (
     <Router>
@@ -27,6 +28,7 @@ export default props => (
             <Scene key='minhaPromocao' component={MinhaPromocao} hideNavBar={false} title='Minha Promoção'/>
             <Scene key='exemplo' component={Exemplo} hideNavBar={false} title='Exemplo' />
             <Scene key='filtros' component={Filtros} hideNavBar={false} title='Filtros'/>
+            <Scene key='rede' component={Rede} hideNavBar={false} title='Minha Rede' />
         </Stack>       
     </Router>
 );

@@ -6,7 +6,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'react-native-fetch-blob';
 import firebase from 'firebase';
 import b64 from 'base-64';
-import { contaRede } from '../actions/AppActions';
 
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
@@ -76,10 +75,6 @@ class Perfil extends Component{
         });
     }
 
-    componentDidMount(){
-        this.props.contaRede(this.props.chave);
-    }
-
     render(){
 
         const img = require('../imgs/user.png');
@@ -109,20 +104,6 @@ class Perfil extends Component{
                     </View>
                 </TouchableOpacity>
 
-                {/* <View style={styles.card}>
-                    <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 25}}>Rede:</Text>
-
-                    <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around'}}>
-                        <Text style={styles.linhaTxt}>1º Linha: {this.props.rede[0]}</Text>
-                        <Text style={styles.linhaTxt}>2º Linha: {this.props.rede[1]}</Text>
-                        <Text style={styles.linhaTxt}>3º Linha: {this.props.rede[2]}</Text>
-                    </View>
-                </View>
-
-                <View style={styles.card}>
-                    <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 25}}>Economia:</Text>
-                </View> */}
-
             </ScrollView>
         );
     } 
@@ -137,7 +118,7 @@ const mapStateToProps = state => (
     }
 )
 
-export default connect(mapStateToProps, {contaRede})(Perfil);
+export default connect(mapStateToProps, {})(Perfil);
 
 const styles = StyleSheet.create({
 
