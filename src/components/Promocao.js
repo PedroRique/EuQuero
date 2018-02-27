@@ -114,41 +114,56 @@ class Promocao extends Component{
     }
 
     render(){
+        const sizeStar = 14;
         return (
 
             <ScrollView contentContainerStyle={styles.meio}>
             
                 <Image source={{uri: this.props.item.imageURL}} style={{alignSelf: 'stretch',width: null, height: 200}}/>
                     
-                <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'flex-start', alignSelf:'stretch'}}>
+                <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'flex-start', alignSelf:'stretch', marginBottom: 10}}>
                     <View style={styles.boxAvatar}>
                         <Image source={{uri: this.props.item.estabImageURL}} style={{width:100, height: 100}}/>
                     </View>
 
-                    <View style={{alignSelf: 'stretch', alignItems: 'flex-start'}}>
+                    <View style={{alignSelf: 'stretch', alignItems: 'flex-start', justifyContent: 'space-between'}}>
                         <Text style={styles.estab}>{this.props.item.nomeEstab}</Text>
 
                         {this.renderCateg()}
 
                         <View style={{flexDirection: 'row', alignSelf:'stretch'}}>
-                            <Text style={styles.txtBasico}>Dias Válidos</Text>
-                            {this.renderDias()}
+                            <Text style={[styles.txtBasico, {marginRight: 10}]}>Dias Válidos:</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                {this.renderDias()}
+                            </View>
+                        </View>
+
+                        <View style={{flexDirection:'row', alignItems: 'center',justifyContent:'flex-start', alignSelf: 'stretch',marginHorizontal: 5}}>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#999' size={sizeStar}/>
                         </View>
                     </View>
                 </View>
-                
-                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
-                    <Text style={styles.desc}>{this.props.item.descontoPromo}% OFF</Text>
-                    <View style={{borderRadius: 5, borderWidth: 1, borderColor: '#888',backgroundColor: '#eeeeee', paddingHorizontal: 20, paddingVertical: 5, marginLeft: 10}}>
-                        <Text style={styles.valorInicial}>de R${this.props.item.valorInicialPromo} por</Text>  
-                        <Text style={styles.preco}>R${this.calculaPreco()}</Text> 
+
+                <View style={{flexDirection: 'row', alignSelf: 'stretch', backgroundColor: '#ededed',padding: 5 }}>
+                    <View style={{backgroundColor: '#b30404', padding: 10, alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={styles.desc}>{this.props.item.descontoPromo}%</Text>
+                        <Text style={styles.deDesconto}>de desconto</Text>
+                    </View>
+
+                    <View>
+                        <Text>de R$: <Text style={{fontSize: 24, textDecorationLine: 'line-through'}}>{this.props.item.valorInicialPromo},00</Text></Text>
+                        <Text>por R$: <Text style={{fontSize: 24, color: '#b30404', fontFamily: 'segoeuib'}}>{this.calculaPreco()},00</Text></Text>
+                    </View>
+
+                    <View>
+                        <Text style={styles.estab}>{this.props.item.nomePromo}</Text>
+                        <Text style={[styles.txtBasico, {alignSelf: 'stretch', textAlign: 'left'}]}>{this.props.item.descricaoPromo}</Text>
                     </View>
                 </View>
-                                
-
-                <Text style={styles.descricao}>{this.props.item.descricaoPromo}</Text>
-
-                
 
 
                 <TouchableOpacity onPress={() => false}>
@@ -264,8 +279,13 @@ const styles = StyleSheet.create({
     },
     desc:{
         fontSize:30,
-        color: '#e56c25',
-        fontWeight: 'bold'
+        color: 'white',
+        fontFamily: 'segoeuib',
+        marginHorizontal: -10
+    },
+    deDesconto:{
+        fontFamily: 'segoeuii',
+        color: '#ff9900'
     },
     container: {
         justifyContent:'flex-start',
@@ -296,22 +316,22 @@ const styles = StyleSheet.create({
     btnResgatar: {
         paddingVertical: 10,
         paddingHorizontal: 100,
-        backgroundColor: '#881518',
+        backgroundColor: '#b30404',
         color: 'white',
         fontSize: 18,
+        fontFamily: 'segoeuib',
         textAlign: 'center',
-        borderRadius: 5,
         elevation: 2,
         marginBottom: 5
     },
     btnVoltar:{
         paddingVertical: 10,
         alignSelf: 'stretch',
-        backgroundColor: '#881518',
+        backgroundColor: '#b30404',
         color: 'white',
         fontSize: 18,
+        fontFamily: 'segoeuib',
         textAlign: 'center',
-        borderRadius: 5,
         elevation: 2,
         marginBottom: 5
     },
