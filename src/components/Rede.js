@@ -10,11 +10,16 @@ class Rede extends Component{
     constructor(props){
         super(props);
 
-        this.state = { rede : [10,75,215] , total: 300, visible: false};
+        this.state = { rede : [0,0,0] , total: 0, visible: false};
     }
 
     componentDidMount(){
         this.props.contaRede(this.props.chave);
+    }
+
+    componentWillReceiveProps(nextProps){
+        let total = nextProps.rede[0] + nextProps.rede[1] + nextProps.rede[2];
+        this.setState({rede: nextProps.rede, total});
     }
 
     setAlert(visible){

@@ -114,7 +114,6 @@ const mapStateToProps = state => (
         nome: state.AutenticacaoReducer.nome,
         email: state.AutenticacaoReducer.email,
         chave: state.AutenticacaoReducer.chave,
-        rede: state.AppReducer.rede
     }
 )
 
