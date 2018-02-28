@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StatusBar, Image, TouchableHighlight } from 'react-native';
+import { View, Text, StatusBar, Image, StyleSheet } from 'react-native';
 import { TabBar } from 'react-native-tab-view';
 import { Icon, SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -9,18 +9,19 @@ import { modificaFiltrosTexto, limpaFiltros } from '../actions/AppActions';
 class TabBarMenu extends Component{
 
     render(){
+        // alert(this.props.navigationState.index)
         return (
 
-            <View style={{ backgroundColor: '#881518', elevation: 4}}>
+            <View style={{ backgroundColor: '#B30404', elevation: 4}}>
         
                 <StatusBar backgroundColor='#5F0E10' />
         
-                <View style={{ justifyContent: 'space-around', alignItems: 'center', paddingVertical: 10, flexDirection: 'row'}}>
-                    <View style={{justifyContent: 'center', flex: 1}}>
-                        <Icon color="white" name="menu" size={30} type="material" underlayColor="#721214" onPress={() => {this.props.funcao.toggleMenu()}}/>
+                <View style={{ justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row'}}>
+                    <View style={{justifyContent: 'center', flex: 2, backgroundColor: '#881518'}}>
+                        <Icon color="white" name="menu" size={50} containerStyle={{backgroundColor:'#CE0707', flex: 1}} type="material" underlayColor="#ce0707" onPress={() => {this.props.funcao.toggleMenu()}}/>
                     </View>
-                    <View style={{justifyContent: 'center', flex: 4}}>
-                        <SearchBar
+                    <View style={{justifyContent: 'center', flex: 6, alignItems: 'center'}}>
+                        {/* <SearchBar
                             onChangeText={(texto) => this.props.modificaFiltrosTexto(texto)}
                             onClearText={() => this.props.limpaFiltros()}
                             lightTheme
@@ -35,14 +36,26 @@ class TabBarMenu extends Component{
                             placeholderTextColor='#333'
                             placeholder='Pesquisa...' 
                             indicatorStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
-                            style={{borderWidth:0, borderColor: 'transparent'}}/>
+                            style={{borderWidth:0, borderColor: 'transparent'}}/> */}
+
+                            <Image style={{height: 60 , width: 183, marginVertical: 10}} source={ require('../imgs/logo.png') } />
                     </View>
                 </View>
         
-                <TabBar {...this.props} labelStyle={{fontSize: 14}} style={{backgroundColor: '#881518', elevation: 0}} indicatorStyle={{backgroundColor: '#e56d25', height: 5}}
+                <TabBar {...this.props} 
                 
+                    indicatorStyle={{backgroundColor:'white', flex:1, alignSelf:'stretch', height:200}}
+
+                    style={{backgroundColor:'#b30404'}}
+
+                    renderLabel={(tab) => {
+                        let estilo = tab.focused ? styles.labelFocused : styles.label;
+                        return(<Text style={[estilo, styles.text]}>{tab.route.title}</Text>)
+                    }}
+
                     renderIcon={(tab) => {
-                        return(<Icon name={tab.route.icon} color='white' size={30}/>);
+                        let color = tab.focused ? '#b30404' : 'white'
+                        return(<Icon name={tab.route.icon} color={color} size={25}/>);
                     }}/>
             </View>
         
@@ -50,6 +63,19 @@ class TabBarMenu extends Component{
     }
 
 } 
+
+const styles = StyleSheet.create({
+    labelFocused: {
+        color: '#b30404'
+    },
+    label:{
+        color: 'white'
+    },
+    text:{
+        fontFamily: 'segoeui',
+        fontSize: 12
+    }
+});
 
 const mapStateToProps = state => (
     {

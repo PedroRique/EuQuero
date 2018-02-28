@@ -1,31 +1,42 @@
 import React, {Component} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView} from 'react-native';
-import {Rating, Icon} from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 import Voucher from 'voucher-code-generator';
 import {geraCupom, resetResgate} from '../actions/AppActions';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import MapView from 'react-native-maps';
 
 class Promocao extends Component{
 
     constructor(props){
         super(props);
 
-        this.state =  {codigo: '', modalVisible: false};
-    }
-
-    componentWillMount(){
-        this.criaFonteDeDados(this.props.item.diasValidosPromo);
-    }
-
-    criaFonteDeDados(dias){
-        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-        
-        this.listDias = ds.cloneWithRows(dias);
+        this.state =  {
+            codigo: '',
+            modalVisible: false,
+            region: {
+                latitude: -22.78825,
+                longitude: -43.4324,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }
+        };
     }
 
     componentWillReceiveProps(nextProps){
         this.setModalVisible(nextProps.geraCupomStatus);
+    }
+
+    componentDidMount(){
+        let region = {
+            latitude: this.props.item.placeObj.latitude,
+            longitude: this.props.item.placeObj.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+        }
+
+        this.setState({region});
     }
    
     loading(){
@@ -45,6 +56,10 @@ class Promocao extends Component{
     calculaPreco(){
         let { valorInicialPromo, descontoPromo } = this.props.item;
         return valorInicialPromo - ((valorInicialPromo * descontoPromo) / 100);
+    }
+
+    comoChegar(){
+        alert('teste');
     }
 
     geraCodigo(){
@@ -77,68 +92,125 @@ class Promocao extends Component{
         this.setState({modalVisible: status});
     }
 
-    render(){
-        return (
-            <View style={styles.container}>
-                
+    renderCateg(){
+        let categs = this.props.item.stringCateg.split(',');
+        let str = '';
 
-                <ScrollView contentContainerStyle={styles.meio}>
+        categs.forEach((element,i) => {
+
+            let categ = '';
+
+            switch(element){
+                case 'gastronomia': categ = 'Gastronomia'; break;
+                case 'bemestar': categ = 'Bem-Estar'; break;
+                case 'cultura': categ = 'Cultura'; break;
+                case 'mercados': categ = 'Mercados'; break;
+                case 'servicos': categ = 'Serviços'; break;
+                case 'esportelazer': categ = 'Esporte e Lazer'; break;
+                case 'saudebeleza': categ = 'Saúde e Beleza'; break;
+                default: categ = '';
+            }
+
+            if(i == categs.length - 1){
+                str = `${str} | ${categ}`;
+            }else{
+                str = `${categ}`
+            }
+            
+        });
+
+        return (<Text style={styles.txtBasico}>{str}</Text>);
+    }
+
+    renderDias(){
+        let dias = this.props.item.diasValidosPromo;
+        let diasArray = [];
+
+        dias.forEach((element,i) => {
+
+            let estilo = element.isValid ? styles.txtDiaValid : styles.txtDia;
+
+            diasArray.push(
+                <Text key={element.key} style={estilo}>{element.dia}</Text>
+            )
+        });
+
+        return diasArray;
+    }
+
+    render(){
+        const sizeStar = 14;
+        return (
+
+            <ScrollView contentContainerStyle={styles.meio}>
+            
                 <Image source={{uri: this.props.item.imageURL}} style={{alignSelf: 'stretch',width: null, height: 200}}/>
                     
-                    
-                    <Text style={styles.titulo}>{this.props.item.title}</Text>
-                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                        <View style={styles.boxAvatar}>
-                            <Image source={{uri: this.props.item.estabImageURL}} style={{width:60, height: 60, borderRadius: 30}}/>
-                        </View>
+                <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'flex-start', alignSelf:'stretch', marginBottom: 10}}>
+                    <View style={styles.boxAvatar}>
+                        <Image source={{uri: this.props.item.estabImageURL}} style={{width:100, height: 100}}/>
+                    </View>
+
+                    <View style={{alignSelf: 'stretch', alignItems: 'flex-start', justifyContent: 'space-between'}}>
                         <Text style={styles.estab}>{this.props.item.nomeEstab}</Text>
-                        <Rating
-                            showRating={false}
-                            imageSize={20}
-                            type="star"
-                            onFinishRating={this.ratingCompleted}
-                            style={{ paddingVertical: 10 , marginLeft: 7}}
-                        />
-                    </View>
-                    
-                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 20}}>
-                        <Text style={styles.desc}>{this.props.item.descontoPromo}% OFF</Text>
-                        <View style={{borderRadius: 5, borderWidth: 1, borderColor: '#888',backgroundColor: '#eeeeee', paddingHorizontal: 20, paddingVertical: 5, marginLeft: 10}}>
-                            <Text style={styles.valorInicial}>de R${this.props.item.valorInicialPromo} por</Text>  
-                            <Text style={styles.preco}>R${this.calculaPreco()}</Text> 
+
+                        {this.renderCateg()}
+
+                        <View style={{flexDirection: 'row', alignSelf:'stretch'}}>
+                            <Text style={[styles.txtBasico, {marginRight: 10}]}>Dias Válidos:</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                {this.renderDias()}
+                            </View>
+                        </View>
+
+                        <View style={{flexDirection:'row', alignItems: 'center',justifyContent:'flex-start', alignSelf: 'stretch',marginHorizontal: 5}}>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#999' size={sizeStar}/>
                         </View>
                     </View>
-                                 
-    
-                    <Text style={styles.descricao}>{this.props.item.descricaoPromo}</Text>
+                </View>
 
-                    <View style={{flex: 1, marginBottom: 20, marginTop: 20}}>
-                        <Text style={styles.estab}>Dias Válidos</Text>
-                        <ListView
-                            contentContainerStyle={{flexDirection: 'row', alignItems: 'center', justifyContent:'center'}}
-                            enableEmptySections
-                            dataSource={this.listDias}
-                            renderRow={data =>(
-                                    <View key={data.key}>
-                                            {data.isValid ? <Text style={styles.txtDiaValid}>{data.dia}</Text> :
-                                            <Text style={styles.txtDia}>{data.dia}</Text>}
-                                    </View>
-                                )
-                            }
-                        />
-
-
+                <View style={{flexDirection: 'row', alignSelf: 'stretch', backgroundColor: '#ededed',padding: 5, marginBottom: 10 }}>
+                    <View style={{backgroundColor: '#b30404', padding: 10, alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={styles.desc}>{this.props.item.descontoPromo}%</Text>
+                        <Text style={styles.deDesconto}>de desconto</Text>
                     </View>
 
-                    <TouchableOpacity onPress={() => false}>
-                        <Text style={styles.regula}>Ver Regulamento</Text>
-                    </TouchableOpacity>
+                    <View>
+                        <Text>de R$: <Text style={{fontSize: 24, textDecorationLine: 'line-through'}}>{this.props.item.valorInicialPromo},00</Text></Text>
+                        <Text>por R$: <Text style={{fontSize: 24, color: '#b30404', fontFamily: 'segoeuib'}}>{this.calculaPreco()},00</Text></Text>
+                    </View>
 
-                    {this.loading()}     
-                </ScrollView>
+                    <View>
+                        <Text style={styles.estab}>{this.props.item.nomePromo}</Text>
+                        <Text style={[styles.txtBasico, {alignSelf: 'stretch', textAlign: 'left'}]}>{this.props.item.descricaoPromo}</Text>
+                    </View>
+                </View>
 
-                
+                <TouchableOpacity onPress={() => this.comoChegar()}>
+                    <View style={styles.mapBox}>
+                        <MapView
+                            style={styles.map}
+                            region={this.state.region}
+                            ref={map => { this.map = map }}
+                            rotateEnabled={false}
+                            minZoomLevel={15}
+                            maxZoomLevel={18}
+                        ></MapView>
+                    </View>
+                </TouchableOpacity>
 
+
+                {/* <TouchableOpacity onPress={() => false}>
+                    <Text style={styles.regula}>Ver Regulamento</Text>
+                </TouchableOpacity> */} 
+
+                {this.loading()}     
+
+                    
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -177,10 +249,8 @@ class Promocao extends Component{
                     </View>                     
                 </View>
                 </Modal>
-
-                
+            </ScrollView>
     
-            </View>
         );
     }
 
@@ -202,6 +272,17 @@ export default connect(
 )(Promocao);
 
 const styles = StyleSheet.create({
+    mapBox: {
+        ...StyleSheet.absoluteFillObject,
+        height: 180,
+        width: 200,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        alignSelf: 'stretch'
+    },
+    map: {
+        ...StyleSheet.absoluteFillObject,
+    },
     textCodigo:{
         fontSize: 30,
         color: '#881518',
@@ -220,9 +301,8 @@ const styles = StyleSheet.create({
     boxAvatar: { 
         elevation: 2,
         backgroundColor: '#ededed',
-        width: 70, 
-        height: 70, 
-        borderRadius: 35, 
+        width: 100, 
+        height: 100, 
         justifyContent: 'center', 
         alignItems: 'center',
         marginTop: 10
@@ -233,15 +313,28 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     estab:{
-        color: '#666',
+        color: '#b30404',
         fontSize: 20,
         marginHorizontal: 5,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily:'segoeuib'
+    },
+    txtBasico:{
+        color: '#666',
+        fontSize: 16,
+        marginHorizontal: 5,
+        textAlign: 'center',
+        fontFamily:'segoeuii'
     },
     desc:{
-        fontSize:30,
-        color: '#e56c25',
-        fontWeight: 'bold'
+        fontSize:32,
+        color: 'white',
+        fontFamily: 'segoeuib',
+        marginHorizontal: -10
+    },
+    deDesconto:{
+        fontFamily: 'segoeuii',
+        color: '#ff9900'
     },
     container: {
         justifyContent:'flex-start',
@@ -266,57 +359,49 @@ const styles = StyleSheet.create({
     },
     meio:{
         alignItems: 'center',
-        paddingTop: 10
+        padding: 8,
+        backgroundColor: 'white'
     },
     btnResgatar: {
         paddingVertical: 10,
         paddingHorizontal: 100,
-        backgroundColor: '#881518',
+        backgroundColor: '#b30404',
         color: 'white',
         fontSize: 18,
+        fontFamily: 'segoeuib',
         textAlign: 'center',
-        borderRadius: 5,
         elevation: 2,
         marginBottom: 5
-    },
-    txtDia: {
-        padding: 5,
-        backgroundColor: '#333',
-        color: 'white',
-        borderRadius: 15,
-        width: 30,
-        height: 30,
-        textAlign: 'center',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'stretch',
-        fontWeight: 'bold',
-        marginHorizontal: 2
-    },
-
-    txtDiaValid: {
-        padding: 5,
-        backgroundColor: '#e56c25',
-        color: 'white',
-        borderRadius: 15,
-        width: 30,
-        height: 30,
-        textAlign: 'center',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'stretch',
-        fontWeight: 'bold',
-        marginHorizontal: 2
     },
     btnVoltar:{
         paddingVertical: 10,
         alignSelf: 'stretch',
-        backgroundColor: '#881518',
+        backgroundColor: '#b30404',
         color: 'white',
         fontSize: 18,
+        fontFamily: 'segoeuib',
         textAlign: 'center',
-        borderRadius: 5,
         elevation: 2,
         marginBottom: 5
     },
+    txtDia: {
+        backgroundColor:'#999',
+        color: 'white',
+        marginHorizontal: 1,
+        paddingHorizontal: 5,
+        paddingVertical: 0,
+        fontFamily: 'segoeuib',
+        fontSize: 10,
+        borderRadius: 2,
+    },
+    txtDiaValid: {
+        backgroundColor: '#b30404',
+        color: 'white',
+        marginHorizontal: 1,
+        paddingHorizontal: 5,
+        paddingVertical: 0,
+        fontFamily: 'segoeuib',
+        fontSize: 10,
+        borderRadius: 2
+    }
 });

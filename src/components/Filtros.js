@@ -48,7 +48,7 @@ class Filtros extends Component {
             let estiloTxt = categ.status ? styles.categItemSelectedTxt : styles.categItemTxt;
 
             categs.push(
-                <TouchableOpacity onPress={() => this.selectCateg(categ.key)}>
+                <TouchableOpacity key={categ.id} onPress={() => this.selectCateg(categ.key)}>
                     <View key={categ.id} style={estilo}>
                         <Icon name={categ.icon} color='#881518'/>
                         <Text style={estiloTxt}>{categ.name}</Text>
@@ -68,7 +68,7 @@ class Filtros extends Component {
             let estilo = dia.isValid ? styles.txtDiaValid : styles.txtDia;
 
             dias.push(
-                <TouchableOpacity onPress={() => this.selectDia(dia.key)}>
+                <TouchableOpacity key={dia.key} onPress={() => this.selectDia(dia.key)}>
                     <Text style={estilo}>{dia.dia}</Text>
                 </TouchableOpacity>
             );
@@ -80,7 +80,7 @@ class Filtros extends Component {
 
     render(){
         return(
-            <ScrollView contentContainerStyle={{padding: 20, backgroundColor: '#ddd'}}>
+            <ScrollView contentContainerStyle={{padding: 20}}>
 
                 <View>
                     <Text style={[styles.titulo,{marginTop:5}]}>Categorias</Text>
