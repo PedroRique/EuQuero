@@ -48,7 +48,7 @@ class Filtros extends Component {
             let estiloTxt = categ.status ? styles.categItemSelectedTxt : styles.categItemTxt;
 
             categs.push(
-                <TouchableOpacity onPress={() => this.selectCateg(categ.key)}>
+                <TouchableOpacity key={categ.id} onPress={() => this.selectCateg(categ.key)}>
                     <View key={categ.id} style={estilo}>
                         <Icon name={categ.icon} color='#881518'/>
                         <Text style={estiloTxt}>{categ.name}</Text>

@@ -16,7 +16,7 @@ export default class Promo extends Component{
         let categs = this.props.item.stringCateg.split(',');
         let categArray = [];
 
-        categs.forEach(element => {
+        categs.forEach((element,i) => {
             let str = '';
 
             switch(element){
@@ -31,7 +31,7 @@ export default class Promo extends Component{
             }
 
             categArray.push(
-                <Text style={styles.txtCateg}>{str}</Text>
+                <Text key={element.key} style={styles.txtCateg}>{str}</Text>
             )
         });
 
@@ -42,12 +42,12 @@ export default class Promo extends Component{
         let dias = this.props.item.diasValidosPromo;
         let diasArray = [];
 
-        dias.forEach(element => {            
+        dias.forEach((element, i) => {            
 
             let estilo = element.isValid ? styles.txtDiaValid : styles.txtDia;
 
             diasArray.push(
-                <Text style={estilo}>{element.dia}</Text>
+                <Text key={element.key} style={estilo}>{element.dia}</Text>
             )
         });
 
@@ -59,7 +59,7 @@ export default class Promo extends Component{
         return (
             <TouchableOpacity onPress={() => {Actions.promocao({item: this.props.item, title: this.props.item.nomePromo})}} activeOpacity={0.5}>
             <View style={styles.container}>
-                <View style={{flex: 2,  alignItens:'center', alignSelf:'stretch', justifyContent: 'center'}}>
+                <View style={{flex: 2,  alignItems:'center', alignSelf:'stretch', justifyContent: 'center'}}>
                     <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/>
                     {/* {this.props.item.imageURL ? <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/> :
                     <Image source={this.img} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/>} */}

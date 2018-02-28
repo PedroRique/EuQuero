@@ -5,17 +5,38 @@ import Voucher from 'voucher-code-generator';
 import {geraCupom, resetResgate} from '../actions/AppActions';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import MapView from 'react-native-maps';
 
 class Promocao extends Component{
 
     constructor(props){
         super(props);
 
-        this.state =  {codigo: '', modalVisible: false};
+        this.state =  {
+            codigo: '',
+            modalVisible: false,
+            region: {
+                latitude: -22.78825,
+                longitude: -43.4324,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }
+        };
     }
 
     componentWillReceiveProps(nextProps){
         this.setModalVisible(nextProps.geraCupomStatus);
+    }
+
+    componentDidMount(){
+        let region = {
+            latitude: this.props.item.placeObj.latitude,
+            longitude: this.props.item.placeObj.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+        }
+
+        this.setState({region});
     }
    
     loading(){
@@ -35,6 +56,10 @@ class Promocao extends Component{
     calculaPreco(){
         let { valorInicialPromo, descontoPromo } = this.props.item;
         return valorInicialPromo - ((valorInicialPromo * descontoPromo) / 100);
+    }
+
+    comoChegar(){
+        alert('teste');
     }
 
     geraCodigo(){
@@ -101,12 +126,12 @@ class Promocao extends Component{
         let dias = this.props.item.diasValidosPromo;
         let diasArray = [];
 
-        dias.forEach(element => {            
+        dias.forEach((element,i) => {
 
             let estilo = element.isValid ? styles.txtDiaValid : styles.txtDia;
 
             diasArray.push(
-                <Text style={estilo}>{element.dia}</Text>
+                <Text key={element.key} style={estilo}>{element.dia}</Text>
             )
         });
 
@@ -148,7 +173,7 @@ class Promocao extends Component{
                     </View>
                 </View>
 
-                <View style={{flexDirection: 'row', alignSelf: 'stretch', backgroundColor: '#ededed',padding: 5 }}>
+                <View style={{flexDirection: 'row', alignSelf: 'stretch', backgroundColor: '#ededed',padding: 5, marginBottom: 10 }}>
                     <View style={{backgroundColor: '#b30404', padding: 10, alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={styles.desc}>{this.props.item.descontoPromo}%</Text>
                         <Text style={styles.deDesconto}>de desconto</Text>
@@ -165,10 +190,23 @@ class Promocao extends Component{
                     </View>
                 </View>
 
-
-                <TouchableOpacity onPress={() => false}>
-                    <Text style={styles.regula}>Ver Regulamento</Text>
+                <TouchableOpacity onPress={() => this.comoChegar()}>
+                    <View style={styles.mapBox}>
+                        <MapView
+                            style={styles.map}
+                            region={this.state.region}
+                            ref={map => { this.map = map }}
+                            rotateEnabled={false}
+                            minZoomLevel={15}
+                            maxZoomLevel={18}
+                        ></MapView>
+                    </View>
                 </TouchableOpacity>
+
+
+                {/* <TouchableOpacity onPress={() => false}>
+                    <Text style={styles.regula}>Ver Regulamento</Text>
+                </TouchableOpacity> */} 
 
                 {this.loading()}     
 
@@ -234,6 +272,17 @@ export default connect(
 )(Promocao);
 
 const styles = StyleSheet.create({
+    mapBox: {
+        // ...StyleSheet.absoluteFillObject,
+        height: 180,
+        width: null,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        alignSelf: 'stretch'
+    },
+    map: {
+        ...StyleSheet.absoluteFillObject,
+    },
     textCodigo:{
         fontSize: 30,
         color: '#881518',
@@ -278,7 +327,7 @@ const styles = StyleSheet.create({
         fontFamily:'segoeuii'
     },
     desc:{
-        fontSize:30,
+        fontSize:32,
         color: 'white',
         fontFamily: 'segoeuib',
         marginHorizontal: -10
