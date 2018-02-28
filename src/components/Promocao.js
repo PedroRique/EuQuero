@@ -273,9 +273,9 @@ export default connect(
 
 const styles = StyleSheet.create({
     mapBox: {
-        // ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFillObject,
         height: 180,
-        width: null,
+        width: 200,
         justifyContent: 'flex-end',
         alignItems: 'center',
         alignSelf: 'stretch'

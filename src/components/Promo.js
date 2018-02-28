@@ -72,16 +72,12 @@ export default class Promo extends Component{
                     <View style={{alignSelf:'stretch', alignItems:'center', justifyContent:'center',marginBottom:8}}>
                         {this.renderCateg()}
                     </View>
-                    
-
-                    
 
                     <Text style={styles.txtDistancia}>800m | Freguesia</Text>
 
                     <View style={{flexDirection: 'row', alignSelf:'stretch'}}>
                         {this.renderDias()}
                     </View>
-                    
                     
                 </View>
 
