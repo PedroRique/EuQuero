@@ -67,12 +67,14 @@ class Perfil extends Component{
 
     componentWillMount(){
         const {currentUser} = firebase.auth();
-        let emailB64 = b64.encode(currentUser.email);
-        firebase.storage().ref(`images/avatars/${emailB64}`).getDownloadURL().then(url => {
-            this.setState({imagePath: url});
-        }).catch(error => {
-            this.setState({imagePath: ''});
-        });
+        if(currentUser){
+            let emailB64 = b64.encode(currentUser.email);
+            firebase.storage().ref(`images/avatars/${emailB64}`).getDownloadURL().then(url => {
+                this.setState({imagePath: url});
+            }).catch(error => {
+                this.setState({imagePath: ''});
+            });
+        }
     }
 
     render(){
@@ -138,7 +140,6 @@ const styles = StyleSheet.create({
         justifyContent:'flex-start', 
         alignItems: 'center',
         backgroundColor: '#ff9900',
-        flex: 1
     },
     card:{
         alignItems: 'center',

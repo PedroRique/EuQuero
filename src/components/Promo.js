@@ -31,7 +31,7 @@ export default class Promo extends Component{
             }
 
             categArray.push(
-                <Text key={element.key} style={styles.txtCateg}>{str}</Text>
+                <Text key={i} style={styles.txtCateg}>{str}</Text>
             )
         });
 
@@ -61,8 +61,6 @@ export default class Promo extends Component{
             <View style={styles.container}>
                 <View style={{flex: 2,  alignItems:'center', alignSelf:'stretch', justifyContent: 'center'}}>
                     <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/>
-                    {/* {this.props.item.imageURL ? <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/> :
-                    <Image source={this.img} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/>} */}
                 </View>
     
                 <View style={{alignSelf:'stretch', alignItems: 'center', justifyContent: 'space-between', flex: 3, padding: 10}}>
