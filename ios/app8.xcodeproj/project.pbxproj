@@ -56,6 +56,7 @@
 		2630B7177DE9437682B4C356 /* segoeui.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 735AB4C4CC9849F1B46DE230 /* segoeui.ttf */; };
 		2FDCE9070267487DAE531BA2 /* segoeuib.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A2FF7E209E4403A89E616CD /* segoeuib.ttf */; };
 		6CCEDB538E8643B38D29D38B /* segoeuii.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5D9D7A288724BBFA3F0447E /* segoeuii.ttf */; };
+		67545DC6A26E4E5589ED12E3 /* segoeuiz.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09EA8C1F44B842ED91B3808C /* segoeuiz.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -309,6 +310,7 @@
 		735AB4C4CC9849F1B46DE230 /* segoeui.ttf */ = {isa = PBXFileReference; name = "segoeui.ttf"; path = "../src/fonts/segoeui.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		6A2FF7E209E4403A89E616CD /* segoeuib.ttf */ = {isa = PBXFileReference; name = "segoeuib.ttf"; path = "../src/fonts/segoeuib.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		F5D9D7A288724BBFA3F0447E /* segoeuii.ttf */ = {isa = PBXFileReference; name = "segoeuii.ttf"; path = "../src/fonts/segoeuii.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		09EA8C1F44B842ED91B3808C /* segoeuiz.ttf */ = {isa = PBXFileReference; name = "segoeuiz.ttf"; path = "../src/fonts/segoeuiz.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -580,6 +582,7 @@
 				735AB4C4CC9849F1B46DE230 /* segoeui.ttf */,
 				6A2FF7E209E4403A89E616CD /* segoeuib.ttf */,
 				F5D9D7A288724BBFA3F0447E /* segoeuii.ttf */,
+				09EA8C1F44B842ED91B3808C /* segoeuiz.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -968,6 +971,7 @@
 				2630B7177DE9437682B4C356 /* segoeui.ttf in Resources */,
 				2FDCE9070267487DAE531BA2 /* segoeuib.ttf in Resources */,
 				6CCEDB538E8643B38D29D38B /* segoeuii.ttf in Resources */,
+				67545DC6A26E4E5589ED12E3 /* segoeuiz.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

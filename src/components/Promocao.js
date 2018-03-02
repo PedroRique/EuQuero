@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView} from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView, Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Voucher from 'voucher-code-generator';
 import {geraCupom, resetResgate} from '../actions/AppActions';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import MapView from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
+import { showLocation } from 'react-native-map-link';
 
 class Promocao extends Component{
 
@@ -16,27 +17,20 @@ class Promocao extends Component{
             codigo: '',
             modalVisible: false,
             region: {
-                latitude: -22.78825,
-                longitude: -43.4324,
+                latitude: this.props.item.placeObj.latitude,
+                longitude: this.props.item.placeObj.longitude,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
+            },
+            latlng: {
+                latitude:this.props.item.placeObj.latitude,
+                longitude:this.props.item.placeObj.longitude
             }
         };
     }
 
     componentWillReceiveProps(nextProps){
         this.setModalVisible(nextProps.geraCupomStatus);
-    }
-
-    componentDidMount(){
-        let region = {
-            latitude: this.props.item.placeObj.latitude,
-            longitude: this.props.item.placeObj.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-        }
-
-        this.setState({region});
     }
    
     loading(){
@@ -59,7 +53,11 @@ class Promocao extends Component{
     }
 
     comoChegar(){
-        alert('teste');
+        showLocation({
+            latitude: this.props.item.placeObj.latitude,
+            longitude: this.props.item.placeObj.longitude,
+            title: this.props.item.placeObj.address,
+        });
     }
 
     geraCodigo(){
@@ -140,6 +138,8 @@ class Promocao extends Component{
 
     render(){
         const sizeStar = 14;
+        const mapWidth = Dimensions.get('window').width;
+
         return (
 
             <ScrollView contentContainerStyle={styles.meio}>
@@ -174,39 +174,38 @@ class Promocao extends Component{
                 </View>
 
                 <View style={{flexDirection: 'row', alignSelf: 'stretch', backgroundColor: '#ededed',padding: 5, marginBottom: 10 }}>
-                    <View style={{backgroundColor: '#b30404', padding: 10, alignItems: 'center', justifyContent: 'center'}}>
+                    <View style={{backgroundColor: '#b30404', padding: 10, alignItems: 'center', justifyContent: 'center', flex:1}}>
                         <Text style={styles.desc}>{this.props.item.descontoPromo}%</Text>
                         <Text style={styles.deDesconto}>de desconto</Text>
                     </View>
 
-                    <View>
+                    <View style={{alignItems:'center', justifyContent:'space-around', flex:1, padding:5}}>
                         <Text>de R$: <Text style={{fontSize: 24, textDecorationLine: 'line-through'}}>{this.props.item.valorInicialPromo},00</Text></Text>
                         <Text>por R$: <Text style={{fontSize: 24, color: '#b30404', fontFamily: 'segoeuib'}}>{this.calculaPreco()},00</Text></Text>
                     </View>
 
-                    <View>
+                    <View style={{alignItems: 'center', justifyContent:'flex-start', flex:2}}>
                         <Text style={styles.estab}>{this.props.item.nomePromo}</Text>
                         <Text style={[styles.txtBasico, {alignSelf: 'stretch', textAlign: 'left'}]}>{this.props.item.descricaoPromo}</Text>
                     </View>
                 </View>
 
-                <TouchableOpacity onPress={() => this.comoChegar()}>
-                    <View style={styles.mapBox}>
-                        <MapView
-                            style={styles.map}
-                            region={this.state.region}
-                            ref={map => { this.map = map }}
-                            rotateEnabled={false}
-                            minZoomLevel={15}
-                            maxZoomLevel={18}
-                        ></MapView>
-                    </View>
+                <View style={[styles.mapBox, {width:mapWidth - 16}]}>
+                    <MapView
+                        style={styles.map}
+                        region={this.state.region}
+                        ref={map => { this.map = map }}
+                        rotateEnabled={false}
+                        minZoomLevel={15}
+                        maxZoomLevel={18}
+                    >
+                        <Marker pinColor='#ff9900' coordinate={this.state.latlng}/>
+                        {/* <Callout /> */}
+                    </MapView>
+                </View>
+                <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this.comoChegar()}>
+                    <Text style={{ marginTop:5, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'#ededed', color:'#b30404', padding: 10}}>Como chegar</Text>
                 </TouchableOpacity>
-
-
-                {/* <TouchableOpacity onPress={() => false}>
-                    <Text style={styles.regula}>Ver Regulamento</Text>
-                </TouchableOpacity> */} 
 
                 {this.loading()}     
 
@@ -273,9 +272,8 @@ export default connect(
 
 const styles = StyleSheet.create({
     mapBox: {
-        ...StyleSheet.absoluteFillObject,
+        // ...StyleSheet.absoluteFillObject,
         height: 180,
-        width: 200,
         justifyContent: 'flex-end',
         alignItems: 'center',
         alignSelf: 'stretch'
@@ -316,8 +314,9 @@ const styles = StyleSheet.create({
         color: '#b30404',
         fontSize: 20,
         marginHorizontal: 5,
-        textAlign: 'center',
-        fontFamily:'segoeuib'
+        textAlign: 'left',
+        fontFamily:'segoeuib',
+        alignSelf:'stretch'
     },
     txtBasico:{
         color: '#666',
