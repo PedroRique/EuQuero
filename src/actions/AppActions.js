@@ -85,7 +85,7 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
                     firebase.database().ref(`/promocoes/${data.key}`)
                         .set(objEnvio)
                         .then(() => {
-                            Actions.principal();
+                            Actions.pop();
                             dispatch({ type: 'loading_save_promo' });
                         })
                         .catch(() => {
