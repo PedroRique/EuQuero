@@ -56,7 +56,14 @@ export const modificaDataFim = (dataFim) => {
     }
 }
 
-export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, uri, imageURL, imageKey, placeObj, stringCateg}) => {
+export const modificaRegulamentoPromo = (regulamento) => {
+    return{
+        type: 'modifica_regulamento',
+        payload: regulamento
+    }
+}
+
+export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, uri, imageURL, imageKey, placeObj, stringCateg, regulamentoPromo}) => {
 
     return dispatch => {
 
@@ -71,7 +78,7 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
             total: 0
         }
 
-        let objEnvio = {nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, numeroCupons, placeObj, stringCateg};
+        let objEnvio = {nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, numeroCupons, placeObj, stringCateg, regulamentoPromo};
 
         firebase.storage().ref(`/images/avatars/${emailEstabB64}`).getDownloadURL()
             .then((url) => {
@@ -360,5 +367,22 @@ export const modificaFiltros = (filtros) => {
     return {
         type: 'modifica_filtros',
         payload: filtros
+    }
+}
+
+export const report = (promo) => {
+    return dispatch => {
+        const email = firebase.auth().currentUser.email;
+        emailB64 = b64.encode(email);
+        let dataReport = new Date();
+
+        firebase.database().ref(`/reports/${promo.emailEstabB64}/${promo.uid}`).push({promo, emailB64, dataReport})
+        .then((data) => {
+            console.log(data);
+            dispatch({type: 'report_success'});
+        }).catch((e) => {
+            console.log(e);
+            dispatch({type: 'report_error'});
+        });
     }
 }

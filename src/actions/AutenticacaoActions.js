@@ -54,6 +54,13 @@ export const modificaCNPJ = (cnpj) => {
     }
 }
 
+export const modificaAvatar = (url) => {
+    return {
+        type: 'modifica_avatar',
+        payload: url
+    }
+}
+
 export const cadastraUsuario = ({nome, email, senha, tipo, chaveEntrada, cpf, cnpj, endereco, placeObj, stringCateg}) => {
     return dispatch => {
 

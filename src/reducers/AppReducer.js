@@ -8,6 +8,7 @@ const INITIAL_STATE = {
     valorInicialPromo: '',
     descontoPromo: '',
     descricaoPromo: '',
+    regulamentoPromo: '',
     diasValidosPromo: [
         {dia: 'D', isValid: false, key: 0},
         {dia: 'S', isValid: false, key: 1},
@@ -93,6 +94,9 @@ export default (state = INITIAL_STATE, action) => {
         
         case 'modifica_dias_validos':
             return { ...state, diasValidosPromo: action.payload, diasChanged: !state.diasChanged}
+
+        case 'modifica_regulamento':
+            return { ...state, regulamentoPromo: action.payload}
 
         case 'get_user_location':
             return { ...state, userLocation: action.payload}

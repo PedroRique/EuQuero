@@ -6,6 +6,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'react-native-fetch-blob';
 import firebase from 'firebase';
 import b64 from 'base-64';
+import { modificaAvatar } from '../actions/AutenticacaoActions';
 
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
@@ -32,6 +33,8 @@ const uploadImage = (uri, mime = 'image/jpg') => {
             })
             .then((url) => {
                 resolve(url);
+                firebase.database().ref(`contatos/${emailB64}/avatarURL`).set(url);
+                _modificaAvatar();
             })
             .catch((error) => {
                 reject(error);
@@ -59,7 +62,6 @@ class Perfil extends Component{
             cropping: true
         }).then(image => {
             this.setState({imagePath : image.path});
-
             uploadImage(image.path);
         }).catch(error => {
         });
@@ -77,21 +79,22 @@ class Perfil extends Component{
         }
     }
 
+    _modificaAvatar(url){
+        this.props.modificaAvatar(url);
+    }
+
     render(){
 
         const img = require('../imgs/user.png');
-
-        //<ActivityIndicator containerStyle={{width: 200, height: 200}}/>
 
         return(
             <ScrollView contentContainerStyle={styles.container}>
 
                 <View style={styles.boxAvatar}>
                     <TouchableOpacity onPress={() => this.pickImage()} >
-                        {this.state.imagePath ? <Image source={{ uri: this.state.imagePath }} style={{width: 150, height: 150, borderRadius: 75}}/> :
+                        {this.props.avatarURL ? <Image source={{ uri: this.props.avatarURL }} style={{width: 150, height: 150, borderRadius: 75}}/> :
                         <Image source={img} style={{width: 150, height: 150, borderRadius: 75}}/>}
                     </TouchableOpacity>
-                    
                 </View>
                 
 
@@ -116,10 +119,11 @@ const mapStateToProps = state => (
         nome: state.AutenticacaoReducer.nome,
         email: state.AutenticacaoReducer.email,
         chave: state.AutenticacaoReducer.chave,
+        avatarURL: state.AutenticacaoReducer.avatarURL
     }
 )
 
-export default connect(mapStateToProps, {})(Perfil);
+export default connect(mapStateToProps, { modificaAvatar })(Perfil);
 
 const styles = StyleSheet.create({
 

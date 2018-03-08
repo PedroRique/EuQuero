@@ -50,7 +50,7 @@ class TabBarBackToHome extends Component{
     }
     render(){
         let title = '';
-        // console.log(this.props);
+        console.log(this.props);
         if(this.props.scene.route.index != undefined){
             title = this.props.scene.route.routes[this.props.scene.route.index].routes[0].params.title;
         }else{
@@ -59,7 +59,36 @@ class TabBarBackToHome extends Component{
         return(
             <View style={{backgroundColor: '#ae0707', elevation: 8, flexDirection: 'row', height: 80}}>
                 <StatusBar backgroundColor='#700000' />
-                <TouchableHighlight onPress={() => Actions.promocoes()} underlayColor='#000' style={{flex: 1, elevation: 15}}>
+                <TouchableHighlight onPress={() => this.props.navigation.goBack()} underlayColor='#000' style={{flex: 1, elevation: 15}}>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent:'center', backgroundColor:'#ce0707'}}><Icon name='home' color='white' size={50}/></View>
+                </TouchableHighlight>
+                <View style={{flex: 3, alignItems: 'center', justifyContent:'center', alignSelf: 'stretch', marginVertical:0}}>
+                    <Text style={{fontSize: 30, color:'white', fontFamily: 'segoeuii', textAlign:'right', alignSelf: 'stretch', marginRight:20}}>{title}</Text>
+                </View>
+            </View>
+        )
+    }
+}
+
+class TabBarBackToHome2 extends Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        let title = '';
+        console.log(this.props);
+        if(this.props.scene.route.index != undefined){
+            title = this.props.scene.route.routes[this.props.scene.route.index].routes[0].params.title;
+        }else{
+            title = this.props.scene.route.params.title;
+        }
+        return(
+            <View style={{backgroundColor: '#ae0707', elevation: 8, flexDirection: 'row', height: 80}}>
+                <StatusBar backgroundColor='#700000' />
+                <TouchableHighlight onPress={() => {
+                    this.props.navigation.goBack();
+                    this.props.navigation.goBack();
+                    }} underlayColor='#000' style={{flex: 1, elevation: 15}}>
                     <View style={{flex: 1, alignItems: 'center', justifyContent:'center', backgroundColor:'#ce0707'}}><Icon name='home' color='white' size={50}/></View>
                 </TouchableHighlight>
                 <View style={{flex: 3, alignItems: 'center', justifyContent:'center', alignSelf: 'stretch', marginVertical:0}}>
@@ -111,7 +140,7 @@ export default props => (
                 inactiveBackgroundColor='#b30404'
                 labelStyle={{fontFamily: 'segoeui'}}
                 showLabel={false}
-                navBar={TabBarBackToHome}
+                navBar={TabBarBackToHome2}
                 style={{ height: 65 }}
             >
                 <Scene key='tabPerfil' title='PERFIL' iconName='person' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}} style={{elevation: 10}}>
