@@ -10,16 +10,11 @@ class Rede extends Component{
     constructor(props){
         super(props);
 
-        this.state = { rede : [0,0,0] , total: 0, visible: false};
+        this.state = { visible: false};
     }
 
     componentDidMount(){
         this.props.contaRede(this.props.chave);
-    }
-
-    componentWillReceiveProps(nextProps){
-        let total = nextProps.rede[0] + nextProps.rede[1] + nextProps.rede[2];
-        this.setState({rede: nextProps.rede, total});
     }
 
     setAlert(visible){
@@ -29,6 +24,9 @@ class Rede extends Component{
     render(){
         const sizeIcon = 30;
         const colorIcon = '#b30404';
+        const total = this.props.rede[0] + this.props.rede[1] + this.props.rede[2];
+        let credito = this.props.rede[0] * 0.5 + this.props.rede[1] * 0.3 + this.props.rede[2] * 0.1;
+        credito = parseFloat(credito).toFixed(2);
 
         return(
             <View style={{flex: 1}}>
@@ -36,34 +34,34 @@ class Rede extends Component{
                     <Text style={styles.txtBasico}>1º Nível:</Text>
                     <View style={styles.iconNumero}>
                         <Icon name='people-outline' size={sizeIcon} color={colorIcon} containerStyle={styles.icon}/>
-                        <Text style={styles.txtBasico}>{this.state.rede[0]}</Text>
+                        <Text style={styles.txtBasico}>{this.props.rede[0]}</Text>
                     </View>
                 </View>
                 <View style={styles.linha}>
                     <Text style={styles.txtBasico}>2º Nível:</Text>
                     <View style={styles.iconNumero}>
                         <Icon name='people-outline' size={sizeIcon} color={colorIcon} containerStyle={styles.icon}/>
-                        <Text style={styles.txtBasico}>{this.state.rede[1]}</Text>
+                        <Text style={styles.txtBasico}>{this.props.rede[1]}</Text>
                     </View>
                 </View>
                 <View style={styles.linha}>
                     <Text style={styles.txtBasico}>3º Nível:</Text>
                     <View style={styles.iconNumero}>
                         <Icon name='people-outline' size={sizeIcon} color={colorIcon} containerStyle={styles.icon}/>
-                        <Text style={styles.txtBasico}>{this.state.rede[2]}</Text>
+                        <Text style={styles.txtBasico}>{this.props.rede[2]}</Text>
                     </View>
                 </View>
                 <View style={styles.linha}>
                     <Text style={styles.txtBasico}>Total Afilhados:</Text>
                     <View style={styles.iconNumero}>
                         <Icon name='people-outline' size={sizeIcon} color={colorIcon} containerStyle={styles.icon}/>
-                        <Text style={styles.txtBasico}>{this.state.total}</Text>
+                        <Text style={styles.txtBasico}>{total}</Text>
                     </View>
                 </View>
                 <View style={styles.linha2}>
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{fontFamily: 'segoeui', fontSize: 18, color: '#b30404'}}>SALDO ATUAL</Text>
-                        <Text style={{fontFamily: 'segoeuib', fontSize: 28, color: '#b30404'}}>R$ 112,00</Text>
+                        <Text style={{fontFamily: 'segoeuib', fontSize: 28, color: '#b30404'}}>R$ {credito}</Text>
                     </View>
                     <TouchableOpacity onPress={() => this.setAlert(true)}>
                         <Icon name='info' color='#ff9900'/>

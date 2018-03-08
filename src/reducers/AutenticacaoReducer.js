@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     cpf: '',
     endereco: '',
     placeObj: {},
+    avatarURL: '',
     stringCateg: '',
     coords: {},
     erroCadastro: '',
@@ -44,6 +45,9 @@ export default (state = INITIAL_STATE, action) => {
         case 'modifica_cnpj':
             return { ...state, cnpj: action.payload}
 
+        case 'modifica_avatar':
+            return { ...state, avatarURL: action.payload}
+
         case 'cadastra_usuario_erro':
             return { ...state, erroCadastro: action.payload, loadingCadastro: false }
 
@@ -61,9 +65,9 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'login_usuario_sucesso':
             if(action.payload.tipo == 'estab'){
-                return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave, placeObj: action.payload.placeObj, stringCateg: action.payload.stringCateg}
+                return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave, avatarURL: action.payload.avatarURL, placeObj: action.payload.placeObj, stringCateg: action.payload.stringCateg}
             }else{
-                return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave}
+                return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave, avatarURL: action.payload.avatarURL}
             }
             
 

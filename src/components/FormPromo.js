@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput, ActivityIndicator,
 import { Icon, CheckBox} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { modificaNomePromo, modificaTipoPromo, savePromo, modificaValorInicialPromo, modificaDescontoPromo, modificaDescricaoPromo, modificaDiasValidos, modificaDataIni, modificaDataFim } from '../actions/AppActions';
+import { modificaNomePromo, modificaTipoPromo, savePromo, modificaValorInicialPromo, modificaDescontoPromo, modificaDescricaoPromo, modificaDiasValidos, modificaDataIni, modificaDataFim, modificaRegulamentoPromo} from '../actions/AppActions';
 import firebase from 'firebase';
 import RNFetchBlob from 'react-native-fetch-blob';
 import b64 from 'base-64';
@@ -92,7 +92,8 @@ class FormPromo extends Component {
             dataIni,
             dataFim,
             placeObj,
-            stringCateg
+            stringCateg,
+            regulamentoPromo
         } = this.props;
         const {currentUser} = firebase.auth();
 
@@ -111,7 +112,8 @@ class FormPromo extends Component {
             imageURL,
             imageKey,
             placeObj,
-            stringCateg
+            stringCateg,
+            regulamentoPromo
         });
     }
 
@@ -197,6 +199,17 @@ class FormPromo extends Component {
 
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaDescricaoPromo(texto)}
+                    />
+
+                    <TextInput 
+                        value={this.props.regulamentoPromo}
+                        style={styles.textarea}
+                        placeholderTextColor='#888'
+                        placeholder='Regulamento'
+                        multiline={true}
+
+                        underlineColorAndroid='transparent'
+                        onChangeText={texto => this.props.modificaRegulamentoPromo(texto)}
                     />
 
                     
@@ -310,7 +323,8 @@ const mapStateToProps = state => (
         dataIni: state.AppReducer.dataIni,
         dataFim: state.AppReducer.dataFim,
         placeObj: state.AutenticacaoReducer.placeObj,
-        stringCateg: state.AutenticacaoReducer.stringCateg
+        stringCateg: state.AutenticacaoReducer.stringCateg,
+        regulamentoPromo: state.AutenticacaoReducer.regulamentoPromo
     }
 )
 
@@ -324,7 +338,8 @@ export default connect( mapStateToProps,
         modificaDescricaoPromo,
         modificaDiasValidos,
         modificaDataIni,
-        modificaDataFim
+        modificaDataFim,
+        modificaRegulamentoPromo
     } 
 )(FormPromo);
 

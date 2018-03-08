@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView, Dimensions} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Voucher from 'voucher-code-generator';
-import {geraCupom, resetResgate} from '../actions/AppActions';
+import {geraCupom, resetResgate, report} from '../actions/AppActions';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import MapView, { Marker, Callout } from 'react-native-maps';
@@ -88,6 +88,10 @@ class Promocao extends Component{
 
     setModalVisible(status){
         this.setState({modalVisible: status});
+    }
+
+    _report(){
+        this.props.report(this.props.item);
     }
 
     renderCateg(){
@@ -190,7 +194,7 @@ class Promocao extends Component{
                     </View>
                 </View>
 
-                <View style={[styles.mapBox, {width:mapWidth - 16}]}>
+                {/* <View style={[styles.mapBox, {width:mapWidth - 16}]}>
                     <MapView
                         style={styles.map}
                         region={this.state.region}
@@ -200,14 +204,20 @@ class Promocao extends Component{
                         maxZoomLevel={18}
                     >
                         <Marker pinColor='#ff9900' coordinate={this.state.latlng}/>
-                        {/* <Callout /> */}
                     </MapView>
                 </View>
                 <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this.comoChegar()}>
                     <Text style={{ marginTop:5, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'#ededed', color:'#b30404', padding: 10}}>Como chegar</Text>
+                </TouchableOpacity> */}
+
+
+                <Text style={{fontSize:12, fontFamily: 'segoeuii', color:'#333',marginTop:10}}>Botão de Reportar apenas para testar a funcionalidade.</Text>
+
+                <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this._report()}>
+                    <Text style={{marginTop: 3, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'#000', color:'white', padding: 10}}>Reportar</Text>
                 </TouchableOpacity>
 
-                {this.loading()}     
+                {/* {this.loading()}      */}
 
                     
                 <Modal
@@ -266,7 +276,8 @@ export default connect(
     mapStateToProps, 
     {
         geraCupom,
-        resetResgate
+        resetResgate,
+        report
     }
 )(Promocao);
 
