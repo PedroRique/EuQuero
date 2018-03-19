@@ -194,7 +194,7 @@ class Promocao extends Component{
                     </View>
                 </View>
 
-                {/* <View style={[styles.mapBox, {width:mapWidth - 16}]}>
+                <View style={[styles.mapBox, {width:mapWidth - 16}]}>
                     <MapView
                         style={styles.map}
                         region={this.state.region}
@@ -208,7 +208,7 @@ class Promocao extends Component{
                 </View>
                 <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this.comoChegar()}>
                     <Text style={{ marginTop:5, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'#ededed', color:'#b30404', padding: 10}}>Como chegar</Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
 
 
                 <Text style={{fontSize:12, fontFamily: 'segoeuii', color:'#333',marginTop:10}}>Botão de Reportar apenas para testar a funcionalidade.</Text>
@@ -217,7 +217,7 @@ class Promocao extends Component{
                     <Text style={{marginTop: 3, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'#000', color:'white', padding: 10}}>Reportar</Text>
                 </TouchableOpacity>
 
-                {/* {this.loading()}      */}
+                {this.loading()}     
 
                     
                 <Modal

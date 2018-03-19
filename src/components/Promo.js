@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {Rating, Icon} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
+import geolib from 'geolib';
 
 export default class Promo extends Component{
 
@@ -38,6 +39,10 @@ export default class Promo extends Component{
         return categArray;
     }
 
+    getDistance(){
+        this.distance = geolib.getDistanceSimple({latitude:-23.588509, longitude: -46.682489},{latitude: this.props.item.placeObj.latitude, longitude: this.props.item.placeObj.longitude});
+    }
+
     renderDias(){
         let dias = this.props.item.diasValidosPromo;
         let diasArray = [];
@@ -56,6 +61,7 @@ export default class Promo extends Component{
 
     render(){
         const sizeStar = 14;
+        this.getDistance();
         return (
             <TouchableOpacity onPress={() => {Actions.promocao({item: this.props.item, title: this.props.item.nomePromo})}} activeOpacity={0.5}>
             <View style={styles.container}>
@@ -71,7 +77,7 @@ export default class Promo extends Component{
                         {this.renderCateg()}
                     </View>
 
-                    <Text style={styles.txtDistancia}>800m | Freguesia</Text>
+                    <Text style={styles.txtDistancia}>{this.distance}m | Freguesia</Text>
 
                     <View style={{flexDirection: 'row', alignSelf:'stretch'}}>
                         {this.renderDias()}
