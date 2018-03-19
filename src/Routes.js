@@ -76,7 +76,7 @@ class TabBarBackToHome2 extends Component{
     }
     render(){
         let title = '';
-        console.log(this.props);
+        // console.log(this.props);
         if(this.props.scene.route.index != undefined){
             title = this.props.scene.route.routes[this.props.scene.route.index].routes[0].params.title;
         }else{
@@ -88,6 +88,7 @@ class TabBarBackToHome2 extends Component{
                 <TouchableHighlight onPress={() => {
                     this.props.navigation.goBack();
                     this.props.navigation.goBack();
+                    // console.log(this);
                     }} underlayColor='#000' style={{flex: 1, elevation: 15}}>
                     <View style={{flex: 1, alignItems: 'center', justifyContent:'center', backgroundColor:'#ce0707'}}><Icon name='home' color='white' size={50}/></View>
                 </TouchableHighlight>
@@ -158,7 +159,7 @@ export default props => (
             </Tabs>
 
             
-            <Scene key='formLogin' component={FormLogin} hideNavBar/>
+            <Scene key='formLogin' component={FormLogin} hideNavBar initial/>
             <Scene key='formCadastro' component={FormCadastro} title='Cadastro'/>
             <Scene key='promocao' component={Promocao} title='Promoção' navBar={TabBarBackToHome}/>
             {/* <Scene key='perfil' component={Perfil} hideNavBar={false} title='Perfil'/> */}

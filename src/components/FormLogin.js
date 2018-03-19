@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import {ScrollView, StatusBar, View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Switch, Alert, Modal, TouchableHighlight } from 'react-native';
+import {ScrollView, StatusBar, View, Text, TextInput, Button, TouchableOpacity, StyleSheet, Image, ActivityIndicator, Switch, Alert, Modal, TouchableHighlight, Dimensions, KeyboardAvoidingView} from 'react-native';
 import {Icon} from 'react-native-elements';
 import { modificaEmail, modificaSenha, autenticaUsuario, modificaLoginAs, limpaErroLogin, modificaSendoExibido} from '../actions/AutenticacaoActions';
 
@@ -72,22 +72,23 @@ class formLogin extends Component{
 
     render(){
         return (
-            <ScrollView style={styles.container} contentContainerStyle={{flex:1}}>
+            <ScrollView style={styles.container} contentContainerStyle={{height: loginHeight -25}}>
                 
                 <StatusBar backgroundColor='#721214' />
-                {/* <View style={styles.topo}>
-                    <Image style={{height: 65 , width: 190}} source={ require('../imgs/logow.png') } />
-                </View> */}
                 <View style={styles.meio}>
-                    {/* <Image style={styles.user} source={ require('../imgs/user.png') } /> */}
                     <Image style={{height: 82 , width: 250, marginVertical: 40}} source={ require('../imgs/logo.png') } />
-                    <View style={{alignSelf: 'stretch'}}>
+                    <View style={{alignSelf: 'stretch'}} behavior='height'>
                         <TextInput 
                             value={ this.props.email }
                             style={styles.input}
                             placeholder='E-mail' 
                             placeholderTextColor='#aaa'
+                            returnKeyType='next'
+                            autoCapitalize='none'
+                            autoCorrect={false}
                             underlineColorAndroid='transparent'
+                            keyboardType='email-address'
+                            onSubmitEditing={() => this.passwordInput.focus()}
                             onChangeText={texto => this.props.modificaEmail(texto)}
                         />
                         <TextInput 
@@ -96,7 +97,9 @@ class formLogin extends Component{
                             style={styles.input}
                             placeholder='Senha'
                             placeholderTextColor='#aaa'
+                            returnKeyType='go'
                             underlineColorAndroid='transparent'
+                            ref={(input) => this.passwordInput = input}
                             onChangeText={texto => this.props.modificaSenha(texto)}
                         />
                     </View>
@@ -157,6 +160,9 @@ class formLogin extends Component{
     }
 } 
 
+const { height } = Dimensions.get('window');
+const loginHeight = height;
+
 const mapStateToProps = state => (
     {
         email: state.AutenticacaoReducer.email,
@@ -171,7 +177,7 @@ const mapStateToProps = state => (
 export default connect(
     mapStateToProps, 
     { 
-        modificaEmail, 
+        modificaEmail,
         modificaSenha,
         autenticaUsuario,
         modificaLoginAs,
@@ -202,7 +208,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#B30404',
         justifyContent: 'space-between',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
     },
     input: {
         alignSelf: 'stretch',
