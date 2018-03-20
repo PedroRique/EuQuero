@@ -26,7 +26,7 @@ const INITIAL_STATE = {
     minhasPromos: [{nomePromo: ""}],
     userLocation: {},
     filtrosTexto: { texto: '', categs: []},
-    filtros: { categs: [], diasValidos: [], distancia: 10},
+    filtros: { categs: [], diasValidos: [], distancia: 10, stringCateg: ''},
     cupons: [],
     validaErro: '',
     rede: [0,0,0],

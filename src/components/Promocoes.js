@@ -63,12 +63,13 @@ const mapStateToProps = state => {
 
             let categs = val.stringCateg.split(',');
 
-            let hasCateg = categs.some(categ => state.AppReducer.filtros.categs.includes(categ));
+            let hasCateg = categs.some(categ => state.AppReducer.filtros.stringCateg.includes(categ));
 
-            if(hasCateg || state.AppReducer.filtrosTexto.categs.length == 0){
-                return {...val, uid}
-            }
+            console.log(hasCateg);
             
+            if(hasCateg || state.AppReducer.filtros.stringCateg.length == 0){
+                return {...val, uid}
+            } 
         }
 
     });

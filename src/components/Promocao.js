@@ -293,12 +293,13 @@ class Promocao extends Component{
                                 </MapView>
                             </View>
                             <View style={{flexDirection: 'row', marginTop: 10}}>
-                                <TouchableOpacity style={[styles.btnModalMapa, { marginRight: 5}]} onPress={() => this.setMapaVisible(false)}>
-                                    <Text style={styles.btnModalMapaTxt}>Fechar</Text>
-                                </TouchableOpacity>
                                 <TouchableOpacity style={[styles.btnModalMapa, { marginRight: 5}]} onPress={() => this.comoChegar()}>
                                     <Text style={styles.btnModalMapaTxt}>Como chegar</Text>
-                                </TouchableOpacity>  
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.btnModalMapa, { marginLeft: 5}]} onPress={() => this.setMapaVisible(false)}>
+                                    <Text style={styles.btnModalMapaTxt}>Fechar</Text>
+                                </TouchableOpacity>
+                                  
                             </View>         
                         </View>
                     </Modal>

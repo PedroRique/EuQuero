@@ -17,6 +17,7 @@ import Filtros from './components/Filtros';
 import Rede from './components/Rede';
 import Menu from './components/Menu';
 import Economia from './components/Economia';
+import Pesquisa from './components/Pesquisa';
 
 const TabIcon = (props) => {
     let color = props.focused ? '#b30404' : '#fff';
@@ -127,7 +128,10 @@ export default props => (
                             <Scene key='filtros' component={Filtros} title='Filtros' hideNavBar/> 
                         </Scene>
                         <Scene key='tabPesquisa' title='PESQUISA' iconName='search' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
-                            <Scene key='pesquisa' component={Filtros} title='Pesquisa' hideNavBar/> 
+                            <Scene key='pesquisa' component={Pesquisa} title='Pesquisa' hideNavBar/>
+                        </Scene>
+                        <Scene key='tabTeste' title='TESTE' iconName='teste' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}} swipeEnabled={false} tabBarOnPress={() => alert(3)}>
+                            <Scene key='teste' component={Cupons} title='Teste' hideNavBar/>
                         </Scene>
                     </Tabs>
                 </Stack>
