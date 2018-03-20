@@ -159,7 +159,7 @@ export default props => (
             </Tabs>
 
             
-            <Scene key='formLogin' component={FormLogin} hideNavBar initial/>
+            <Scene key='formLogin' component={FormLogin} hideNavBar/>
             <Scene key='formCadastro' component={FormCadastro} title='Cadastro'/>
             <Scene key='promocao' component={Promocao} title='Promoção' navBar={TabBarBackToHome}/>
             {/* <Scene key='perfil' component={Perfil} hideNavBar={false} title='Perfil'/> */}

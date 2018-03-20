@@ -77,7 +77,7 @@ export default class Promo extends Component{
                         {this.renderCateg()}
                     </View>
 
-                    <Text style={styles.txtDistancia}>{this.distance}m | Freguesia</Text>
+                    <Text style={styles.txtDistancia}>{this.distance}m</Text>
 
                     <View style={{flexDirection: 'row', alignSelf:'stretch'}}>
                         {this.renderDias()}
