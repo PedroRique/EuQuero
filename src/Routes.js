@@ -17,6 +17,7 @@ import Filtros from './components/Filtros';
 import Rede from './components/Rede';
 import Menu from './components/Menu';
 import Economia from './components/Economia';
+import Pesquisa from './components/Pesquisa';
 
 const TabIcon = (props) => {
     let color = props.focused ? '#b30404' : '#fff';
@@ -103,7 +104,8 @@ class TabBarBackToHome2 extends Component{
 const { height, width } = Dimensions.get('window');
 const menuWidth = (width * 2)/3; //Menu deve sempre ser 2/3 da tela;
 
-export default props => (
+export default props => {
+    return (
     <Router>
         <Stack key='root'>
             <Drawer key='sideMenu' drawerPosition='left' drawerWidth={menuWidth} contentComponent={Menu} hideNavBar>
@@ -119,6 +121,7 @@ export default props => (
                         showLabel={false}
                         navBar={TabBarHome}
                         style={{ height: 65 }}
+                        tabBar
                     >
                         <Scene key='tabHome' title='HOME' iconName='home' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}} style={{elevation: 10}}>
                             <Scene key='promocoes' component={Promocoes} title='Promoções' hideNavBar/>
@@ -127,7 +130,10 @@ export default props => (
                             <Scene key='filtros' component={Filtros} title='Filtros' hideNavBar/> 
                         </Scene>
                         <Scene key='tabPesquisa' title='PESQUISA' iconName='search' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
-                            <Scene key='pesquisa' component={Filtros} title='Pesquisa' hideNavBar/> 
+                            <Scene key='pesquisa' component={Pesquisa} title='Pesquisa' hideNavBar/>
+                        </Scene>
+                        <Scene key='tabCuponsHome' title='CUPONS' iconName='ticket' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
+                            <Scene key='cuponsHome' component={Cupons} title='Cupons' hideNavBar/>
                         </Scene>
                     </Tabs>
                 </Stack>
@@ -151,10 +157,10 @@ export default props => (
                     <Scene key='rede' component={Rede} title='Minha Rede' hideNavBar/> 
                 </Scene>
                 <Scene key='tabEconomia' title='ECONOMIA' iconName='attach-money' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
-                    <Scene key='pesquisa' component={Economia} title='Economia' hideNavBar/> 
+                    <Scene key='economia' component={Economia} title='Economia' hideNavBar/> 
                 </Scene>
-                <Scene key='tabCupons' title='CUPONS' iconName='receipt' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
-                    <Scene key='cupons' component={Cupons} title='Cupons' hideNavBar/>
+                <Scene key='tabCuponsPerfil' title='CUPONS' iconName='receipt' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
+                    <Scene key='cuponsPerfil' component={Cupons} title='Cupons' hideNavBar/>
                 </Scene>
             </Tabs>
 
@@ -171,4 +177,4 @@ export default props => (
             {/* <Scene key='rede' component={Rede} hideNavBar={false} title='Minha Rede' /> */}
         </Stack>       
     </Router>
-);
+)};

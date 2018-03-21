@@ -22,6 +22,13 @@ class Filtros extends Component {
         objFiltros.diasValidos = this.state.dias;
         objFiltros.distancia = this.state.distancia;
         objFiltros.categs = this.state.categs;
+        let str = '';
+
+        this.state.categs.forEach((categ,i) => {
+            str += categ.status ? categ.id + ',' : '';
+        });
+        
+        objFiltros.stringCateg = str.substr(0,str.length-1);
 
         this.props.modificaFiltros(objFiltros);
     }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView, Dimensions} from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView, Dimensions, InteractionManager} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Voucher from 'voucher-code-generator';
 import {geraCupom, resetResgate, report} from '../actions/AppActions';
@@ -16,6 +16,8 @@ class Promocao extends Component{
         this.state =  {
             codigo: '',
             modalVisible: false,
+            mapaVisible: false,
+            renderPlaceholderOnly: true,
             region: {
                 latitude: this.props.item.placeObj.latitude,
                 longitude: this.props.item.placeObj.longitude,
@@ -32,6 +34,14 @@ class Promocao extends Component{
     componentWillReceiveProps(nextProps){
         this.setModalVisible(nextProps.geraCupomStatus);
     }
+
+    componentDidMount() {
+        InteractionManager.runAfterInteractions(() => {
+          this.setState({
+            renderPlaceholderOnly: false,
+          });
+        });
+      }
    
     loading(){
         if(!this.props.loginAs){
@@ -90,6 +100,10 @@ class Promocao extends Component{
         this.setState({modalVisible: status});
     }
 
+    setMapaVisible(status){
+        this.setState({mapaVisible: status});
+    }
+
     _report(){
         this.props.report(this.props.item);
     }
@@ -142,128 +156,172 @@ class Promocao extends Component{
 
     render(){
         const sizeStar = 14;
-        const mapWidth = Dimensions.get('window').width;
 
-        return (
+        if(!this.state.renderPlaceholderOnly){
+            return (
 
-            <ScrollView contentContainerStyle={styles.meio}>
-            
-                <Image source={{uri: this.props.item.imageURL}} style={{alignSelf: 'stretch',width: null, height: 200}}/>
-                    
-                <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'flex-start', alignSelf:'stretch', marginBottom: 10}}>
-                    <View style={styles.boxAvatar}>
-                        <Image source={{uri: this.props.item.estabImageURL}} style={{width:100, height: 100}}/>
-                    </View>
-
-                    <View style={{alignSelf: 'stretch', alignItems: 'flex-start', justifyContent: 'space-between'}}>
-                        <Text style={styles.estab}>{this.props.item.nomeEstab}</Text>
-
-                        {this.renderCateg()}
-
-                        <View style={{flexDirection: 'row', alignSelf:'stretch'}}>
-                            <Text style={[styles.txtBasico, {marginRight: 10}]}>Dias Válidos:</Text>
-                            <View style={{flexDirection: 'row'}}>
-                                {this.renderDias()}
+                <ScrollView contentContainerStyle={styles.meio}>
+                
+                    <Image source={{uri: this.props.item.imageURL}} style={{alignSelf: 'stretch',width: null, height: 200}}/>
+                        
+                    <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'flex-start', alignSelf:'stretch', marginBottom: 10}}>
+                        <View style={styles.boxAvatar}>
+                            <Image source={{uri: this.props.item.estabImageURL}} style={{width:100, height: 100}}/>
+                        </View>
+    
+                        <View style={{alignSelf: 'stretch', alignItems: 'flex-start', justifyContent: 'space-between'}}>
+                            <Text style={styles.estab}>{this.props.item.nomeEstab}</Text>
+    
+                            {this.renderCateg()}
+    
+                            <View style={{flexDirection: 'row', alignSelf:'stretch'}}>
+                                <Text style={[styles.txtBasico, {marginRight: 10}]}>Dias Válidos:</Text>
+                                <View style={{flexDirection: 'row'}}>
+                                    {this.renderDias()}
+                                </View>
+                            </View>
+    
+                            <View style={{flexDirection:'row', alignItems: 'center',justifyContent:'flex-start', alignSelf: 'stretch',marginHorizontal: 5}}>
+                                <Icon name='star' color='#AE0505' size={sizeStar}/>
+                                <Icon name='star' color='#AE0505' size={sizeStar}/>
+                                <Icon name='star' color='#AE0505' size={sizeStar}/>
+                                <Icon name='star' color='#AE0505' size={sizeStar}/>
+                                <Icon name='star' color='#999' size={sizeStar}/>
                             </View>
                         </View>
-
-                        <View style={{flexDirection:'row', alignItems: 'center',justifyContent:'flex-start', alignSelf: 'stretch',marginHorizontal: 5}}>
-                            <Icon name='star' color='#AE0505' size={sizeStar}/>
-                            <Icon name='star' color='#AE0505' size={sizeStar}/>
-                            <Icon name='star' color='#AE0505' size={sizeStar}/>
-                            <Icon name='star' color='#AE0505' size={sizeStar}/>
-                            <Icon name='star' color='#999' size={sizeStar}/>
+                    </View>
+    
+                    <View style={{flexDirection: 'row', alignSelf: 'stretch', backgroundColor: '#ededed',padding: 5, marginBottom: 10 }}>
+                        <View style={{backgroundColor: '#b30404', padding: 10, alignItems: 'center', justifyContent: 'center', flex:1}}>
+                            <Text style={styles.desc}>{this.props.item.descontoPromo}%</Text>
+                            <Text style={styles.deDesconto}>de desconto</Text>
+                        </View>
+    
+                        <View style={{alignItems:'center', justifyContent:'space-around', flex:1, padding:5}}>
+                            <Text>de R$: <Text style={{fontSize: 24, textDecorationLine: 'line-through'}}>{this.props.item.valorInicialPromo},00</Text></Text>
+                            <Text>por R$: <Text style={{fontSize: 24, color: '#b30404', fontFamily: 'segoeuib'}}>{this.calculaPreco()},00</Text></Text>
+                        </View>
+    
+                        <View style={{alignItems: 'center', justifyContent:'flex-start', flex:2}}>
+                            <Text style={styles.estab}>{this.props.item.nomePromo}</Text>
+                            <Text style={[styles.txtBasico, {alignSelf: 'stretch', textAlign: 'left'}]}>{this.props.item.descricaoPromo}</Text>
                         </View>
                     </View>
-                </View>
-
-                <View style={{flexDirection: 'row', alignSelf: 'stretch', backgroundColor: '#ededed',padding: 5, marginBottom: 10 }}>
-                    <View style={{backgroundColor: '#b30404', padding: 10, alignItems: 'center', justifyContent: 'center', flex:1}}>
-                        <Text style={styles.desc}>{this.props.item.descontoPromo}%</Text>
-                        <Text style={styles.deDesconto}>de desconto</Text>
-                    </View>
-
-                    <View style={{alignItems:'center', justifyContent:'space-around', flex:1, padding:5}}>
-                        <Text>de R$: <Text style={{fontSize: 24, textDecorationLine: 'line-through'}}>{this.props.item.valorInicialPromo},00</Text></Text>
-                        <Text>por R$: <Text style={{fontSize: 24, color: '#b30404', fontFamily: 'segoeuib'}}>{this.calculaPreco()},00</Text></Text>
-                    </View>
-
-                    <View style={{alignItems: 'center', justifyContent:'flex-start', flex:2}}>
-                        <Text style={styles.estab}>{this.props.item.nomePromo}</Text>
-                        <Text style={[styles.txtBasico, {alignSelf: 'stretch', textAlign: 'left'}]}>{this.props.item.descricaoPromo}</Text>
-                    </View>
-                </View>
-
-                {/* <View style={[styles.mapBox, {width:mapWidth - 16}]}>
-                    <MapView
-                        style={styles.map}
-                        region={this.state.region}
-                        ref={map => { this.map = map }}
-                        rotateEnabled={false}
-                        minZoomLevel={15}
-                        maxZoomLevel={18}
-                    >
-                        <Marker pinColor='#ff9900' coordinate={this.state.latlng}/>
-                    </MapView>
-                </View>
-                <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this.comoChegar()}>
-                    <Text style={{ marginTop:5, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'#ededed', color:'#b30404', padding: 10}}>Como chegar</Text>
-                </TouchableOpacity> */}
-
-
-                <Text style={{fontSize:12, fontFamily: 'segoeuii', color:'#333',marginTop:10}}>Botão de Reportar apenas para testar a funcionalidade.</Text>
-
-                <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this._report()}>
-                    <Text style={{marginTop: 3, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'#000', color:'white', padding: 10}}>Reportar</Text>
-                </TouchableOpacity>
-
-                {/* {this.loading()}      */}
-
-                    
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={this.state.modalVisible}
-
-                    onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
-                    >
-                    <View style={{ padding:40,flex:1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center'}}>
-                    </View>
-                </Modal>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    backgroundColor="transparent"
-                    visible={this.state.modalVisible}
-                    
-                    onRequestClose={() => {
-                        this.props.resetResgate();
-                        this.setModalVisible(!this.state.modalVisible)
-                    }}
-                    >
-                    <View style={{ padding:40,flex:1, backgroundColor: 'rgba(0, 0, 0, 0)', justifyContent: 'center', alignItems: 'center'}}>
-                    <View style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, borderColor: '#881518', borderWidth: 1, borderStyle: 'solid', alignSelf: 'stretch'}}>
-                        <TouchableOpacity onPress={() => {this.props.resetResgate();this.setModalVisible(false)}}>
-                            <Icon name='close'  underlayColor="#999" containerStyle={{borderRadius: 5, alignSelf: 'flex-end'}}/>
-                        </TouchableOpacity>
-                        
-                        <Text style={{marginBottom: 20, fontSize: 24,textAlign: 'center'}}>Cupom resgatado e adicionado em sua lista!</Text>
-
-                        <TouchableOpacity onPress={() => {
-                            this.setModalVisible(false);
-                            this.props.resetResgate();
-                            Actions.cupons();} }>
-                            <Text style={styles.btnVoltar}>Meus Cupons</Text>
-                        </TouchableOpacity>
-                    </View>                     
-                </View>
-                </Modal>
-            </ScrollView>
     
-        );
+                    <Text style={{fontSize:12, fontFamily: 'segoeuii', color:'#333',marginTop:10}}>Botão de Reportar apenas para testar a funcionalidade.</Text>
+    
+                    <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this._report()}>
+                        <Text style={{marginTop: 3, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'#000', color:'white', padding: 10}}>Reportar</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this.setMapaVisible(true)}>
+                        <Text style={{marginTop: 3, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'blue', color:'white', padding: 10}}>Mapa</Text>
+                    </TouchableOpacity>
+    
+                    {this.loading()}     
+    
+                        
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={this.state.modalVisible}
+    
+                        onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
+                        >
+                        <View style={{ padding:40,flex:1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center'}}>
+                        </View>
+                    </Modal>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        backgroundColor="transparent"
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {
+                            this.props.resetResgate();
+                            this.setModalVisible(!this.state.modalVisible)
+                        }}
+                        >
+                        <View style={{ padding:40,flex:1, backgroundColor: 'rgba(0, 0, 0, 0)', justifyContent: 'center', alignItems: 'center'}}>
+                            <View style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, borderColor: '#881518', borderWidth: 1, borderStyle: 'solid', alignSelf: 'stretch'}}>
+                                <TouchableOpacity onPress={() => {this.props.resetResgate();this.setModalVisible(false)}}>
+                                    <Icon name='close'  underlayColor="#999" containerStyle={{borderRadius: 5, alignSelf: 'flex-end'}}/>
+                                </TouchableOpacity>
+                                
+                                <Text style={{marginBottom: 20, fontSize: 24,textAlign: 'center'}}>Cupom resgatado e adicionado em sua lista!</Text>
+    
+                                <TouchableOpacity onPress={() => {
+                                    this.setModalVisible(false);
+                                    this.props.resetResgate();
+                                    Actions.cupons();} }>
+                                    <Text style={styles.btnVoltar}>Meus Cupons</Text>
+                                </TouchableOpacity>
+                            </View>                     
+                        </View>
+                    </Modal>
+
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={this.state.mapaVisible}
+    
+                        onRequestClose={() => this.setModalVisible(!this.state.mapaVisible)}
+                        >
+                        <View style={{ padding:40,flex:1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center'}}>
+                        </View>
+                    </Modal>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        backgroundColor="transparent"
+                        visible={this.state.mapaVisible}
+                        onRequestClose={() => {
+                            this.props.resetResgate();
+                            this.setMapaVisible(!this.state.mapaVisible)
+                        }}
+                        >
+                        <View style={{ marginHorizontal:35,marginVertical: 50,flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'flex-start', padding: 10}}>
+                            <View style={styles.mapBox}>
+                                <MapView
+                                    style={styles.map}
+                                    region={this.state.region}
+                                    ref={map => { this.map = map }}
+                                    rotateEnabled={false}
+                                    minZoomLevel={15}
+                                    maxZoomLevel={18}
+                                >
+                                    <Marker pinColor='#ff9900' coordinate={this.state.latlng}/>
+                                </MapView>
+                            </View>
+                            <View style={{flexDirection: 'row', marginTop: 10}}>
+                                <TouchableOpacity style={[styles.btnModalMapa, { marginRight: 5}]} onPress={() => this.comoChegar()}>
+                                    <Text style={styles.btnModalMapaTxt}>Como chegar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.btnModalMapa, { marginLeft: 5}]} onPress={() => this.setMapaVisible(false)}>
+                                    <Text style={styles.btnModalMapaTxt}>Fechar</Text>
+                                </TouchableOpacity>
+                                  
+                            </View>         
+                        </View>
+                    </Modal>
+                </ScrollView>
+        
+            );
+        }else{
+            return (
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                    <ActivityIndicator size="large" color='#b30404'/>
+                </View>
+            );
+        }
+
+        
     }
 
 }
+
+const { height, width } = Dimensions.get('window');
+// const mapWidth = width - 60;
+const mapHeight = height - 110;
 
 const mapStateToProps = state => {
     return ({
@@ -282,9 +340,16 @@ export default connect(
 )(Promocao);
 
 const styles = StyleSheet.create({
+    btnModalMapa: {
+        elevation:8,
+        alignSelf:'stretch',
+        flex: 1
+    },
+    btnModalMapaTxt: {fontFamily: 'segoeuib', fontSize:16, textAlign:'center', backgroundColor:'#ededed', color:'#333', padding: 10},
     mapBox: {
-        // ...StyleSheet.absoluteFillObject,
-        height: 180,
+        // height: mapHeight,
+        // width: mapWidth,
+        flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
         alignSelf: 'stretch'
