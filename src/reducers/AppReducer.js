@@ -22,11 +22,13 @@ const INITIAL_STATE = {
     isExclusive: true,
     dataIni: '',
     dataFim: '',
-    promos: [{nomePromo: "", stringCateg:""}],
+    promos: [{nomePromo: "", stringCateg:"", initial: true}],
     minhasPromos: [{nomePromo: ""}],
     userLocation: {},
     filtrosTexto: { texto: '', categs: []},
     filtros: { categs: [], diasValidos: [], distancia: 10, stringCateg: ''},
+    pesquisa: '',
+    recentes: [],
     cupons: [],
     validaErro: '',
     rede: [0,0,0],
@@ -134,6 +136,15 @@ export default (state = INITIAL_STATE, action) => {
         case 'modifica_filtros':
             return { ...state, filtros: action.payload}
 
+        case 'modifica_pesquisa':
+            return { ...state, pesquisa: action.payload}
+
+        // case 'save_recent_success':
+        //     return { ...state}
+        
+        case 'lista_recentes':
+            return { ...state, recentes: action.payload}
+        
         default: 
             return state;
     }

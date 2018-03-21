@@ -65,7 +65,7 @@ const mapStateToProps = state => {
 
             let hasCateg = categs.some(categ => state.AppReducer.filtros.stringCateg.includes(categ));
 
-            console.log(hasCateg);
+            // console.log(hasCateg);
             
             if(hasCateg || state.AppReducer.filtros.stringCateg.length == 0){
                 return {...val, uid}

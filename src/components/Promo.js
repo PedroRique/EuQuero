@@ -40,7 +40,9 @@ export default class Promo extends Component{
     }
 
     getDistance(){
-        this.distance = geolib.getDistanceSimple({latitude:-23.588509, longitude: -46.682489},{latitude: this.props.item.placeObj.latitude, longitude: this.props.item.placeObj.longitude});
+        if(this.props.item.placeObj){
+            this.distance = geolib.getDistanceSimple({latitude:-23.588509, longitude: -46.682489},{latitude: this.props.item.placeObj.latitude, longitude: this.props.item.placeObj.longitude});
+        }
     }
 
     renderDias(){

@@ -285,6 +285,13 @@ export const modificaDiasValidos = (dias) => {
     }
 }
 
+export const modificaPesquisa = (text) => {
+    return {
+        type: 'modifica_pesquisa',
+        payload: text
+    }
+}
+
 export const getUserLocation = () => {
 
     return dispatch => {
@@ -384,5 +391,43 @@ export const report = (promo) => {
             console.log(e);
             dispatch({type: 'report_error'});
         });
+    }
+}
+
+export const saveRecent = (promo) => {
+    return dispatch => {
+        const email = firebase.auth().currentUser.email;
+        emailB64 = b64.encode(email);
+
+        firebase.database().ref(`/contatos/${emailB64}/recents/${promo.uid}`).set(promo)
+        .then((data) => {
+            console.log(data);
+            dispatch({type: 'save_recent_success'});
+        }).catch((e) => {
+            console.log(e);
+            dispatch({type: 'save_recent_error'});
+        })
+    }
+}
+
+export const listaRecentesFetch = () => {
+    return dispatch => {
+        const email = firebase.auth().currentUser.email;
+        emailB64 = b64.encode(email);
+
+        firebase.database().ref(`/contatos/${emailB64}/recents`).on('value', snapshot => {
+            dispatch({ type: 'lista_recentes', payload: snapshot.val()})
+        });
+
+    }
+}
+
+export const removeRecente = (uid) => {
+    return dispatch => {
+        const email = firebase.auth().currentUser.email;
+        emailB64 = b64.encode(email);
+        firebase.database().ref(`/contatos/${emailB64}/recents/${uid}`).remove();
+
+        dispatch({type: 'remove_recente'});
     }
 }
