@@ -52,7 +52,7 @@ class Menu extends Component {
         if(!this.props.loginAs){
             return(
                 <View>
-                    <TouchableOpacity onPress={() => Actions.cupons()} activeOpacity={0.5}>
+                    <TouchableOpacity onPress={() => Actions.cuponsPerfil()} activeOpacity={0.5}>
                         <MenuBtn
                             title='Meus Cupons'
                             icon={{name: 'receipt', color: '#b30404'}}

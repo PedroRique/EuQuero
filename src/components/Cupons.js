@@ -54,9 +54,15 @@ class Cupons extends Component {
 }
 
 const mapStateToProps = state => {
-
-    const cupons = _.map(state.AppReducer.cupons, (val, uid) => {        
-        return {...val, uid}
+    let index = -1;
+    const cupons = _.map(state.AppReducer.cupons, (val, uid) => {     
+        
+        if(index++ % 2){
+            return {...val, uid,bgColor:'#fff'}
+        }else{
+            return {...val, uid,bgColor:'#ededed'}
+        }
+        
     });
 
     return ({

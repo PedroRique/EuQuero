@@ -121,7 +121,6 @@ export default props => {
                         showLabel={false}
                         navBar={TabBarHome}
                         style={{ height: 65 }}
-                        tabBar
                     >
                         <Scene key='tabHome' title='HOME' iconName='home' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}} style={{elevation: 10}}>
                             <Scene key='promocoes' component={Promocoes} title='Promoções' hideNavBar/>
@@ -132,7 +131,7 @@ export default props => {
                         <Scene key='tabPesquisa' title='PESQUISA' iconName='search' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
                             <Scene key='pesquisa' component={Pesquisa} title='Pesquisa' hideNavBar/>
                         </Scene>
-                        <Scene key='tabCuponsHome' title='CUPONS' iconName='ticket' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
+                        <Scene key='tabCuponsHome' title='CUPONS' iconName='receipt' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
                             <Scene key='cuponsHome' component={Cupons} title='Cupons' hideNavBar/>
                         </Scene>
                     </Tabs>
