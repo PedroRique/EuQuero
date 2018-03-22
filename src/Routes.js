@@ -18,6 +18,7 @@ import Rede from './components/Rede';
 import Menu from './components/Menu';
 import Economia from './components/Economia';
 import Pesquisa from './components/Pesquisa';
+import Blank from './components/Blank';
 
 const TabIcon = (props) => {
     let color = props.focused ? '#b30404' : '#fff';
@@ -121,7 +122,6 @@ export default props => {
                         showLabel={false}
                         navBar={TabBarHome}
                         style={{ height: 65 }}
-                        tabBar
                     >
                         <Scene key='tabHome' title='HOME' iconName='home' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}} style={{elevation: 10}}>
                             <Scene key='promocoes' component={Promocoes} title='Promoções' hideNavBar/>
@@ -132,7 +132,7 @@ export default props => {
                         <Scene key='tabPesquisa' title='PESQUISA' iconName='search' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
                             <Scene key='pesquisa' component={Pesquisa} title='Pesquisa' hideNavBar/>
                         </Scene>
-                        <Scene key='tabCuponsHome' title='CUPONS' iconName='ticket' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
+                        <Scene key='tabCuponsHome' title='CUPONS' iconName='receipt' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
                             <Scene key='cuponsHome' component={Cupons} title='Cupons' hideNavBar/>
                         </Scene>
                     </Tabs>
@@ -167,7 +167,33 @@ export default props => {
             
             <Scene key='formLogin' component={FormLogin} hideNavBar initial/>
             <Scene key='formCadastro' component={FormCadastro} title='Cadastro'/>
-            <Scene key='promocao' component={Promocao} title='Promoção' navBar={TabBarBackToHome}/>
+            {/* <Scene key='promocao' component={Promocao} title='Promoção' navBar={TabBarBackToHome}/> */}
+
+            <Tabs
+                key='tabsPromocao'
+                tabBarPosition='bottom'
+                activeTintColor='#b30404'
+                activeBackgroundColor='#fff'                
+                inactiveBackgroundColor='#b30404'
+                labelStyle={{fontFamily: 'segoeui'}}
+                showLabel={false}
+                navBar={TabBarBackToHome}
+                style={{ height: 65 }}
+            > 
+                <Scene key='tabPromo' title='PROMOÇÃO' iconName='person' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}} style={{elevation: 10}}>
+                    <Scene key='promocao' component={Promocao} title='Promoção' hideNavBar/>
+                </Scene>
+                <Scene key='tabMapa' title='MAPA' iconName='location-on' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}} onPress={() => alert('mostra mapa')}>
+                    <Scene key='mapa' component={Blank} title='Blank' hideNavBar/> 
+                </Scene>
+                {/* <Scene key='tabEconomia' title='ECONOMIA' iconName='attach-money' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
+                    <Scene key='economia' component={Blank} title='Blank' hideNavBar/> 
+                </Scene>
+                <Scene key='tabCuponsPerfil' title='CUPONS' iconName='receipt' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
+                    <Scene key='cuponsPerfil' component={Blank} title='Blank' hideNavBar/>
+                </Scene> */}
+            </Tabs>
+
             {/* <Scene key='perfil' component={Perfil} hideNavBar={false} title='Perfil'/> */}
             <Scene key='formPromo' component={FormPromo} hideNavBar={false} title='Nova Promoção'/>
             {/* <Scene key='cupons' component={Cupons} hideNavBar={false} title='Meus Cupons'/> */}
