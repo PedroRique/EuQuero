@@ -36,6 +36,10 @@ export default class Cupom extends Component{
         return categArray;
     }
 
+    setModalVisible(){
+        this.props.setModalVisible(true,this.props.item.codigo);
+    }
+
     img = require('../imgs/plate.jpg');
 
     render(){
@@ -58,14 +62,19 @@ export default class Cupom extends Component{
                     </View>
                 </View>
     
-                <View style={{alignSelf:'stretch', alignItems: 'center', justifyContent: 'center', flex: 2}}>
+                <TouchableOpacity style={{alignSelf:'stretch', alignItems: 'center', justifyContent: 'center', flex: 2}}
+                    onPress={() => {
+                        // console.log('press');
+                        this.setModalVisible();
+                        }
+                    }>
                     <View style={{flexDirection:'column',justifyContent: 'space-around', alignItems: 'center', alignSelf: 'stretch'}}>
                         <Text style={styles.titulo}>{this.props.item.codigo}</Text>
                         <Text style={styles.txtBasico}>usar agora</Text>
                     </View>
 
                     {/* <Text>Resgatado: {resgatado}</Text> */}
-                </View>
+                </TouchableOpacity>
     
             </View>
         );

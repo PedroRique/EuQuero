@@ -154,7 +154,25 @@ class FormPromo extends Component {
         this.criaFonteDeDados(this.props.diasValidosPromo);
     }
 
+    _modificaDataIni(dataIni){
+        this.props.modificaDataIni(dataIni);
+
+        let dFim = this.datePickerFim.getDate();
+        let dIni = this.datePickerIni.getDate();
+
+        if(dFim < dIni)
+            this.props.modificaDataFim(dataIni);
+    }
+
+    _modificaDataFim(){
+        
+    }
+
     render (){
+        const minDate = new Date();
+        // const minDateIni = new Date();
+        // const minDateFim = minDateIni.setDate(minDateIni.getDate() + 1);
+
         return (
             <ScrollView>
                 <View>
@@ -169,6 +187,7 @@ class FormPromo extends Component {
                         placeholderTextColor='#888'
                         placeholder='Nome'
                         underlineColorAndroid='transparent'
+                        maxLength={20}
                         onChangeText={texto => this.props.modificaNomePromo(texto)}
                     />
 
@@ -210,21 +229,19 @@ class FormPromo extends Component {
 
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaRegulamentoPromo(texto)}
-                    />
-
-                    
+                    />          
 
                     <Text style={{fontSize:13, marginBottom: 10}}>Data de Início</Text>
                     <DatePicker
                         style={styles.datepicker}
-                        date={this.state.dataIni}
+                        date={this.props.dataIni}
                         mode="date"
                         placeholder="Data de Início"
                         format="DD/MM/YYYY"
-                        minDate="01/05/2016"
-                        maxDate="01/06/2017"
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
+                        minDate={minDate}
+                        confirmBtnText="Confirmar"
+                        cancelBtnText="Cancelar"
+                        ref={(datepicker) => this.datePickerIni = datepicker}
                         customStyles={{
                             dateIcon: {
                               position: 'absolute',
@@ -237,20 +254,20 @@ class FormPromo extends Component {
                               borderWidth: 0
                             }
                           }}
-                        onDateChange={(dataIni) => this.props.modificaDataIni(dataIni)}
+                        onDateChange={(dataIni) => this._modificaDataIni(dataIni)}
                     />
 
                     <Text style={{fontSize:13, marginBottom: 10}}>Data de Fim</Text>
                     <DatePicker
                         style={styles.datepicker}
-                        date={this.state.dataFim}
+                        date={this.props.dataFim}
                         mode="date"
-                        placeholder="Data de Início"
+                        placeholder="Data de Fim"
                         format="DD/MM/YYYY"
-                        minDate="01/05/2016"
-                        maxDate="01/06/2017"
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
+                        minDate={this.props.dataIni}
+                        confirmBtnText="Confirmar"
+                        cancelBtnText="Cancelar"
+                        ref={(datepicker) => this.datePickerFim = datepicker}
                         customStyles={{
                             dateIcon: {
                               position: 'absolute',
@@ -350,15 +367,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
-        marginHorizontal: 50,
+        marginHorizontal: 15,
         height: 45,
         backgroundColor: 'white',
         borderWidth: 0,
         marginVertical: 10,
-        borderRadius: 5,
         padding: 10,
         fontSize: 18,
-        textAlign: 'center',
+        textAlign: 'left',
         alignSelf: 'stretch'
     },
     textarea: {
@@ -367,7 +383,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderWidth: 0,
         marginBottom: 20,
-        borderRadius: 5,
         padding: 10,
         fontSize: 18,
         textAlign: 'center',
@@ -376,7 +391,6 @@ const styles = StyleSheet.create({
     datepicker: {
         height: 45,
         backgroundColor: '#fff',
-        borderRadius: 5,
         borderWidth: 0,
         alignItems: 'center',
         justifyContent: 'center',
@@ -389,7 +403,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
         textAlign: 'center',
-        borderRadius: 5,
         elevation: 1,
         marginBottom: 5
     },
