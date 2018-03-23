@@ -377,6 +377,13 @@ export const modificaFiltros = (filtros) => {
     }
 }
 
+export const modificaPromoAtual = (promo) => {
+    return {
+        type: 'modifica_promo_atual',
+        payload: promo
+    }
+}
+
 export const report = (promo) => {
     return dispatch => {
         const email = firebase.auth().currentUser.email;

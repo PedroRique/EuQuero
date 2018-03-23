@@ -22,12 +22,21 @@ class FormPromo extends Component {
         super(props);    
         
         this.state = {
-            isExclusive: true,
+            // isExclusive: true,
             loading: false,
             imagePath: '',
             dataIni: '01/05/2016',
             dataFim: '01/05/2016',
             selectedItems: [],
+            dataFimDisable: true,
+            dataFimStyle: {
+                height: 45,
+                backgroundColor: '#ededed',
+                borderWidth: 0,
+                alignItems: 'stretch',
+                justifyContent: 'center',
+                marginBottom: 20
+            }
         }
     }
 
@@ -49,9 +58,9 @@ class FormPromo extends Component {
         }).catch(error => false);
     }
 
-    _modificaTipoPromo(isExclusive){
-        this.setState({isExclusive})
-    }
+    // _modificaTipoPromo(isExclusive){
+    //     this.setState({isExclusive})
+    // }
 
     loading(){
         if(this.props.loadingFormPromo){
@@ -83,7 +92,7 @@ class FormPromo extends Component {
     _savePromo(imageURL, imageKey){
         const {
             nomePromo,
-            isExclusive, 
+            // isExclusive, 
             nomeEstab,
             valorInicialPromo,
             descontoPromo,
@@ -99,7 +108,7 @@ class FormPromo extends Component {
 
         this.props.savePromo({
             nomePromo, 
-            isExclusive, 
+            // isExclusive, 
             currentUser, 
             nomeEstab,
             valorInicialPromo,
@@ -155,6 +164,18 @@ class FormPromo extends Component {
     }
 
     _modificaDataIni(dataIni){
+        if(this.state.dataFimDisable){
+            this.setState({dataFimDisable:false,dataFimStyle: {
+                height: 45,
+                backgroundColor: '#fff',
+                borderWidth: 0,
+                alignItems: 'stretch',
+                justifyContent: 'center',
+                marginBottom: 20
+            }})
+        }
+            
+
         this.props.modificaDataIni(dataIni);
 
         let dFim = this.datePickerFim.getDate();
@@ -226,64 +247,50 @@ class FormPromo extends Component {
                         placeholderTextColor='#888'
                         placeholder='Regulamento'
                         multiline={true}
-
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaRegulamentoPromo(texto)}
                     />          
 
-                    <Text style={{fontSize:13, marginBottom: 10}}>Data de Início</Text>
-                    <DatePicker
-                        style={styles.datepicker}
-                        date={this.props.dataIni}
-                        mode="date"
-                        placeholder="Data de Início"
-                        format="DD/MM/YYYY"
-                        minDate={minDate}
-                        confirmBtnText="Confirmar"
-                        cancelBtnText="Cancelar"
-                        ref={(datepicker) => this.datePickerIni = datepicker}
-                        customStyles={{
-                            dateIcon: {
-                              position: 'absolute',
-                              left: 0,
-                              top: 4,
-                              marginLeft: 0
-                            },
-                            dateInput: {
-                              marginLeft: 36,
-                              borderWidth: 0
-                            }
-                          }}
-                        onDateChange={(dataIni) => this._modificaDataIni(dataIni)}
-                    />
+                    <View style={{flexDirection:'row',justifyContent:'space-between', marginVertical: 10, marginHorizontal:15,alignSelf:'stretch'}}>
+                        <DatePicker
+                            style={styles.datepicker}
+                            date={this.props.dataIni}
+                            mode="date"
+                            placeholder="Data de Início"
+                            format="DD/MM/YYYY"
+                            minDate={minDate}
+                            confirmBtnText="Confirmar"
+                            cancelBtnText="Cancelar"
+                            placeholderTextColor='#888'
+                            ref={(datepicker) => this.datePickerIni = datepicker}
+                            customStyles={{
+                                dateIcon: {position: 'absolute',left: 0,top: 4,marginLeft: 0},
+                                dateInput: {marginLeft: 36,borderWidth: 0}
+                            }}
+                            onDateChange={(dataIni) => this._modificaDataIni(dataIni)}
+                        />
 
-                    <Text style={{fontSize:13, marginBottom: 10}}>Data de Fim</Text>
-                    <DatePicker
-                        style={styles.datepicker}
-                        date={this.props.dataFim}
-                        mode="date"
-                        placeholder="Data de Fim"
-                        format="DD/MM/YYYY"
-                        minDate={this.props.dataIni}
-                        confirmBtnText="Confirmar"
-                        cancelBtnText="Cancelar"
-                        ref={(datepicker) => this.datePickerFim = datepicker}
-                        customStyles={{
-                            dateIcon: {
-                              position: 'absolute',
-                              left: 0,
-                              top: 4,
-                              marginLeft: 0
-                            },
-                            dateInput: {
-                              marginLeft: 36,
-                              borderWidth: 0
-                            }
-                          }}
-                        onDateChange={(dataFim) => this.props.modificaDataFim(dataFim)}
-                    />
+                        <DatePicker
+                            disabled={this.state.dataFimDisable}
+                            style={this.state.dataFimStyle}
+                            date={this.props.dataFim}
+                            mode="date"
+                            placeholder="Data de Fim"
+                            format="DD/MM/YYYY"
+                            minDate={this.props.dataIni}
+                            confirmBtnText="Confirmar"
+                            cancelBtnText="Cancelar"
+                            placeholderTextColor='#888'
+                            ref={(datepicker) => this.datePickerFim = datepicker}
+                            customStyles={{
+                                dateIcon: {position: 'absolute',left: 0,top: 4,marginLeft: 0},
+                                dateInput: {marginLeft: 36,borderWidth: 0, color:'#888'}
+                            }}
+                            onDateChange={(dataFim) => this.props.modificaDataFim(dataFim)}
+                        />
+                    </View>
                     
-                    <CheckBox
+                    {/* <CheckBox
                         title='Exclusiva'
                         checked={this.props.isExclusive}
                         checkedColor='#881518'
@@ -293,7 +300,7 @@ class FormPromo extends Component {
                         iconType='material'
                         containerStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
                         onPress={() => this.props.modificaTipoPromo()}
-                    />
+                    /> */}
 
                     <View>
                         <View style={{height: 50, alignSelf: 'stretch'}}>
@@ -331,7 +338,7 @@ const mapStateToProps = state => (
         nomeEstab: state.AutenticacaoReducer.nome,
         nomePromo: state.AppReducer.nomePromo,
         loadingFormPromo: state.AppReducer.loadingFormPromo,
-        isExclusive: state.AppReducer.isExclusive,
+        // isExclusive: state.AppReducer.isExclusive,
         descontoPromo: state.AppReducer.descontoPromo,
         descricaoPromo: state.AppReducer.descricaoPromo,
         diasValidosPromo: state.AppReducer.diasValidosPromo,
@@ -378,21 +385,21 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch'
     },
     textarea: {
-        marginHorizontal: 50,
-        height: 180,
+        marginHorizontal: 15,
+        height: 45,
         backgroundColor: 'white',
         borderWidth: 0,
-        marginBottom: 20,
+        marginVertical: 10,
         padding: 10,
         fontSize: 18,
-        textAlign: 'center',
+        textAlign: 'left',
         alignSelf: 'stretch',
     },
     datepicker: {
         height: 45,
         backgroundColor: '#fff',
         borderWidth: 0,
-        alignItems: 'center',
+        alignItems: 'stretch',
         justifyContent: 'center',
         marginBottom: 20
     },

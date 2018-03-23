@@ -4,8 +4,10 @@ import {Rating, Icon} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 import geolib from 'geolib';
+import {connect} from 'react-redux';
+import {modificaPromoAtual} from '../actions/AppActions';
 
-export default class Promo extends Component{
+class Promo extends Component{
 
     constructor(props){
         super(props);
@@ -61,11 +63,16 @@ export default class Promo extends Component{
         return diasArray;
     }
 
+    abrirPromocao(){
+        this.props.modificaPromoAtual(this.props.item);
+        Actions.promocao();
+    }
+
     render(){
         const sizeStar = 14;
         this.getDistance();
         return (
-            <TouchableOpacity onPress={() => {Actions.promocao({item: this.props.item, title: this.props.item.nomePromo})}} activeOpacity={0.5}>
+            <TouchableOpacity onPress={() => this.abrirPromocao()} activeOpacity={0.5}>
             <View style={styles.container}>
                 <View style={{flex: 2,  alignItems:'center', alignSelf:'stretch', justifyContent: 'center'}}>
                     <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/>
@@ -203,3 +210,11 @@ const styles = StyleSheet.create({
     }
 
 });
+
+const mapStateToProps = state => {
+    return({
+        promo: state.AppReducer.promo
+    })
+}
+
+export default connect(mapStateToProps, {modificaPromoAtual})(Promo);

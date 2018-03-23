@@ -4,7 +4,7 @@ import {Rating, Icon} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
-import { saveRecent } from '../actions/AppActions';
+import { saveRecent,modificaPromoAtual } from '../actions/AppActions';
 
 class PromoTiny extends Component{
 
@@ -16,8 +16,9 @@ class PromoTiny extends Component{
 
     _saveRecent(){ //salva a busca no banco do usuário para ser exibido em buscas recentes
         this.props.saveRecent(this.props.item);
-        
-        Actions.promocao({item: this.props.item, title: this.props.item.nomePromo});
+
+        this.props.modificaPromoAtual(this.props.item);
+        Actions.promocao();
     }
 
     render(){
@@ -89,8 +90,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return({
-        recentes: state.AppReducer.recentes
+        recentes: state.AppReducer.recentes,
+        promo: state.AppReducer.promo
     })
 }
 
-export default connect(mapStateToProps, { saveRecent })(PromoTiny);
+export default connect(mapStateToProps, { saveRecent,modificaPromoAtual })(PromoTiny);

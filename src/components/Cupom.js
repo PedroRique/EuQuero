@@ -63,11 +63,7 @@ export default class Cupom extends Component{
                 </View>
     
                 <TouchableOpacity style={{alignSelf:'stretch', alignItems: 'center', justifyContent: 'center', flex: 2}}
-                    onPress={() => {
-                        // console.log('press');
-                        this.setModalVisible();
-                        }
-                    }>
+                    onPress={() => this.setModalVisible()}>
                     <View style={{flexDirection:'column',justifyContent: 'space-around', alignItems: 'center', alignSelf: 'stretch'}}>
                         <Text style={styles.titulo}>{this.props.item.codigo}</Text>
                         <Text style={styles.txtBasico}>usar agora</Text>

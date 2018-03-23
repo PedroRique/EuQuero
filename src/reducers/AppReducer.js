@@ -44,6 +44,7 @@ const INITIAL_STATE = {
         { id: 'esportelazer', name: 'Esporte e Lazer', status: false, icon: 'fitness-center', key: 5 },
         { id: 'saudebeleza', name: 'Saúde e Beleza', status: false, icon: 'local-hospital', key: 6 }
     ],
+    promo: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -144,6 +145,9 @@ export default (state = INITIAL_STATE, action) => {
         
         case 'lista_recentes':
             return { ...state, recentes: action.payload}
+
+        case 'modifica_promo_atual':
+            return { ...state, promo: action.payload}
         
         default: 
             return state;
