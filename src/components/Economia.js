@@ -21,17 +21,12 @@ class Economia extends Component{
 
     renderCupons(){
         let cupons = this.props.cupons;
-        // alert(cupons);
         let cuponsArray = [];
-
-        // const {heigth, width} = Dimensions.get('window');
-        // const midWidth = width / 2;
 
         cupons.forEach((cupom, i) => {            
 
             let estilo = i % 2 ? styles.backBranco : styles.backCinza;
             let resgate = new Date(cupom.dataResgate).toLocaleDateString('pt');
-            // alert(resgate);
 
             cuponsArray.push(
                 <View key={i} style={[estilo, styles.backCupom]}>
@@ -47,10 +42,9 @@ class Economia extends Component{
 
     render(){
 
-        // alert(this.props.cupons);
         return(
             <View style={{flex:1}}>
-                <View style={styles.topData}>
+                {/* <View style={styles.topData}>
                     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', alignSelf:'stretch'}}>
                         <Icon name='today' color='white' size={36} />
                     </View>
@@ -62,16 +56,16 @@ class Economia extends Component{
                             <Text style={styles.dataTxt}>01/02/2018</Text>
                         </View>
                     </View>
-                </View>
+                </View> */}
 
                 <View style={styles.valores}>
                     <View style={[styles.valorBox, {borderRightWidth: 1, borderRightColor: '#b30404'}]}>
                         <Text style={styles.valorDesc}>Economizei</Text>
-                        <Text style={styles.valor}>R$ 92,50</Text>
+                        <Text style={styles.valor}>R$ 0,00</Text>
                     </View>
                     <View style={styles.valorBox}>
                         <Text style={styles.valorDesc}>Economizaria</Text>
-                        <Text style={styles.valor}>R$ 185,00</Text>
+                        <Text style={styles.valor}>R$ 0,00</Text>
                     </View>
 
                     <TouchableOpacity onPress={() => this.setAlert(true)} style={{alignItems:'center', justifyContent:'flex-end'}}>

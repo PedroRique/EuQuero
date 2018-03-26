@@ -23,11 +23,20 @@ class Filtros extends Component {
         objFiltros.distancia = this.state.distancia;
         objFiltros.categs = this.state.categs;
         let str = '';
+        let cont = 0;
 
-        this.state.categs.forEach((categ,i) => {
+        this.state.categs.forEach((categ) => {
             str += categ.status ? categ.id + ',' : '';
         });
         
+        this.state.dias.forEach((dia) => {
+            if(dia.isValid){
+                cont++;
+            }
+        })
+
+        objFiltros.diasValidosContador = cont;
+
         objFiltros.stringCateg = str.substr(0,str.length-1);
 
         this.props.modificaFiltros(objFiltros);
@@ -43,7 +52,6 @@ class Filtros extends Component {
     selectDia(key){
         let dias = this.state.dias;
         dias[key].isValid = !dias[key].isValid;
-
         this.setState({dias});
     }
 

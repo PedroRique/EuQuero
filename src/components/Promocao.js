@@ -19,14 +19,14 @@ class Promocao extends Component{
             mapaVisible: false,
             renderPlaceholderOnly: true,
             region: {
-                latitude: this.props.item.placeObj.latitude,
-                longitude: this.props.item.placeObj.longitude,
+                latitude: this.props.promo.placeObj.latitude,
+                longitude: this.props.promo.placeObj.longitude,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             },
             latlng: {
-                latitude:this.props.item.placeObj.latitude,
-                longitude:this.props.item.placeObj.longitude
+                latitude:this.props.promo.placeObj.latitude,
+                longitude:this.props.promo.placeObj.longitude
             }
         };
     }
@@ -58,15 +58,15 @@ class Promocao extends Component{
     }
 
     calculaPreco(){
-        let { valorInicialPromo, descontoPromo } = this.props.item;
+        let { valorInicialPromo, descontoPromo } = this.props.promo;
         return valorInicialPromo - ((valorInicialPromo * descontoPromo) / 100);
     }
 
     comoChegar(){
         showLocation({
-            latitude: this.props.item.placeObj.latitude,
-            longitude: this.props.item.placeObj.longitude,
-            title: this.props.item.placeObj.address,
+            latitude: this.props.promo.placeObj.latitude,
+            longitude: this.props.promo.placeObj.longitude,
+            title: this.props.promo.placeObj.address,
         });
     }
 
@@ -80,18 +80,17 @@ class Promocao extends Component{
         codigo = codigo.toString().toUpperCase();
 
         this.setState({codigo});
-        // this.setModalVisible(true);
         
         this._geraCupom(codigo);
     }
 
     _geraCupom(codigo){
 
-        const { item
+        const { promo
         } = this.props;
 
         this.props.geraCupom({
-            item,
+            promo,
             codigo
         });
     }
@@ -105,11 +104,11 @@ class Promocao extends Component{
     }
 
     _report(){
-        this.props.report(this.props.item);
+        this.props.report(this.props.promo);
     }
 
     renderCateg(){
-        let categs = this.props.item.stringCateg.split(',');
+        let categs = this.props.promo.stringCateg.split(',');
         let str = '';
 
         categs.forEach((element,i) => {
@@ -139,7 +138,7 @@ class Promocao extends Component{
     }
 
     renderDias(){
-        let dias = this.props.item.diasValidosPromo;
+        let dias = this.props.promo.diasValidosPromo;
         let diasArray = [];
 
         dias.forEach((element,i) => {
@@ -162,15 +161,15 @@ class Promocao extends Component{
 
                 <ScrollView contentContainerStyle={styles.meio}>
                 
-                    <Image source={{uri: this.props.item.imageURL}} style={{alignSelf: 'stretch',width: null, height: 200}}/>
+                    <Image source={{uri: this.props.promo.imageURL}} style={{alignSelf: 'stretch',width: null, height: 200}}/>
                         
                     <View style={{flexDirection: 'row', alignItems:'center', justifyContent: 'flex-start', alignSelf:'stretch', marginBottom: 10}}>
                         <View style={styles.boxAvatar}>
-                            <Image source={{uri: this.props.item.estabImageURL}} style={{width:100, height: 100}}/>
+                            <Image source={{uri: this.props.promo.estabImageURL}} style={{width:100, height: 100}}/>
                         </View>
     
                         <View style={{alignSelf: 'stretch', alignItems: 'flex-start', justifyContent: 'space-between'}}>
-                            <Text style={styles.estab}>{this.props.item.nomeEstab}</Text>
+                            <Text style={styles.estab}>{this.props.promo.nomeEstab}</Text>
     
                             {this.renderCateg()}
     
@@ -193,30 +192,30 @@ class Promocao extends Component{
     
                     <View style={{flexDirection: 'row', alignSelf: 'stretch', backgroundColor: '#ededed',padding: 5, marginBottom: 10 }}>
                         <View style={{backgroundColor: '#b30404', padding: 10, alignItems: 'center', justifyContent: 'center', flex:1}}>
-                            <Text style={styles.desc}>{this.props.item.descontoPromo}%</Text>
+                            <Text style={styles.desc}>{this.props.promo.descontoPromo}%</Text>
                             <Text style={styles.deDesconto}>de desconto</Text>
                         </View>
     
                         <View style={{alignItems:'center', justifyContent:'space-around', flex:1, padding:5}}>
-                            <Text>de R$: <Text style={{fontSize: 24, textDecorationLine: 'line-through'}}>{this.props.item.valorInicialPromo},00</Text></Text>
+                            <Text>de R$: <Text style={{fontSize: 24, textDecorationLine: 'line-through'}}>{this.props.promo.valorInicialPromo},00</Text></Text>
                             <Text>por R$: <Text style={{fontSize: 24, color: '#b30404', fontFamily: 'segoeuib'}}>{this.calculaPreco()},00</Text></Text>
                         </View>
     
                         <View style={{alignItems: 'center', justifyContent:'flex-start', flex:2}}>
-                            <Text style={styles.estab}>{this.props.item.nomePromo}</Text>
-                            <Text style={[styles.txtBasico, {alignSelf: 'stretch', textAlign: 'left'}]}>{this.props.item.descricaoPromo}</Text>
+                            <Text style={styles.estab}>{this.props.promo.nomePromo}</Text>
+                            <Text style={[styles.txtBasico, {alignSelf: 'stretch', textAlign: 'left'}]}>{this.props.promo.descricaoPromo}</Text>
                         </View>
                     </View>
     
                     <Text style={{fontSize:12, fontFamily: 'segoeuii', color:'#333',marginTop:10}}>Botão de Reportar apenas para testar a funcionalidade.</Text>
     
-                    <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this._report()}>
+                    {/* <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this._report()}>
                         <Text style={{marginTop: 3, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'#000', color:'white', padding: 10}}>Reportar</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this.setMapaVisible(true)}>
                         <Text style={{marginTop: 3, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'blue', color:'white', padding: 10}}>Mapa</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
     
                     {this.loading()}     
     
@@ -320,13 +319,13 @@ class Promocao extends Component{
 }
 
 const { height, width } = Dimensions.get('window');
-// const mapWidth = width - 60;
 const mapHeight = height - 110;
 
 const mapStateToProps = state => {
     return ({
         geraCupomStatus: state.AppReducer.geraCupomStatus,
-        loginAs: state.AutenticacaoReducer.loginAs
+        loginAs: state.AutenticacaoReducer.loginAs,
+        promo: state.AppReducer.promo
     })
 } 
 
@@ -347,8 +346,6 @@ const styles = StyleSheet.create({
     },
     btnModalMapaTxt: {fontFamily: 'segoeuib', fontSize:16, textAlign:'center', backgroundColor:'#ededed', color:'#333', padding: 10},
     mapBox: {
-        // height: mapHeight,
-        // width: mapWidth,
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',

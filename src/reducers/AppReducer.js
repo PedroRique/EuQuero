@@ -26,7 +26,7 @@ const INITIAL_STATE = {
     minhasPromos: [{nomePromo: ""}],
     userLocation: {},
     filtrosTexto: { texto: '', categs: []},
-    filtros: { categs: [], diasValidos: [], distancia: 10, stringCateg: ''},
+    filtros: { categs: [], diasValidos: [], distancia: 10, stringCateg: '',diasValidosContador:0},
     pesquisa: '',
     recentes: [],
     cupons: [],
@@ -44,6 +44,7 @@ const INITIAL_STATE = {
         { id: 'esportelazer', name: 'Esporte e Lazer', status: false, icon: 'fitness-center', key: 5 },
         { id: 'saudebeleza', name: 'Saúde e Beleza', status: false, icon: 'local-hospital', key: 6 }
     ],
+    promo: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -139,11 +140,11 @@ export default (state = INITIAL_STATE, action) => {
         case 'modifica_pesquisa':
             return { ...state, pesquisa: action.payload}
 
-        // case 'save_recent_success':
-        //     return { ...state}
-        
         case 'lista_recentes':
             return { ...state, recentes: action.payload}
+
+        case 'modifica_promo_atual':
+            return { ...state, promo: action.payload}
         
         default: 
             return state;

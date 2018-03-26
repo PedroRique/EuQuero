@@ -26,7 +26,6 @@ class Restaurantes extends Component {
                 app.props.modificaCoords(position.coords);
             },
             function() {
-                alert('Position could not be determined.')
             },
             {
                 enableHighAccuracy: false

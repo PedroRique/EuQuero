@@ -61,15 +61,29 @@ const mapStateToProps = state => {
     const promos = _.map(state.AppReducer.promos, (val, uid) => {
         if(val.nomePromo.toLowerCase().indexOf(state.AppReducer.filtrosTexto.texto.toLowerCase()) > -1){
 
-            let categs = val.stringCateg.split(',');
+            const filtros = state.AppReducer.filtros;
+            let hasCateg = true;
+            let hasDia = true;
 
-            let hasCateg = categs.some(categ => state.AppReducer.filtros.stringCateg.includes(categ));
+            if(filtros.stringCateg.length != 0){
+                let categs = val.stringCateg.split(',');
+                hasCateg = categs.some(categ => filtros.stringCateg.includes(categ));
+            }
 
-            // console.log(hasCateg);
+            if(filtros.diasValidosContador != 0){
+                let dias = val.diasValidosPromo;
+                hasDia = filtros.diasValidos.some(function(dia,i){
+                    if(dias[i].isValid && dia.isValid){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                });
+            }
             
-            if(hasCateg || state.AppReducer.filtros.stringCateg.length == 0){
+            if(hasCateg && hasDia){
                 return {...val, uid}
-            } 
+            }
         }
 
     });

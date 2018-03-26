@@ -165,8 +165,6 @@ export const autenticaUsuario = ({ email, senha, tipo }) => {
     }
 }
 
-//autenticaUsuarioSucesso(dispatch)
-
 const autenticaUsuarioSucesso = (snapshot, dispatch) => {
     dispatch({ type: 'login_usuario_sucesso', payload: snapshot.val()});
     Actions.promocoes();

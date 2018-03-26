@@ -71,7 +71,7 @@ class formCadastro extends Component {
             }
 
             if (request.status === 200) {
-                console.log('success', request.responseText);
+                
             } else {
                 console.warn('error');
             }
@@ -247,7 +247,7 @@ class formCadastro extends Component {
             this.props.modificaCategTotal(--n);
 
         }else{
-            alert('maximo 2');
+            alert('Selecione no máximo 2 categorias.');
         }
 
     }
