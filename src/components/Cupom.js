@@ -37,7 +37,7 @@ export default class Cupom extends Component{
     }
 
     setModalVisible(){
-        this.props.setModalVisible(true,this.props.item.codigo);
+        this.props.setModalVisible(true,this.props.item);
     }
 
     img = require('../imgs/plate.jpg');

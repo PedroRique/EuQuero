@@ -90,6 +90,8 @@ class Promocao extends Component{
         const { promo
         } = this.props;
 
+        console.log(promo);
+
         this.props.geraCupom({
             promo,
             codigo

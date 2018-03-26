@@ -63,7 +63,7 @@ export const modificaRegulamentoPromo = (regulamento) => {
     }
 }
 
-export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, uri, imageURL, imageKey, placeObj, stringCateg, regulamentoPromo}) => {
+export const savePromo = ({nomePromo, currentUser, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo, diasValidosPromo, dataIni, dataFim, uri, imageURL, imageKey, placeObj, stringCateg, regulamentoPromo}) => {
 
     return dispatch => {
 
@@ -78,7 +78,7 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
             total: 0
         }
 
-        let objEnvio = {nomePromo, isExclusive, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, numeroCupons, placeObj, stringCateg, regulamentoPromo};
+        let objEnvio = {nomePromo, emailEstab, emailEstabB64, nomeEstab, valorInicialPromo, descontoPromo, descricaoPromo,diasValidosPromo, dataIni, dataFim, imageURL, imageKey, numeroCupons, placeObj, stringCateg, regulamentoPromo};
 
         firebase.storage().ref(`/images/avatars/${emailEstabB64}`).getDownloadURL()
             .then((url) => {
@@ -95,15 +95,18 @@ export const savePromo = ({nomePromo, isExclusive, currentUser, nomeEstab, valor
                             Actions.pop();
                             dispatch({ type: 'loading_save_promo' });
                         })
-                        .catch(() => {
+                        .catch((e) => {
+                            alert(e);
                             dispatch({ type: 'loading_save_promo' });
                         })
      
                 })
-                .catch(() => {
+                .catch((e) => {
+                    alert(e);
                     dispatch({ type: 'loading_save_promo' });
                 })
             }).catch((e) => {
+                alert(e);
                 dispatch({ type: 'loading_save_promo' });
             });
     }
@@ -133,7 +136,7 @@ export const listaPromosFetch = () => {
     }
 }
 
-export const geraCupom = ({item, codigo}) => {
+export const geraCupom = ({promo, codigo}) => {
     return dispatch => {
 
         const { currentUser } = firebase.auth();
@@ -141,7 +144,7 @@ export const geraCupom = ({item, codigo}) => {
         currentEmail = currentUser ? currentUser.email : 'teste3@teste.com';
         let emailClientB64 = b64.encode(currentEmail);
 
-        let objEnvio = {promo:item, codigo, emailClientB64};
+        let objEnvio = {promo, codigo, emailClientB64};
 
         objEnvio.dataResgate = new Date().toLocaleString();
 
@@ -149,9 +152,9 @@ export const geraCupom = ({item, codigo}) => {
 
             firebase.database().ref(`/cupons_client/${emailClientB64}/${codigo}`).set(objEnvio).then(data2 => {
                 
-                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).set(objEnvio).then(() =>{
+                firebase.database().ref(`/promocoes_estab/${promo.emailEstabB64}/${promo.uid}/cupons/${codigo}`).set(objEnvio).then(() =>{
 
-                    firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/numeroCupons`)    
+                    firebase.database().ref(`/promocoes_estab/${promo.emailEstabB64}/${promo.uid}/numeroCupons`)    
                     .transaction((n) => {
                         if(n != null){
                             n.ativos++;
@@ -186,17 +189,17 @@ export const geraCupom = ({item, codigo}) => {
     }
 }
 
-export const validarCupom = ({item, codigo}) => {
+export const validarCupom = ({promo, codigo}) => {
 
     return dispatch => {
 
-        firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).once('value').then(snapshot => {
+        firebase.database().ref(`/promocoes_estab/${promo.emailEstabB64}/${promo.uid}/cupons/${codigo}`).once('value').then(snapshot => {
             if(snapshot.val() != null){
 
-                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).remove();
+                firebase.database().ref(`/promocoes_estab/${promo.emailEstabB64}/${promo.uid}/cupons/${codigo}`).remove();
                 firebase.database().ref(`/cupons_client/${snapshot.val().emailClientB64}/${codigo}`).remove();
 
-                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/numeroCupons`)
+                firebase.database().ref(`/promocoes_estab/${promo.emailEstabB64}/${promo.uid}/numeroCupons`)
                 .transaction((n) => {
                     if(n != null){
                         n.ativos--;

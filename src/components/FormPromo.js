@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, ActivityIndicator, ScrollView, Image, ListView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, ActivityIndicator, ScrollView, Image, ListView, KeyboardAvoidingView } from 'react-native';
 import { Icon, CheckBox} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -84,6 +84,7 @@ class FormPromo extends Component {
             firebase.storage().ref('images/promos').child(key).put(blob, { contentType : 'image/jpg' }).then((snapshot) => {
                 this._savePromo(snapshot.downloadURL, key);
             }).catch((e) => {
+                alert(e);
             })
         })
     
@@ -92,7 +93,6 @@ class FormPromo extends Component {
     _savePromo(imageURL, imageKey){
         const {
             nomePromo,
-            // isExclusive, 
             nomeEstab,
             valorInicialPromo,
             descontoPromo,
@@ -105,6 +105,8 @@ class FormPromo extends Component {
             regulamentoPromo
         } = this.props;
         const {currentUser} = firebase.auth();
+
+        alert(regulamentoPromo);
 
         this.props.savePromo({
             nomePromo, 
@@ -191,17 +193,16 @@ class FormPromo extends Component {
 
     render (){
         const minDate = new Date();
-        // const minDateIni = new Date();
-        // const minDateFim = minDateIni.setDate(minDateIni.getDate() + 1);
 
         return (
             <ScrollView>
+                <KeyboardAvoidingView behavior='padding'>
                 <View>
                     {this.renderImage()}
                 </View>
 
                 <View style={styles.meio}>
-
+                    
                     <TextInput 
                         value={this.props.nomePromo}
                         style={[styles.input, {marginTop: 20}]}
@@ -209,6 +210,8 @@ class FormPromo extends Component {
                         placeholder='Nome'
                         underlineColorAndroid='transparent'
                         maxLength={20}
+                        returnKeyType='next'
+                        onSubmitEditing={() => this.inputValor.focus()}
                         onChangeText={texto => this.props.modificaNomePromo(texto)}
                     />
 
@@ -218,6 +221,9 @@ class FormPromo extends Component {
                         placeholderTextColor='#888'
                         placeholder='Valor Inicial'
                         underlineColorAndroid='transparent'
+                        returnKeyType='next'
+                        onSubmitEditing={() => this.inputDesconto.focus()}
+                        ref={(input) => this.inputValor = input}
                         onChangeText={texto => this.props.modificaValorInicialPromo(texto)}
                     />
 
@@ -227,6 +233,9 @@ class FormPromo extends Component {
                         placeholderTextColor='#888'
                         placeholder='Desconto'
                         underlineColorAndroid='transparent'
+                        returnKeyType='next'
+                        onSubmitEditing={() => this.inputDescricao.focus()}
+                        ref={(input) => this.inputDesconto = input}
                         onChangeText={texto => this.props.modificaDescontoPromo(texto)}
                     />
 
@@ -236,7 +245,9 @@ class FormPromo extends Component {
                         placeholderTextColor='#888'
                         placeholder='Descrição'
                         multiline={true}
-
+                        returnKeyType='next'
+                        onSubmitEditing={() => this.inputRegulamento.focus()}
+                        ref={(input) => this.inputDescricao = input}
                         underlineColorAndroid='transparent'
                         onChangeText={texto => this.props.modificaDescricaoPromo(texto)}
                     />
@@ -247,8 +258,12 @@ class FormPromo extends Component {
                         placeholderTextColor='#888'
                         placeholder='Regulamento'
                         multiline={true}
+                        ref={(input) => this.inputRegulamento = input}
                         underlineColorAndroid='transparent'
-                        onChangeText={texto => this.props.modificaRegulamentoPromo(texto)}
+                        onChangeText={texto => {
+                            alert(texto);
+                            this.props.modificaRegulamentoPromo(texto)
+                        }}
                     />          
 
                     <View style={{flexDirection:'row',justifyContent:'space-between', marginVertical: 10, marginHorizontal:15,alignSelf:'stretch'}}>
@@ -320,8 +335,12 @@ class FormPromo extends Component {
                             />
                         </View>
                     </View>
+
+                    
                     
                 </View>
+
+                </KeyboardAvoidingView>
 
                 <View style={styles.rodape}>
                     {this.loading()}
@@ -338,17 +357,16 @@ const mapStateToProps = state => (
         nomeEstab: state.AutenticacaoReducer.nome,
         nomePromo: state.AppReducer.nomePromo,
         loadingFormPromo: state.AppReducer.loadingFormPromo,
-        // isExclusive: state.AppReducer.isExclusive,
         descontoPromo: state.AppReducer.descontoPromo,
         descricaoPromo: state.AppReducer.descricaoPromo,
         diasValidosPromo: state.AppReducer.diasValidosPromo,
         diasChanged: state.AppReducer.diasChanged,
         valorInicialPromo: state.AppReducer.valorInicialPromo,
+        regulamentoPromo: state.AppReducer.regulamentoPromo,
         dataIni: state.AppReducer.dataIni,
         dataFim: state.AppReducer.dataFim,
         placeObj: state.AutenticacaoReducer.placeObj,
-        stringCateg: state.AutenticacaoReducer.stringCateg,
-        regulamentoPromo: state.AutenticacaoReducer.regulamentoPromo
+        stringCateg: state.AutenticacaoReducer.stringCateg
     }
 )
 

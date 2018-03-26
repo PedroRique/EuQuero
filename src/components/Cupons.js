@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, ActivityIndicator, Button, ListView,Modal, TouchableOpacity} from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator, Button, ListView,Modal, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import { Icon, List } from 'react-native-elements';
 import { listaCuponsFetch } from '../actions/AppActions';
 import { connect } from 'react-redux';
@@ -13,7 +13,7 @@ class Cupons extends Component {
 
         this.state = {
             modalVisible: false,
-            codigoCupom: 'VANTAGEM'
+            cupom: {promo:{}}
         }
     }
     
@@ -53,12 +53,21 @@ class Cupons extends Component {
         this.fonteDeDados = ds.cloneWithRows(cupons);
     }
 
-    setModalVisible(modalVisible,codigoCupom){
-        console.log(modalVisible,codigoCupom);
-        this.setState({modalVisible, codigoCupom});
+    setModalVisible(modalVisible,cupom){
+        // console.log(modalVisible,cupom);
+        this.setState({modalVisible, cupom});
     }
     
     render(){
+        let codigo = '';
+        let dataFim = '';
+        if(this.state.cupom){
+            codigo = this.state.cupom.codigo;
+
+            if(this.state.cupom.promo){
+                dataFim = this.state.cupom.promo.dataFim;
+            }
+        }
         return(
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
                 {this.loading()}
@@ -67,7 +76,7 @@ class Cupons extends Component {
                     animationType="fade"
                     transparent={true}
                     visible={this.state.modalVisible}
-                    onRequestClose={() => this.setModalVisible(false,'')}
+                    onRequestClose={() => this.setModalVisible(false,{promo:{}})}
                     >
                     <View style={{ flex:1, backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
                     </View>
@@ -78,17 +87,16 @@ class Cupons extends Component {
                     backgroundColor="transparent"
                     visible={this.state.modalVisible}
                     onRequestClose={() => {
-                        this.setModalVisible(false,'');
+                        this.setModalVisible(false,{promo:{}});
                     }}
                     >
-                    <TouchableOpacity onPress={() => {
-                            console.log('press');
-                            this.setModalVisible(false,'');
-                        }} style={{flex:1, alignItems:'center', justifyContent:'center', padding:20}} activeOpacity={1}>
-                        <View style={{ backgroundColor: 'white', alignItems: 'center', justifyContent: 'flex-start', padding: 30}} >
-                            <Text style={{fontSize: 32, color: '#b30404', fontFamily: 'segoeuib'}}>{this.state.codigoCupom}</Text>
-                            <Text style={{fontFamily: 'segoeuii'}}>Cupom válido até dia</Text>
-                        </View>
+                    <TouchableOpacity onPress={(teste) => this.setModalVisible(false,{promo:{}})} style={{flex:1, alignItems:'center', justifyContent:'center', padding:20}} activeOpacity={1}>
+                        <TouchableWithoutFeedback>
+                            <View style={{ backgroundColor: 'white', alignItems: 'center', justifyContent: 'flex-start', padding: 30}}>
+                                <Text style={{fontSize: 32, color: '#b30404', fontFamily: 'segoeuib'}}>{this.state.cupom.codigo}</Text>
+                                <Text style={{fontFamily: 'segoeuii'}}>Cupom válido até dia {this.state.cupom.promo.dataFim}</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </TouchableOpacity>
                     
                 </Modal>
