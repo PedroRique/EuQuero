@@ -94,7 +94,7 @@ class Alerta extends Component {
                     visible={this.props.visible}
                     onRequestClose={() => this.setVisible(!this.props.visible)}
                 >
-                    <TouchableHighlight onPress={() => {alert(3);}} style={styles.fundo}>
+                    <TouchableHighlight onPress={() => false} style={styles.fundo}>
                         <View></View>
                     </TouchableHighlight>
                 </Modal>

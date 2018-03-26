@@ -21,17 +21,12 @@ class Economia extends Component{
 
     renderCupons(){
         let cupons = this.props.cupons;
-        // alert(cupons);
         let cuponsArray = [];
-
-        // const {heigth, width} = Dimensions.get('window');
-        // const midWidth = width / 2;
 
         cupons.forEach((cupom, i) => {            
 
             let estilo = i % 2 ? styles.backBranco : styles.backCinza;
             let resgate = new Date(cupom.dataResgate).toLocaleDateString('pt');
-            // alert(resgate);
 
             cuponsArray.push(
                 <View key={i} style={[estilo, styles.backCupom]}>
@@ -47,7 +42,6 @@ class Economia extends Component{
 
     render(){
 
-        // alert(this.props.cupons);
         return(
             <View style={{flex:1}}>
                 {/* <View style={styles.topData}>

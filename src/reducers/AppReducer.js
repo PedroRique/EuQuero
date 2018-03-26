@@ -26,7 +26,7 @@ const INITIAL_STATE = {
     minhasPromos: [{nomePromo: ""}],
     userLocation: {},
     filtrosTexto: { texto: '', categs: []},
-    filtros: { categs: [], diasValidos: [], distancia: 10, stringCateg: ''},
+    filtros: { categs: [], diasValidos: [], distancia: 10, stringCateg: '',diasValidosContador:0},
     pesquisa: '',
     recentes: [],
     cupons: [],
@@ -140,9 +140,6 @@ export default (state = INITIAL_STATE, action) => {
         case 'modifica_pesquisa':
             return { ...state, pesquisa: action.payload}
 
-        // case 'save_recent_success':
-        //     return { ...state}
-        
         case 'lista_recentes':
             return { ...state, recentes: action.payload}
 

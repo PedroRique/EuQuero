@@ -54,7 +54,6 @@ class Cupons extends Component {
     }
 
     setModalVisible(modalVisible,cupom){
-        // console.log(modalVisible,cupom);
         this.setState({modalVisible, cupom});
     }
     

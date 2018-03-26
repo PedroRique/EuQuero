@@ -64,7 +64,6 @@ class Menu extends Component {
     }
 
     render (){
-        // alert(this.props.avatarURL);
         const img = require('../imgs/user.png');
         return (
             <View style={{justifyContent:'flex-start', flex:1}}>

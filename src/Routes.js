@@ -62,7 +62,6 @@ class TabBarBackToHome extends Component{
     }
     render(){
         let title = '';
-        console.log(this.props);
         if(this.props.scene.route.index != undefined){
             title = this.props.scene.route.routes[this.props.scene.route.index].routes[0].params.title;
         }else{
@@ -91,7 +90,6 @@ class TabBarBackToHome2 extends Component{
     }
     render(){
         let title = '';
-        // console.log(this.props);
         if(this.props.scene.route.index != undefined){
             title = this.props.scene.route.routes[this.props.scene.route.index].routes[0].params.title;
         }else{

@@ -80,7 +80,6 @@ class Promocao extends Component{
         codigo = codigo.toString().toUpperCase();
 
         this.setState({codigo});
-        // this.setModalVisible(true);
         
         this._geraCupom(codigo);
     }
@@ -89,8 +88,6 @@ class Promocao extends Component{
 
         const { promo
         } = this.props;
-
-        console.log(promo);
 
         this.props.geraCupom({
             promo,
@@ -322,7 +319,6 @@ class Promocao extends Component{
 }
 
 const { height, width } = Dimensions.get('window');
-// const mapWidth = width - 60;
 const mapHeight = height - 110;
 
 const mapStateToProps = state => {
@@ -350,8 +346,6 @@ const styles = StyleSheet.create({
     },
     btnModalMapaTxt: {fontFamily: 'segoeuib', fontSize:16, textAlign:'center', backgroundColor:'#ededed', color:'#333', padding: 10},
     mapBox: {
-        // height: mapHeight,
-        // width: mapWidth,
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',

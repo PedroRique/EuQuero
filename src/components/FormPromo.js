@@ -22,7 +22,6 @@ class FormPromo extends Component {
         super(props);    
         
         this.state = {
-            // isExclusive: true,
             loading: false,
             imagePath: '',
             dataIni: '01/05/2016',
@@ -58,10 +57,6 @@ class FormPromo extends Component {
         }).catch(error => false);
     }
 
-    // _modificaTipoPromo(isExclusive){
-    //     this.setState({isExclusive})
-    // }
-
     loading(){
         if(this.props.loadingFormPromo){
             return(
@@ -84,7 +79,6 @@ class FormPromo extends Component {
             firebase.storage().ref('images/promos').child(key).put(blob, { contentType : 'image/jpg' }).then((snapshot) => {
                 this._savePromo(snapshot.downloadURL, key);
             }).catch((e) => {
-                alert(e);
             })
         })
     
@@ -105,8 +99,6 @@ class FormPromo extends Component {
             regulamentoPromo
         } = this.props;
         const {currentUser} = firebase.auth();
-
-        alert(regulamentoPromo);
 
         this.props.savePromo({
             nomePromo, 
@@ -260,10 +252,7 @@ class FormPromo extends Component {
                         multiline={true}
                         ref={(input) => this.inputRegulamento = input}
                         underlineColorAndroid='transparent'
-                        onChangeText={texto => {
-                            alert(texto);
-                            this.props.modificaRegulamentoPromo(texto)
-                        }}
+                        onChangeText={texto => this.props.modificaRegulamentoPromo(texto)}
                     />          
 
                     <View style={{flexDirection:'row',justifyContent:'space-between', marginVertical: 10, marginHorizontal:15,alignSelf:'stretch'}}>

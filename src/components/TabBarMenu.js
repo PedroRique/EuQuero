@@ -9,7 +9,6 @@ import { modificaFiltrosTexto, limpaFiltros } from '../actions/AppActions';
 class TabBarMenu extends Component{
 
     render(){
-        // alert(this.props.navigationState.index)
         return (
 
             <View style={{ backgroundColor: '#B30404', elevation: 4}}>

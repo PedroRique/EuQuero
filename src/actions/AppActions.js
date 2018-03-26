@@ -96,17 +96,14 @@ export const savePromo = ({nomePromo, currentUser, nomeEstab, valorInicialPromo,
                             dispatch({ type: 'loading_save_promo' });
                         })
                         .catch((e) => {
-                            alert(e);
                             dispatch({ type: 'loading_save_promo' });
                         })
      
                 })
                 .catch((e) => {
-                    alert(e);
                     dispatch({ type: 'loading_save_promo' });
                 })
             }).catch((e) => {
-                alert(e);
                 dispatch({ type: 'loading_save_promo' });
             });
     }
@@ -299,8 +296,6 @@ export const getUserLocation = () => {
 
     return dispatch => {
 
-        // navigator.geolocation.getCurrentPosition((position) => {alert(position)}, (error) => {alert(error)}, {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000});
-
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 dispatch({
@@ -395,10 +390,8 @@ export const report = (promo) => {
 
         firebase.database().ref(`/reports/${promo.emailEstabB64}/${promo.uid}`).push({promo, emailB64, dataReport})
         .then((data) => {
-            console.log(data);
             dispatch({type: 'report_success'});
         }).catch((e) => {
-            console.log(e);
             dispatch({type: 'report_error'});
         });
     }
@@ -411,10 +404,8 @@ export const saveRecent = (promo) => {
 
         firebase.database().ref(`/contatos/${emailB64}/recents/${promo.uid}`).set(promo)
         .then((data) => {
-            console.log(data);
             dispatch({type: 'save_recent_success'});
         }).catch((e) => {
-            console.log(e);
             dispatch({type: 'save_recent_error'});
         })
     }

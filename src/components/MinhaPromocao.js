@@ -25,13 +25,6 @@ class MinhaPromocao extends Component{
     }
    
     loading(){
-        
-        // if(this.props.loadingLogin){
-        //     return(
-        //         <ActivityIndicator size="large" color='#fff'/>
-        //     );
-        // }
-
         return (
             <TouchableOpacity onPress={ () => this.setModalVisible(true) }>
                 <Text style={styles.btnResgatar}>Validar Cupom</Text>
