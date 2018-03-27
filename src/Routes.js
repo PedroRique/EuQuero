@@ -100,7 +100,6 @@ class TabBarBackToHome2 extends Component{
                 <StatusBar backgroundColor='#700000' />
                 <TouchableHighlight onPress={() => {
                     this.props.navigation.goBack();
-                    this.props.navigation.goBack();
                     }} underlayColor='#000' style={{flex: 1, elevation: 15}}>
                     <View style={{flex: 1, alignItems: 'center', justifyContent:'center', backgroundColor:'#ce0707'}}><Icon name='home' color='white' size={50}/></View>
                 </TouchableHighlight>
@@ -115,7 +114,9 @@ class TabBarBackToHome2 extends Component{
 const { height, width } = Dimensions.get('window');
 const menuWidth = (width * 2)/3; //Menu deve sempre ser 2/3 da tela;
 
-export default props => (
+export default props => {
+    console.log(props);
+    return(
 <Router>
     <Stack key='root'>
         <Drawer key='sideMenu' drawerPosition='left' drawerWidth={menuWidth} contentComponent={Menu} hideNavBar>
@@ -173,7 +174,7 @@ export default props => (
             </Scene>
         </Tabs>
 
-        <Tabs
+        {/* <Tabs
             key='tabsPromocao'
             tabBarPosition='bottom'
             activeTintColor='#b30404'
@@ -199,12 +200,13 @@ export default props => (
             <Scene key='tabFav' title='FAVORITAR' iconName='favorite-border' icon={TabIconPromo} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}} swipeEnabled={false} tabBarOnPress={() => {alert('mostra fav')}}>
                 <Scene key='fav' component={Blank} title='Blank' hideNavBar/> 
             </Scene>
-        </Tabs>
-
+        </Tabs> */}
+        
+        <Scene key='promocao' component={Promocao} title='Promoção' navBar={TabBarBackToHome2}/>
         <Scene key='formLogin' component={FormLogin} hideNavBar initial/>
         <Scene key='formCadastro' component={FormCadastro} title='Cadastro'/>
         <Scene key='formPromo' component={FormPromo} hideNavBar={false} title='Nova Promoção'/>
         <Scene key='minhasPromos' component={MinhasPromocoes} hideNavBar={false} title='Minhas Promoções'/>
         <Scene key='minhaPromocao' component={MinhaPromocao} hideNavBar={false} title='Minha Promoção'/>
     </Stack>       
-</Router>)
+</Router>)}

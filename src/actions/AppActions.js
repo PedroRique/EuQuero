@@ -186,17 +186,22 @@ export const geraCupom = ({promo, codigo}) => {
     }
 }
 
-export const validarCupom = ({promo, codigo}) => {
+export const validarCupom = ({item, codigo}) => {
 
     return dispatch => {
 
-        firebase.database().ref(`/promocoes_estab/${promo.emailEstabB64}/${promo.uid}/cupons/${codigo}`).once('value').then(snapshot => {
+        firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}`).once('value').then(snapshot => {
             if(snapshot.val() != null){
 
-                firebase.database().ref(`/promocoes_estab/${promo.emailEstabB64}/${promo.uid}/cupons/${codigo}`).remove();
-                firebase.database().ref(`/cupons_client/${snapshot.val().emailClientB64}/${codigo}`).remove();
+                const emailClientB64 = snapshot.val().emailClientB64;
+                const dataUso = new Date();
 
-                firebase.database().ref(`/promocoes_estab/${promo.emailEstabB64}/${promo.uid}/numeroCupons`)
+                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}/valido`).set(false);
+                firebase.database().ref(`/cupons_client/${emailClientB64}/${codigo}/valido`).set(false);
+                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/cupons/${codigo}/dataUso`).set(dataUso.toString());
+                firebase.database().ref(`/cupons_client/${emailClientB64}/${codigo}/dataUso`).set(dataUso.toString());
+
+                firebase.database().ref(`/promocoes_estab/${item.emailEstabB64}/${item.uid}/numeroCupons`)
                 .transaction((n) => {
                     if(n != null){
                         n.ativos--;

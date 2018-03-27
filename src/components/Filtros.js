@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import { modificaFiltros } from "../actions/AppActions";
 import { Icon, Slider } from "react-native-elements";
@@ -10,7 +10,7 @@ class Filtros extends Component {
         super(props);
 
         this.state = {
-            distancia: 5000,
+            distancia: 10000,
             categs: this.props.categs,
             dias: this.props.diasValidos
         }
@@ -20,7 +20,7 @@ class Filtros extends Component {
         objFiltros = {};
 
         objFiltros.diasValidos = this.state.dias;
-        objFiltros.distancia = this.state.distancia;
+        objFiltros.distancia = this.state.distancia == 10000 ? 0 : this.state.distancia;
         objFiltros.categs = this.state.categs;
         let str = '';
         let cont = 0;
@@ -61,11 +61,12 @@ class Filtros extends Component {
         this.props.categs.forEach((categ)=> {
             let estilo = categ.status ? styles.categItemSelected : styles.categItem;
             let estiloTxt = categ.status ? styles.categItemSelectedTxt : styles.categItemTxt;
+            let color = categ.status ? 'white' : '#b30404';
 
             categs.push(
                 <TouchableOpacity key={categ.id} onPress={() => this.selectCateg(categ.key)}>
                     <View key={categ.id} style={estilo}>
-                        <Icon name={categ.icon} color='#881518'/>
+                        <Icon name={categ.icon} color={color}/>
                         <Text style={estiloTxt}>{categ.name}</Text>
                     </View>
                 </TouchableOpacity>
@@ -110,10 +111,10 @@ class Filtros extends Component {
                         onValueChange={(distancia) => this.setState({distancia})}
                         thumbTintColor='#721214'
                         thumbTouchSize={{width: 40, height: 40}}
-                        minimumValue={0}
+                        minimumValue={100}
                         maximumValue={10000}
                     />                        
-                    <Text style={{backgroundColor: '#333', color: 'white', borderRadius: 5, padding: 5, alignSelf: 'flex-start'}}>{this.state.distancia}m</Text>
+                    <Text style={{backgroundColor: '#333', color: 'white', borderRadius: 5, padding: 5, alignSelf: 'flex-start'}}>{this.state.distancia == 10000? 'Mostre-me tudo' : this.state.distancia+'m'}</Text>
                 </View>
 
                 <View>
@@ -131,6 +132,8 @@ class Filtros extends Component {
 
 }
 
+const { width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     titulo: {
         fontFamily: "segoeui",
@@ -140,36 +143,37 @@ const styles = StyleSheet.create({
         marginTop: 30
     },
     categItem: {
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        padding: 5,
+        width: width / 5,
+        height: width / 5,
+        borderWidth: 1,
+        borderColor: '#b30404',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row',
-        marginBottom: 5,
-        marginLeft: 5
+        margin: 2
     },
     categItemSelected: {
-        backgroundColor: '#333',
-        borderRadius: 5,
-        padding: 5,
+        backgroundColor: '#b30404',
+        width: width / 5,
+        height: width / 5,
+        borderWidth: 1,
+        borderColor: '#b30404',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row',
-        marginBottom: 5,
-        marginLeft: 5,
+        margin: 2
     },
     categItemTxt: {
-        color: '#333',
-        fontSize: 15,
+        color: '#700000',
+        fontSize: 10,
         padding:5,
         fontFamily: "segoeui",
+        textAlign: 'center',
     },
     categItemSelectedTxt: {
         color: 'white',
-        fontSize: 15,
+        fontSize: 10,
         padding:5,
         fontFamily: "segoeui",
+        textAlign: 'center',
     },
     txtDia: {
         padding: 5,

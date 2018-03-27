@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView, Dimensions, InteractionManager} from 'react-native';
+import {Animated,View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView, Dimensions, InteractionManager, TextInput, Keyboard} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Voucher from 'voucher-code-generator';
 import {geraCupom, resetResgate, report} from '../actions/AppActions';
@@ -17,7 +17,9 @@ class Promocao extends Component{
             codigo: '',
             modalVisible: false,
             mapaVisible: false,
+            reportVisible: false,
             renderPlaceholderOnly: true,
+            favorite:false,
             region: {
                 latitude: this.props.promo.placeObj.latitude,
                 longitude: this.props.promo.placeObj.longitude,
@@ -27,7 +29,9 @@ class Promocao extends Component{
             latlng: {
                 latitude:this.props.promo.placeObj.latitude,
                 longitude:this.props.promo.placeObj.longitude
-            }
+            },
+            reportTxt:'',
+            marginVerticalModal: new Animated.Value(100)
         };
     }
 
@@ -35,12 +39,44 @@ class Promocao extends Component{
         this.setModalVisible(nextProps.geraCupomStatus);
     }
 
+    componentWillMount() {
+        this.keyboardDidShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
+        this.keyboardDidHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
+    }
+    
+    componentWillUnmount() {
+        this.keyboardDidShowSub.remove()
+        this.keyboardDidHideSub.remove()
+    }
+
+    keyboardDidShow = event => {
+        Animated.timing(                  // Animate over time
+            this.state.marginVerticalModal,            // The animated value to drive
+            {
+              toValue: 20,                   // Animate to opacity: 1 (opaque)
+              duration: 300,                // Make it take a while
+            }
+          ).start();
+    }
+
+    keyboardDidHide = event => {
+        Animated.timing(                  // Animate over time
+            this.state.marginVerticalModal,            // The animated value to drive
+            {
+              toValue: 100,                   // Animate to opacity: 1 (opaque)
+              duration: 300,              // Make it take a while
+            }
+          ).start();
+    }
+    
+
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
           this.setState({
             renderPlaceholderOnly: false,
           });
         });
+
       }
    
     loading(){
@@ -103,6 +139,14 @@ class Promocao extends Component{
         this.setState({mapaVisible: status});
     }
 
+    setReportVisible(status){
+        this.setState({reportVisible: status});
+    }
+
+    setFavorite(favorite){
+        this.setState({favorite});
+    }
+
     _report(){
         this.props.report(this.props.promo);
     }
@@ -155,10 +199,13 @@ class Promocao extends Component{
 
     render(){
         const sizeStar = 14;
+        const favIcon = this.state.favorite ? 'favorite' : 'favorite-border';
+
+        const {marginVerticalModal} = this.state;
 
         if(!this.state.renderPlaceholderOnly){
             return (
-
+                <View>
                 <ScrollView contentContainerStyle={styles.meio}>
                 
                     <Image source={{uri: this.props.promo.imageURL}} style={{alignSelf: 'stretch',width: null, height: 200}}/>
@@ -190,7 +237,7 @@ class Promocao extends Component{
                         </View>
                     </View>
     
-                    <View style={{flexDirection: 'row', alignSelf: 'stretch', backgroundColor: '#ededed',padding: 5, marginBottom: 10 }}>
+                    <View style={{flexDirection: 'row', alignSelf: 'stretch', backgroundColor: '#ededed',padding: 5, marginBottom: 70 }}>
                         <View style={{backgroundColor: '#b30404', padding: 10, alignItems: 'center', justifyContent: 'center', flex:1}}>
                             <Text style={styles.desc}>{this.props.promo.descontoPromo}%</Text>
                             <Text style={styles.deDesconto}>de desconto</Text>
@@ -206,19 +253,6 @@ class Promocao extends Component{
                             <Text style={[styles.txtBasico, {alignSelf: 'stretch', textAlign: 'left'}]}>{this.props.promo.descricaoPromo}</Text>
                         </View>
                     </View>
-    
-                    <Text style={{fontSize:12, fontFamily: 'segoeuii', color:'#333',marginTop:10}}>Botão de Reportar apenas para testar a funcionalidade.</Text>
-    
-                    {/* <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this._report()}>
-                        <Text style={{marginTop: 3, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'#000', color:'white', padding: 10}}>Reportar</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity containerStyle={{elevation: 50}} style={{elevation:8,alignSelf:'stretch', marginBottom: 10}} onPress={() => this.setMapaVisible(true)}>
-                        <Text style={{marginTop: 3, fontFamily: 'segoeuib', fontSize:18, textAlign:'center', backgroundColor:'blue', color:'white', padding: 10}}>Mapa</Text>
-                    </TouchableOpacity> */}
-    
-                    {this.loading()}     
-    
                         
                     <Modal
                         animationType="fade"
@@ -278,7 +312,7 @@ class Promocao extends Component{
                             this.setMapaVisible(!this.state.mapaVisible)
                         }}
                         >
-                        <View style={{ marginHorizontal:35,marginVertical: 50,flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'flex-start', padding: 10}}>
+                        <View style={{ marginHorizontal:35,marginVertical: 100,flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'flex-start', padding: 10}}>
                             <View style={styles.mapBox}>
                                 <MapView
                                     style={styles.map}
@@ -302,7 +336,75 @@ class Promocao extends Component{
                             </View>         
                         </View>
                     </Modal>
+
+
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={this.state.reportVisible}
+    
+                        onRequestClose={() => this.setReportVisible(!this.state.reportVisible)}
+                        >
+                        <View style={{ padding:40,flex:1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center'}}>
+                        </View>
+                    </Modal>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        backgroundColor="transparent"
+                        visible={this.state.reportVisible}
+                        onRequestClose={() => {
+                            this.props.resetResgate();
+                            this.setReportVisible(!this.state.reportVisible)
+                        }}
+                        >
+                        <Animated.View style={{ marginHorizontal:35,marginVertical: marginVerticalModal,flex:1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'flex-start', padding: 10}}>
+                            <View style={styles.mapBox}>
+                                <Text style={{fontFamily:'segoeuiz', fontSize:18, marginBottom:10}}>Ocorreu algum problema com a promoção?</Text>
+                                <TextInput 
+                                    placeholder='Fale conosco sobre incoerência nas informações, conteúdo imprópio ou mau atendimento, por exemplo.'
+                                    placeholderTextColor='#666'
+                                    multiline
+                                    value={this.state.reportTxt}
+                                    onChangeText={(reportTxt) => this.setState({reportTxt})}
+                                    style={{flex: 1, textAlign:'left', backgroundColor:'#ededed', alignSelf:'stretch', textAlignVertical:'top', fontFamily:'segoeui'}}
+                                    onFocus={() => this.keyboardDidShow()}
+                                    onBlur={() => this.keyboardDidHide()}
+                                />
+                                
+                            </View>
+                            <View style={{flexDirection: 'row', marginTop: 10}}>
+                                <TouchableOpacity style={[styles.btnModalMapa, { marginRight: 5}]} onPress={() => this._report()}>
+                                    <Text style={styles.btnReportar}>Reportar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.btnModalMapa, { marginLeft: 5}]} onPress={() => this.setReportVisible(false)}>
+                                    <Text style={styles.btnModalMapaTxt}>Fechar</Text>
+                                </TouchableOpacity>
+                                  
+                            </View>         
+                        </Animated.View>
+                    </Modal>
                 </ScrollView>
+
+                    <View style={styles.tabbar}>
+                        <TouchableOpacity onPress={() => false}>
+                            <Icon name='receipt' color='#b30404' size={24} />
+                            <Text style={styles.tabTxt}>RESGATAR</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.setMapaVisible(true)}>
+                            <Icon name='location-on' color='#b30404' size={24} />
+                            <Text style={styles.tabTxt}>MAPA</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.setReportVisible(true)}>
+                            <Icon name='warning' color='#b30404' size={24} />
+                            <Text style={styles.tabTxt}>REPORTAR</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.setFavorite(!this.state.favorite)}>
+                            <Icon name={favIcon} color='#b30404' size={24} />
+                            <Text style={styles.tabTxt}>FAVORITAR</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
         
             );
         }else{
@@ -339,6 +441,27 @@ export default connect(
 )(Promocao);
 
 const styles = StyleSheet.create({
+    tabTxt: {
+        color:'#b30404',
+        textAlign:'center',
+        fontSize:11,
+        fontFamily: 'segoeui'
+    },
+    tabbar: {
+        position:'absolute',
+        bottom:0,
+        left:0,
+        right:0,
+        backgroundColor:'white',
+        borderTopWidth:5,
+        borderTopColor: '#b30404',        
+        alignSelf:'stretch',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        paddingVertical: 10,
+        elevation:20
+    },
     btnModalMapa: {
         elevation:8,
         alignSelf:'stretch',
@@ -432,7 +555,7 @@ const styles = StyleSheet.create({
     meio:{
         alignItems: 'center',
         padding: 8,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
     },
     btnResgatar: {
         paddingVertical: 10,
@@ -443,7 +566,7 @@ const styles = StyleSheet.create({
         fontFamily: 'segoeuib',
         textAlign: 'center',
         elevation: 2,
-        marginBottom: 5
+        marginBottom: 60
     },
     btnVoltar:{
         paddingVertical: 10,
@@ -456,6 +579,7 @@ const styles = StyleSheet.create({
         elevation: 2,
         marginBottom: 5
     },
+    btnReportar:{fontFamily: 'segoeuib', fontSize:16, textAlign:'center', backgroundColor:'#b30404', color:'#fff', padding: 10},
     txtDia: {
         backgroundColor:'#999',
         color: 'white',

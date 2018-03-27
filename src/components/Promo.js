@@ -65,53 +65,59 @@ class Promo extends Component{
 
     abrirPromocao(){
         this.props.modificaPromoAtual(this.props.item);
-        Actions.promocao();
+        Actions.promocao({title:this.props.item.nomePromo});
     }
 
     render(){
         const sizeStar = 14;
         this.getDistance();
-        return (
-            <TouchableOpacity onPress={() => this.abrirPromocao()} activeOpacity={0.5}>
-            <View style={styles.container}>
-                <View style={{flex: 2,  alignItems:'center', alignSelf:'stretch', justifyContent: 'center'}}>
-                    <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/>
-                </View>
+
+        if(this.distance <= this.props.filtros.distancia || this.props.filtros.distancia == 0){
+            return (
+                <TouchableOpacity onPress={() => this.abrirPromocao()} activeOpacity={0.5}>
+                <View style={styles.container}>
+                    <View style={{flex: 2,  alignItems:'center', alignSelf:'stretch', justifyContent: 'center'}}>
+                        <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage} resizeMethod='scale' resizeMode='cover'/>
+                    </View>
+        
+                    <View style={{alignSelf:'stretch', alignItems: 'center', justifyContent: 'space-between', flex: 3, padding: 10}}>
     
-                <View style={{alignSelf:'stretch', alignItems: 'center', justifyContent: 'space-between', flex: 3, padding: 10}}>
-
-                    <Text style={styles.titulo}>{this.props.item.nomePromo}</Text>
-
-                    <View style={{alignSelf:'stretch', alignItems:'center', justifyContent:'center',marginBottom:8}}>
-                        {this.renderCateg()}
-                    </View>
-
-                    <Text style={styles.txtDistancia}>{this.distance}m</Text>
-
-                    <View style={{flexDirection: 'row', alignSelf:'stretch'}}>
-                        {this.renderDias()}
-                    </View>
-                    
-                </View>
-
-                <View style={{flex: 2, alignItems:'center', justifyContent:'space-around', alignSelf: 'stretch', padding: 10}}>
-                    <View style={styles.descBox}>
-                        <Text style={styles.desc}>{this.props.item.descontoPromo}%</Text>
-                        <Text style={{fontFamily: 'segoeuii', fontSize: 12, color: '#FF9900'}}>de desconto</Text>
-                    </View>
-
-                    <View style={{flexDirection:'row', alignItems: 'center',justifyContent:'center', alignSelf: 'stretch'}}>
-                        <Icon name='star' color='#AE0505' size={sizeStar}/>
-                        <Icon name='star' color='#AE0505' size={sizeStar}/>
-                        <Icon name='star' color='#AE0505' size={sizeStar}/>
-                        <Icon name='star' color='#AE0505' size={sizeStar}/>
-                        <Icon name='star' color='#999' size={sizeStar}/>
-                    </View>
-                </View>
+                        <Text style={styles.titulo}>{this.props.item.nomePromo}</Text>
     
-            </View>
-        </TouchableOpacity>
-        );
+                        <View style={{alignSelf:'stretch', alignItems:'center', justifyContent:'center',marginBottom:8}}>
+                            {this.renderCateg()}
+                        </View>
+    
+                        <Text style={styles.txtDistancia}>{this.distance}m</Text>
+    
+                        <View style={{flexDirection: 'row', alignSelf:'stretch'}}>
+                            {this.renderDias()}
+                        </View>
+                        
+                    </View>
+    
+                    <View style={{flex: 2, alignItems:'center', justifyContent:'space-around', alignSelf: 'stretch', padding: 10}}>
+                        <View style={styles.descBox}>
+                            <Text style={styles.desc}>{this.props.item.descontoPromo}%</Text>
+                            <Text style={{fontFamily: 'segoeuii', fontSize: 12, color: '#FF9900'}}>de desconto</Text>
+                        </View>
+    
+                        <View style={{flexDirection:'row', alignItems: 'center',justifyContent:'center', alignSelf: 'stretch'}}>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#AE0505' size={sizeStar}/>
+                            <Icon name='star' color='#999' size={sizeStar}/>
+                        </View>
+                    </View>
+        
+                </View>
+            </TouchableOpacity>
+            );
+        }else{
+            return(<View></View>);
+        }
+        
     }
 
 }
@@ -213,7 +219,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return({
-        promo: state.AppReducer.promo
+        promo: state.AppReducer.promo,
+        filtros: state.AppReducer.filtros
     })
 }
 

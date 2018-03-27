@@ -14,25 +14,22 @@ export default class MinhaPromo extends Component{
 
     render(){
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,{backgroundColor:this.props.item.bgColor}]}>
                 <View style={{flex: 2}}>
                     {this.props.item.imageURL ? <Image source={{uri: this.props.item.imageURL}} style={styles.promoImage}/> :
                     <Image source={this.img} style={styles.promoImage}/>}
                 </View>
     
-                <View style={{alignSelf:'stretch', alignItems: 'center', justifyContent: 'center', flex: 3}}>
-                    <View style={{flexDirection:'column',justifyContent: 'space-around', alignItems: 'center', alignSelf: 'stretch'}}>
-                        <Text style={styles.titulo}>{this.props.item.nomePromo}</Text>
-                        <Text style={styles.desc}>{this.props.item.descontoPromo}% OFF</Text>
-                    </View>
-                    
-                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', alignSelf: 'stretch'}}>
-                        <TouchableOpacity style={{ flex: 1}} onPress={() => {Actions.minhaPromocao({item: this.props.item, title: this.props.item.nomePromo})}}>
-                            <Text style={styles.btnEntrar}>Detalhes</Text>
-                        </TouchableOpacity>
-                    </View>
+                <View style={{flexDirection:'column',justifyContent: 'space-around', alignItems: 'center', alignSelf: 'stretch', flex:3}}>
+                    <Text style={styles.titulo}>{this.props.item.nomePromo}</Text>
                 </View>
-    
+                    
+                <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', alignSelf: 'stretch', flex:2}}>
+                    <Text style={styles.desc}>{this.props.item.descontoPromo}%</Text>
+                    <TouchableOpacity onPress={() => {Actions.minhaPromocao({item: this.props.item, title: this.props.item.nomePromo})}}>
+                        <Text style={styles.btnValidar}>validar agora</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -55,14 +52,13 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         marginVertical: 5,
         marginHorizontal: 5,
-        borderRadius: 10
     },
 
     titulo: {
         fontSize: 20,
-        color: '#333',
-        fontWeight: 'bold',
-        textAlign: 'center'
+        color: '#b30404',
+        fontFamily: 'segoeuiz',
+        textAlign: 'left'
     },
     estab:{
         color: '#666',
@@ -70,26 +66,21 @@ const styles = StyleSheet.create({
     },
     desc:{
         fontSize:30,
-        color: '#e56c25',
-        fontWeight: 'bold'
+        color: '#b30404',
+        fontFamily: 'segoeuib'
     },
     container: {
         justifyContent:'flex-start', 
         alignItems: 'center', 
         alignSelf: 'stretch',
         flexDirection: 'row',
-        borderBottomColor: '#ededed', 
-        borderBottomWidth: 1,
     },
-    btnEntrar: {
-        paddingVertical: 10,
+    btnValidar: {
         alignSelf: 'stretch',
-        backgroundColor: '#e56c25',
-        color: 'white',
-        fontSize: 18,
+        color: '#666',
+        fontSize: 16,
         textAlign: 'center',
-        borderRadius: 5,
-        elevation: 1,
+        fontFamily: 'segoeuii'
     }
 
 });
