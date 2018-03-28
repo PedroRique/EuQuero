@@ -19,7 +19,7 @@ class Economia extends Component{
         this.setState({visible});
     }
 
-    renderCupons(){
+    renderCupons(){ //No componente Economia precisamos mostrar cupons que o usuário já utilizou, portanto só dou o push no array caso dataUso exista.
         let cupons = this.props.cupons;
         let cuponsArray = [];
 

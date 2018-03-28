@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
     },
     textarea: {
         marginHorizontal: 15,
-        height: 45,
+        height: 150,
         backgroundColor: 'white',
         borderWidth: 0,
         marginVertical: 10,
@@ -401,6 +401,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'left',
         alignSelf: 'stretch',
+        textAlignVertical: 'top'
     },
     datepicker: {
         height: 45,

@@ -31,7 +31,7 @@ class Promocao extends Component{
                 longitude:this.props.promo.placeObj.longitude
             },
             reportTxt:'',
-            marginVerticalModal: new Animated.Value(100)
+            marginVerticalModal: new Animated.Value(80)
         };
     }
 
@@ -53,8 +53,8 @@ class Promocao extends Component{
         Animated.timing(                  // Animate over time
             this.state.marginVerticalModal,            // The animated value to drive
             {
-              toValue: 20,                   // Animate to opacity: 1 (opaque)
-              duration: 300,                // Make it take a while
+              toValue: 40,                   // Animate to opacity: 1 (opaque)
+              duration: 0,                // Make it take a while
             }
           ).start();
     }
@@ -63,8 +63,8 @@ class Promocao extends Component{
         Animated.timing(                  // Animate over time
             this.state.marginVerticalModal,            // The animated value to drive
             {
-              toValue: 100,                   // Animate to opacity: 1 (opaque)
-              duration: 300,              // Make it take a while
+              toValue: 80,                   // Animate to opacity: 1 (opaque)
+              duration: 0,              // Make it take a while
             }
           ).start();
     }
@@ -79,16 +79,20 @@ class Promocao extends Component{
 
       }
    
-    loading(){
+    renderResgatar(){
         if(!this.props.loginAs){
             return (
-                <TouchableOpacity onPress={ () => this.geraCodigo() }>
-                    <Text style={styles.btnResgatar}>Resgatar Cupom</Text>
+                <TouchableOpacity onPress={() => this.geraCodigo()}>
+                    <Icon name='receipt' color='#b30404' size={24} />
+                    <Text style={styles.tabTxt}>RESGATAR</Text>
                 </TouchableOpacity>
             );
         }else{
             return (
-                <Text style={[styles.btnResgatar,{backgroundColor: '#999', color: '#666'}]}>Resgatar Cupom</Text>
+                <TouchableOpacity onPress={() => alert('Apenas Clientes podem resgatar cupons.')}>
+                    <Icon name='receipt' color='#333' size={24} />
+                    <Text style={[styles.tabTxt,{color: '#333'}]}>RESGATAR</Text>
+                </TouchableOpacity>
             );
         }
     }
@@ -285,7 +289,7 @@ class Promocao extends Component{
                                 <TouchableOpacity onPress={() => {
                                     this.setModalVisible(false);
                                     this.props.resetResgate();
-                                    Actions.cupons();} }>
+                                    Actions.cuponsPerfil();} }>
                                     <Text style={styles.btnVoltar}>Meus Cupons</Text>
                                 </TouchableOpacity>
                             </View>                     
@@ -312,7 +316,7 @@ class Promocao extends Component{
                             this.setMapaVisible(!this.state.mapaVisible)
                         }}
                         >
-                        <View style={{ marginHorizontal:35,marginVertical: 100,flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'flex-start', padding: 10}}>
+                        <View style={{ marginHorizontal:35,marginVertical: 80,flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'flex-start', padding: 10}}>
                             <View style={styles.mapBox}>
                                 <MapView
                                     style={styles.map}
@@ -368,8 +372,8 @@ class Promocao extends Component{
                                     value={this.state.reportTxt}
                                     onChangeText={(reportTxt) => this.setState({reportTxt})}
                                     style={{flex: 1, textAlign:'left', backgroundColor:'#ededed', alignSelf:'stretch', textAlignVertical:'top', fontFamily:'segoeui'}}
-                                    onFocus={() => this.keyboardDidShow()}
-                                    onBlur={() => this.keyboardDidHide()}
+                                    // onFocus={() => this.keyboardDidShow()}
+                                    // onBlur={() => this.keyboardDidHide()}
                                 />
                                 
                             </View>
@@ -387,10 +391,7 @@ class Promocao extends Component{
                 </ScrollView>
 
                     <View style={styles.tabbar}>
-                        <TouchableOpacity onPress={() => false}>
-                            <Icon name='receipt' color='#b30404' size={24} />
-                            <Text style={styles.tabTxt}>RESGATAR</Text>
-                        </TouchableOpacity>
+                        {this.renderResgatar()}
                         <TouchableOpacity onPress={() => this.setMapaVisible(true)}>
                             <Icon name='location-on' color='#b30404' size={24} />
                             <Text style={styles.tabTxt}>MAPA</Text>
