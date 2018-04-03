@@ -28,13 +28,15 @@ class Economia extends Component{
             let estilo = i % 2 ? styles.backBranco : styles.backCinza;
             let resgate = new Date(cupom.dataResgate).toLocaleDateString('pt');
 
-            cuponsArray.push(
-                <View key={i} style={[estilo, styles.backCupom]}>
-                    <Text style={styles.txtCupom}>{resgate}</Text>
-                    <Text style={styles.txtCupomBold}>{cupom.promo.nomePromo}</Text>
-                    <Text style={styles.txtCupom}>R$ {cupom.promo.valorInicialPromo}</Text>
-                </View>
-            )
+            if(val.dataUso != undefined){
+                cuponsArray.push(
+                    <View key={i} style={[estilo, styles.backCupom]}>
+                        <Text style={styles.txtCupom}>{resgate}</Text>
+                        <Text style={styles.txtCupomBold}>{cupom.promo.nomePromo}</Text>
+                        <Text style={styles.txtCupom}>R$ {cupom.promo.valorInicialPromo}</Text>
+                    </View>
+                )
+            }
         });
 
         return cuponsArray;

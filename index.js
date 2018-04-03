@@ -3,4 +3,4 @@ import App from './src/App';
 
 console.disableYellowBox = true;
 
-AppRegistry.registerComponent('app8', () => App);
+AppRegistry.registerComponent('euquerovantagens', () => App);

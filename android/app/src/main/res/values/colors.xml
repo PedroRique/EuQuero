@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <color name="vermelho">#b30404</color>
+    <color name="vermelhoEscuro">#700000</color>
+    <color name="primary_dark">#b30404</color>
+</resources>
