@@ -55,8 +55,15 @@ class MinhasPromocoes extends Component {
 
 const mapStateToProps = state => {
 
-    const promos = _.map(state.AppReducer.minhasPromos, (val, uid) => {        
-        return {...val, uid}
+    let index = -1;
+    const promos = _.map(state.AppReducer.minhasPromos, (val, uid) => {     
+        
+        if(index++ % 2){
+            return {...val, uid, bgColor:'#fff'}
+        }else{
+            return {...val, uid, bgColor:'#ededed'}
+        }
+        
     });
 
     return ({

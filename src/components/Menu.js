@@ -27,74 +27,12 @@ class Menu extends Component {
     }
 
     isEstab (){
-        if(this.props.loginAs){
-            return(
-                <View>
-                    <TouchableOpacity onPress={() => Actions.formPromo()} activeOpacity={0.5}>
-                        <MenuBtn
-                            title='Nova Promoção'
-                            icon={{name: 'add', color: '#b30404'}}
-                        />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => Actions.minhasPromos()} activeOpacity={0.5}>
-                        <MenuBtn
-                            title='Minhas Promoções'
-                            icon={{name: 'description', color: '#b30404'}}
-                        />
-                    </TouchableOpacity>
-                </View>
-            );
-        }
-    }
-
-    isClient(){
-        if(!this.props.loginAs){
-            return(
-                <View>
-                    <TouchableOpacity onPress={() => Actions.cuponsPerfil()} activeOpacity={0.5}>
-                        <MenuBtn
-                            title='Meus Cupons'
-                            icon={{name: 'receipt', color: '#b30404'}}
-                        />
-                    </TouchableOpacity>
-                </View>
-            )
-        }
-    }
-
-    render (){
-        const img = require('../imgs/user.png');
-        return (
-            <View style={{justifyContent:'flex-start', flex:1}}>
-
-            <View style={{alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', marginVertical: 20}}>
-                <View style={{flex:1, padding: 5}}>    
-                    <View style={{backgroundColor: '#b30404', borderRadius: (avatarWidth/2) + 16, width:avatarWidth + 16, height:avatarWidth + 16, alignItems: 'center', justifyContent: 'center'}}>
-                        {this.props.avatarURL ? <Image source={{uri: this.props.avatarURL}} style={{width: avatarWidth,height:avatarWidth, borderRadius: avatarWidth/2}}/> :
-                        <Image source={img} style={{width: avatarWidth,height:avatarWidth, borderRadius: avatarWidth/2}}/>}
-                    </View>
-                </View>
-                <View style={{flex:2, padding: 5}}>
-                    <Text style={{fontSize:18, color: '#b30404', fontFamily: 'segoeuiz'}}>Olá, {this.props.nome}</Text>
-                    <Text style={{fontSize:16, color: '#b30404', fontFamily: 'segoeuii'}}>{this.props.email}</Text>
-                    {this.props.chave ?<Text style={{fontSize:16, color: '#b30404', fontFamily: 'segoeui'}}>ID: {this.props.chave}</Text> : <Text></Text>}
-                </View>
-            </View>
-
-            <ScrollView contentContainerStyle={styles.btnsBox}>
-                
+        return(
+            <View style={styles.btnsBox}>
                 <TouchableOpacity onPress={() => Actions.perfil()} activeOpacity={0.5}>
                     <MenuBtn
                         title='Perfil'
                         icon={{name: 'account-circle', color: '#b30404'}}
-                    />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => Actions.economia()} activeOpacity={0.5}>
-                    <MenuBtn
-                        title='Economia'
-                        icon={{name: 'attach-money', color: '#b30404'}}
                     />
                 </TouchableOpacity>
 
@@ -105,9 +43,19 @@ class Menu extends Component {
                     />
                 </TouchableOpacity>
 
-                {this.isEstab()}
+                <TouchableOpacity onPress={() => Actions.formPromo()} activeOpacity={0.5}>
+                    <MenuBtn
+                        title='Nova Promoção'
+                        icon={{name: 'add', color: '#b30404'}}
+                    />
+                </TouchableOpacity>
 
-                {this.isClient()}
+                <TouchableOpacity onPress={() => Actions.minhasPromosPerfil()} activeOpacity={0.5}>
+                    <MenuBtn
+                        title='Minhas Promoções'
+                        icon={{name: 'description', color: '#b30404'}}
+                    />
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => false} activeOpacity={0.5}>
                     <MenuBtn
@@ -129,7 +77,86 @@ class Menu extends Component {
                         icon={{name: 'power-settings-new', color: '#b30404'}}
                     />
                 </TouchableOpacity>
+            </View>
+        );
+    }
 
+    isClient(){
+        return(
+            <View style={styles.btnsBox}>
+                <TouchableOpacity onPress={() => Actions.perfil()} activeOpacity={0.5}>
+                    <MenuBtn
+                        title='Perfil'
+                        icon={{name: 'account-circle', color: '#b30404'}}
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => Actions.rede()} activeOpacity={0.5}>
+                    <MenuBtn
+                        title='Rede'
+                        icon={{name: 'people', color: '#b30404'}}
+                    />
+                </TouchableOpacity> 
+
+                <TouchableOpacity onPress={() => Actions.economia()} activeOpacity={0.5}>
+                    <MenuBtn
+                        title='Economia'
+                        icon={{name: 'attach-money', color: '#b30404'}}
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => Actions.cuponsPerfil()} activeOpacity={0.5}>
+                    <MenuBtn
+                        title='Meus Cupons'
+                        icon={{name: 'receipt', color: '#b30404'}}
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => false} activeOpacity={0.5}>
+                    <MenuBtn
+                        title='Termos de Uso'
+                        icon={{name: 'description', color: '#b30404'}}
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => false} activeOpacity={0.5}>
+                    <MenuBtn
+                        title='Fale Conosco'
+                        icon={{name: 'phone-in-talk', color: '#b30404'}}
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => {this.props.logoutUsuario()}} activeOpacity={0.5}>
+                    <MenuBtn
+                        title='Sair'
+                        icon={{name: 'power-settings-new', color: '#b30404'}}
+                    />
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    render (){
+        const img = require('../imgs/user.png');
+        return (
+            <View style={{justifyContent:'flex-start', flex:1}}>
+
+            <View style={{alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', marginVertical: 20}}>
+                <View style={{flex:1, padding: 5}}>    
+                    <View style={{backgroundColor: '#b30404', borderRadius: (avatarWidth/2) + 16, width:avatarWidth + 16, height:avatarWidth + 16, alignItems: 'center', justifyContent: 'center'}}>
+                        {this.props.avatarURL ? <Image source={{uri: this.props.avatarURL}} style={{width: avatarWidth,height:avatarWidth, borderRadius: avatarWidth/2}}/> :
+                        <Image source={img} style={{width: avatarWidth,height:avatarWidth, borderRadius: avatarWidth/2}}/>}
+                    </View>
+                </View>
+                <View style={{flex:2, padding: 5}}>
+                    <Text style={{fontSize:18, color: '#b30404', fontFamily: 'segoeuiz'}}>Olá, {this.props.nome}</Text>
+                    <Text style={{fontSize:16, color: '#b30404', fontFamily: 'segoeuii'}}>{this.props.email}</Text>
+                    {this.props.chave ?<Text style={{fontSize:16, color: '#b30404', fontFamily: 'segoeui'}}>ID: {this.props.chave}</Text> : <Text></Text>}
+                </View>
+            </View>
+
+            <ScrollView>
+                {this.props.loginAs ? this.isEstab() : this.isClient()}
             </ScrollView>
 
         </View>

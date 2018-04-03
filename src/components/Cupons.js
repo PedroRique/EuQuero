@@ -108,10 +108,12 @@ const mapStateToProps = state => {
     let index = -1;
     const cupons = _.map(state.AppReducer.cupons, (val, uid) => {     
         
-        if(index++ % 2){
-            return {...val, uid,bgColor:'#fff'}
-        }else{
-            return {...val, uid,bgColor:'#ededed'}
+        if(val.valido != false){
+            if(index++ % 2){
+                return {...val, uid,bgColor:'#fff'}
+            }else{
+                return {...val, uid,bgColor:'#ededed'}
+            }
         }
         
     });

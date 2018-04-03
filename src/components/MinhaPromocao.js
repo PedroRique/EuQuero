@@ -52,7 +52,6 @@ class MinhaPromocao extends Component{
                         </TouchableOpacity>
                     </View>                     
                 </View>
-                
             );
 
         }

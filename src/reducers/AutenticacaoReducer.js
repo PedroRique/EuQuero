@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
     nome: 'Estabelecimento',
-    email: 'client1@teste.com',
+    email: 'estab4@teste.com',
     senha: '123456',
     cnpf: '',
     cpf: '',
@@ -15,7 +15,8 @@ const INITIAL_STATE = {
     loadingLogin: false,
     loadingCadastro: false,
     chaveEntrada: '',
-    loginAs: false, //false eh Cliente, true eh Estabelecimento
+    loginAs: true, //false eh Cliente, true eh Estabelecimento
+    loggedIn: false,
     perfilImg: '',
     chave: '',
     categTotal: 0
@@ -65,9 +66,9 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'login_usuario_sucesso':
             if(action.payload.tipo == 'estab'){
-                return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave, avatarURL: action.payload.avatarURL, placeObj: action.payload.placeObj, stringCateg: action.payload.stringCateg}
+                return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave, avatarURL: action.payload.avatarURL, placeObj: action.payload.placeObj, stringCateg: action.payload.stringCateg, loggedIn: true}
             }else{
-                return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave, avatarURL: action.payload.avatarURL}
+                return { ...state, nome: action.payload.nome, email: action.payload.email, senha: '', erroLogin: '', erroCadastro: '', loadingLogin: false, chave: action.payload.chave, avatarURL: action.payload.avatarURL, loggedIn: true}
             }
             
 
