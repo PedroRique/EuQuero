@@ -46,14 +46,14 @@ class Menu extends Component {
                 <TouchableOpacity onPress={() => Actions.formPromo()} activeOpacity={0.5}>
                     <MenuBtn
                         title='Nova Promoção'
-                        icon={{name: 'add', color: '#b30404'}}
+                        icon={{name: 'add-to-photos', color: '#b30404'}}
                     />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => Actions.minhasPromosPerfil()} activeOpacity={0.5}>
                     <MenuBtn
                         title='Minhas Promoções'
-                        icon={{name: 'description', color: '#b30404'}}
+                        icon={{name: 'collections-bookmark', color: '#b30404'}}
                     />
                 </TouchableOpacity>
 
@@ -140,7 +140,7 @@ class Menu extends Component {
         const img = require('../imgs/user.png');
         return (
             <View style={{justifyContent:'flex-start', flex:1}}>
-
+            <Text style={{fontSize:18, color: '#b30404', fontFamily: 'segoeuiz', marginLeft:10, marginTop:10}}>Olá, {this.props.nome}</Text>
             <View style={{alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', marginVertical: 20}}>
                 <View style={{flex:1, padding: 5}}>    
                     <View style={{backgroundColor: '#b30404', borderRadius: (avatarWidth/2) + 16, width:avatarWidth + 16, height:avatarWidth + 16, alignItems: 'center', justifyContent: 'center'}}>
@@ -149,7 +149,7 @@ class Menu extends Component {
                     </View>
                 </View>
                 <View style={{flex:2, padding: 5}}>
-                    <Text style={{fontSize:18, color: '#b30404', fontFamily: 'segoeuiz'}}>Olá, {this.props.nome}</Text>
+                    
                     <Text style={{fontSize:16, color: '#b30404', fontFamily: 'segoeuii'}}>{this.props.email}</Text>
                     {this.props.chave ?<Text style={{fontSize:16, color: '#b30404', fontFamily: 'segoeui'}}>ID: {this.props.chave}</Text> : <Text></Text>}
                 </View>
