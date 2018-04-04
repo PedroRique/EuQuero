@@ -184,8 +184,8 @@ class Routes extends Component {
                     <Scene key='promocao' component={Promocao} title='Promoção' navBar={TabBarBackToHome2}/>
                     <Scene key='formLogin' component={FormLogin} hideNavBar initial/>
                     <Scene key='formCadastro' component={FormCadastro} title='Cadastro'/>
-                    <Scene key='formPromo' component={FormPromo} hideNavBar={false} title='Nova Promoção'/>
-                    <Scene key='minhasPromos' component={MinhasPromocoes} hideNavBar={false} title='Minhas Promoções'/>
+                    {/* <Scene key='formPromo' component={FormPromo} hideNavBar={false} title='Nova Promoção'/> */}
+                    {/* <Scene key='minhasPromos' component={MinhasPromocoes} hideNavBar={false} title='Minhas Promoções'/> */}
                     <Scene key='minhaPromocao' component={MinhaPromocao} hideNavBar={false} title='Minha Promoção'/>
                 </Stack>
             </Router>)

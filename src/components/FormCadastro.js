@@ -128,8 +128,8 @@ class formCadastro extends Component {
         this.state.categs.forEach((a)=> {
             if(a.status){
                 teste.push(
-                    <View key={a.id} style={{backgroundColor: '#fff', borderRadius: 5, padding: 5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                        <Icon name={a.icon} color='#881518'/>
+                    <View key={a.id} style={{backgroundColor: '#fff', padding: 5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+                        <Icon name={a.icon} color='#FF9900'/>
                         <Text style={{color: '#333',fontSize: 16, padding:5, flex: 1, flexWrap: 'wrap'}}>{a.name}</Text>                    
                     </View>
                 );
@@ -350,8 +350,8 @@ class formCadastro extends Component {
                     onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
                     >
                     <View style={{ padding:40, flex:1, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
-                        <View style={{backgroundColor:'#fff', flex: 1, borderRadius: 5, padding: 20}}>
-                            <Icon name='close' onPress={() => this.setModalVisible(false)} underlayColor="#999" containerStyle={{borderRadius: 5, alignSelf: 'flex-end'}}/>
+                        <View style={{backgroundColor:'#fff', flex: 1, padding: 20}}>
+                            <Icon name='close' onPress={() => this.setModalVisible(false)} underlayColor="#999" containerStyle={{alignSelf: 'flex-end'}}/>
                             <Text>Explicação!</Text>
                         </View>
                     </View>
@@ -365,7 +365,7 @@ class formCadastro extends Component {
                     onRequestClose={() => this.setModalCategVisible(!this.state.modalCategVisible)}
                     >
                     <View style={{ padding:40, flex:1, backgroundColor: 'rgba(0, 0, 0, 0.8)', alignItems:'center', justifyContent: 'center'}}>
-                        <View  key={this.state.teste} style={{backgroundColor:'#fff', borderRadius: 5, padding: 20, alignSelf: 'stretch', flex: 1}}>
+                        <View  key={this.state.teste} style={{backgroundColor:'#fff', padding: 20, alignSelf: 'stretch', flex: 1}}>
 
                             <FlatList
                                 data={this.state.categs}
@@ -379,7 +379,7 @@ class formCadastro extends Component {
                                         <View style={lastchild}>
                                         <TouchableOpacity style={{alignSelf: 'stretch', flexDirection: 'row', flex: 1, justifyContent: 'space-between'}} onPress={() => this.changeIconStatus(item.key)}>
                                             <View style={{flexDirection: 'row'}}>
-                                                <Icon name={item.icon} containerStyle={{marginRight: 5}} color='#881518'/>
+                                                <Icon name={item.icon} containerStyle={{marginRight: 5}} color='#FF9900'/>
                                                 <Text style={styles.categItemTxt}>{item.name}</Text>
                                             </View>
                                             <Icon name={icon} color={color}/>
@@ -432,21 +432,20 @@ export default connect(
 const styles = StyleSheet.create({
     
     container: {
-        backgroundColor: '#e56c25',
+        backgroundColor: '#b30404',
         flex: 1
     },
     txtTopo: {
         fontSize: 20,
         textAlign: 'center',
         color: 'white',
-        backgroundColor: '#881518',
+        backgroundColor: '#FF9900',
         padding: 20,
-        borderRadius: 5,
         elevation: 3,
         fontFamily: 'segoeui'
     },
     topo: {
-        backgroundColor: '#e56c25',
+        backgroundColor: '#b30404',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -454,14 +453,14 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     meio: {
-        backgroundColor: '#e56c25',
+        backgroundColor: '#b30404',
         flex: 5,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20
     },
     rodape: {
-        backgroundColor: '#e56c25',
+        backgroundColor: '#b30404',
         flex: 2,
         justifyContent: 'center',
         alignItems: 'center',
@@ -474,7 +473,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderWidth: 0,
         marginBottom: 20,
-        borderRadius: 5,
         padding: 10,
         fontSize: 18,
         textAlign: 'center',
@@ -483,22 +481,20 @@ const styles = StyleSheet.create({
     btnEntrar: {
         paddingVertical: 10,
         paddingHorizontal: 100,
-        backgroundColor: '#881518',
+        backgroundColor: '#FF9900',
         color: 'white',
         fontSize: 18,
         textAlign: 'center',
-        borderRadius: 5,
         elevation: 1,
         marginBottom: 5,
         fontFamily: 'segoeui'
     },
     btnConfirma: {
         paddingVertical: 10,
-        backgroundColor: '#881518',
+        backgroundColor: '#FF9900',
         color: 'white',
         fontSize: 18,
         textAlign: 'center',
-        borderRadius: 5,
         elevation: 1,
         marginBottom: 5,
         fontFamily: 'segoeui'
@@ -509,7 +505,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         width: 40,
         height: 40,
-        backgroundColor: '#881518',  
+        backgroundColor: '#FF9900',  
         padding: 5
     },
     ImageContainer: {
@@ -540,7 +536,6 @@ const styles = StyleSheet.create({
     categBtnTxt:{
         fontSize: 18,
         backgroundColor: '#fff',
-        borderRadius: 5,
         padding: 10,
         marginBottom: 20,
         alignSelf: 'stretch',
