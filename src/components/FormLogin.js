@@ -88,6 +88,7 @@ class formLogin extends Component{
                             autoCorrect={false}
                             underlineColorAndroid='transparent'
                             keyboardType='email-address'
+                            selectionColor='#ff9900'
                             onSubmitEditing={() => this.passwordInput.focus()}
                             onChangeText={texto => this.props.modificaEmail(texto)}
                         />
@@ -99,7 +100,9 @@ class formLogin extends Component{
                             placeholderTextColor='#aaa'
                             returnKeyType='go'
                             underlineColorAndroid='transparent'
+                            selectionColor='#ff9900'
                             ref={(input) => this.passwordInput = input}
+                            onSubmitEditing={() => { this._autenticaUsuario(); }}
                             onChangeText={texto => this.props.modificaSenha(texto)}
                         />
                     </View>
@@ -132,7 +135,7 @@ class formLogin extends Component{
                         <Text style={{ fontSize: 16, color: '#EDEDED', fontFamily: 'segoeuii'}}>Ainda não faz parte do nosso clube?</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => false} style={{alignSelf: 'stretch',borderTopLeftRadius: 20,borderTopRightRadius: 20,}} activeOpacity={0.4}>
+                    <TouchableOpacity onPress={() => Actions.formCadastro() } style={{alignSelf: 'stretch',borderTopLeftRadius: 20,borderTopRightRadius: 20,}} activeOpacity={0.4}>
                         <View style={{alignSelf:'stretch'}}><Text style={styles.btnCadastrar}>CADASTRE-SE</Text>
                         <View style={styles.barraFinal}>
                         </View></View>

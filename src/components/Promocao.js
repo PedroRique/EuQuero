@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Animated,View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView, Dimensions, InteractionManager, TextInput, Keyboard} from 'react-native';
+import {Alert,Animated,View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Button, ListView, ScrollView, Dimensions, InteractionManager, TextInput, Keyboard} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Voucher from 'voucher-code-generator';
 import {geraCupom, resetResgate, report} from '../actions/AppActions';
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { showLocation } from 'react-native-map-link';
+import _ from 'lodash';
 
 class Promocao extends Component{
 
@@ -79,8 +80,8 @@ class Promocao extends Component{
 
       }
    
-    renderResgatar(){
-        if(!this.props.loginAs){
+    renderResgatar(alreadyHave){
+        if(!this.props.loginAs && !alreadyHave){
             return (
                 <TouchableOpacity onPress={() => this.geraCodigo()}>
                     <Icon name='receipt' color='#b30404' size={24} />
@@ -88,8 +89,22 @@ class Promocao extends Component{
                 </TouchableOpacity>
             );
         }else{
+
+            let msg = 'Apenas Clientes podem resgatar cupons.';
+
+            if(!this.props.loginAs && alreadyHave){
+                msg = 'Você já resgatou esse cupom.';
+            }
+
             return (
-                <TouchableOpacity onPress={() => alert('Apenas Clientes podem resgatar cupons.')}>
+                <TouchableOpacity onPress={() => Alert.alert(
+                    'Alerta',
+                    msg,
+                    [
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: false }
+                  )}>
                     <Icon name='receipt' color='#333' size={24} />
                     <Text style={[styles.tabTxt,{color: '#333'}]}>RESGATAR</Text>
                 </TouchableOpacity>
@@ -202,11 +217,23 @@ class Promocao extends Component{
     }
 
     render(){
+        const app = this;
         const sizeStar = 14;
         const favIcon = this.state.favorite ? 'favorite' : 'favorite-border';
+        let alreadyHave = false;
 
         const {marginVerticalModal} = this.state;
 
+        if(this.props.cupons.length){
+            alreadyHave = this.props.cupons.some((cupom) => { //alreadyHave se true signigica que ele já tem esse cupom na carteira, logo devemos desabilitar o botao
+                if(cupom.promo.uid == app.props.promo.uid){
+                    return true; //signigica que existe pelo menos um cupom nas maos desse cliente que bate com essa promoção que ele está visualizando agora.
+                }else{
+                    return false;
+                }
+            });
+        }
+        
         if(!this.state.renderPlaceholderOnly){
             return (
                 <View>
@@ -391,7 +418,7 @@ class Promocao extends Component{
                 </ScrollView>
 
                     <View style={styles.tabbar}>
-                        {this.renderResgatar()}
+                        {this.renderResgatar(alreadyHave)}
                         <TouchableOpacity onPress={() => this.setMapaVisible(true)}>
                             <Icon name='location-on' color='#b30404' size={24} />
                             <Text style={styles.tabTxt}>MAPA</Text>
@@ -425,10 +452,16 @@ const { height, width } = Dimensions.get('window');
 const mapHeight = height - 110;
 
 const mapStateToProps = state => {
+
+    const cupons = _.map(state.AppReducer.cupons, (val, uid) => {     
+        return {...val, uid}
+    });
+
     return ({
         geraCupomStatus: state.AppReducer.geraCupomStatus,
         loginAs: state.AutenticacaoReducer.loginAs,
-        promo: state.AppReducer.promo
+        promo: state.AppReducer.promo,
+        cupons: _.without(cupons, undefined)
     })
 } 
 

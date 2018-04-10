@@ -26,17 +26,7 @@ const TabIcon = (props) => {
     return(
         <View>
             <Icon color={color} name={props.iconName} size={24} />
-            <Text style={{color: color, fontFamily:'segoeui', fontSize: 12}}>{props.title}</Text>
-        </View>
-    )
-}
-
-const TabIconPromo = (props) => {
-    let color = props.focused ? '#b30404' : '#b30404';
-    return(
-        <View>
-            <Icon color={color} name={props.iconName} size={24} />
-            <Text style={{color: color, fontFamily:'segoeui', fontSize: 12}}>{props.title}</Text>
+            <Text style={{color: color, fontFamily:'segoeui', fontSize: 8}}>{props.title}</Text>
         </View>
     )
 }
@@ -122,6 +112,8 @@ class Routes extends Component {
 
     render(){ 
         console.log(this.props);
+
+        const labelStyle = {fontFamily: 'segoeui', textAlign:'center', fontSize:8};
         if(this.props.loginAs){
             return(
             <Router>
@@ -135,10 +127,10 @@ class Routes extends Component {
                                 activeBackgroundColor='#fff'
                                 inactiveTintColor='#fff'
                                 inactiveBackgroundColor='#b30404'
-                                labelStyle={{fontFamily: 'segoeui'}}
-                                showLabel={false}
+                                labelStyle={labelStyle}
+                                showLabel={false} 
                                 navBar={TabBarHome}
-                                style={{ height: 65 }}
+                                style={{height: 65}}
                             >
                                 <Scene key='tabHome' title='HOME' iconName='home' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}} style={{elevation: 10}}>
                                     <Scene key='promocoes' component={Promocoes} title='Promoções' hideNavBar/>
@@ -149,7 +141,7 @@ class Routes extends Component {
                                 <Scene key='tabPesquisa' title='PESQUISA' iconName='search' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
                                     <Scene key='pesquisa' component={Pesquisa} title='Pesquisa' hideNavBar/>
                                 </Scene>
-                                <Scene key='tabMinhasPromosHome' title='MINHAS PROMOÇÕES' iconName='add' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
+                                <Scene key='tabMinhasPromosHome' title='MINHAS PROMOS' iconName='collections-bookmark' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
                                     <Scene key='minhasPromosHome' component={MinhasPromocoes} title='Minhas Promoções' hideNavBar/>
                                 </Scene>
                             </Tabs>
@@ -160,9 +152,9 @@ class Routes extends Component {
                         key='tabsPerfil'
                         tabBarPosition='bottom'
                         activeTintColor='#b30404'
-                        activeBackgroundColor='#fff'                
+                        activeBackgroundColor='#fff'        
                         inactiveBackgroundColor='#b30404'
-                        labelStyle={{fontFamily: 'segoeui'}}
+                        labelStyle={labelStyle}
                         showLabel={false}
                         navBar={TabBarBackToHome}
                         style={{ height: 65 }}
@@ -173,10 +165,10 @@ class Routes extends Component {
                         <Scene key='tabRede' title='MINHA REDE' iconName='people' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
                             <Scene key='rede' component={Rede} title='Minha Rede' hideNavBar/>
                         </Scene>
-                        <Scene key='tabFormPromo' title='NOVA PROMOÇÃO' iconName='add' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
+                        <Scene key='tabFormPromo' title='NOVA PROMOÇÃO' iconName='add-to-photos' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
                             <Scene key='formPromo' component={FormPromo} title='Nova Promoção' hideNavBar/>
                         </Scene>
-                        <Scene key='tabMinhasPromosPerfil' title='MINHAS PROMOÇÕES' iconName='add' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
+                        <Scene key='tabMinhasPromosPerfil' title='MINHAS PROMOÇÕES' iconName='collections-bookmark' icon={TabIcon} tabStyle={{borderWidth:0, elevation: 10}}  style={{elevation: 10}}>
                             <Scene key='minhasPromosPerfil' component={MinhasPromocoes} title='Minhas Promoções' hideNavBar/>
                         </Scene>
                     </Tabs>
@@ -184,8 +176,8 @@ class Routes extends Component {
                     <Scene key='promocao' component={Promocao} title='Promoção' navBar={TabBarBackToHome2}/>
                     <Scene key='formLogin' component={FormLogin} hideNavBar initial/>
                     <Scene key='formCadastro' component={FormCadastro} title='Cadastro'/>
-                    <Scene key='formPromo' component={FormPromo} hideNavBar={false} title='Nova Promoção'/>
-                    <Scene key='minhasPromos' component={MinhasPromocoes} hideNavBar={false} title='Minhas Promoções'/>
+                    {/* <Scene key='formPromo' component={FormPromo} hideNavBar={false} title='Nova Promoção'/> */}
+                    {/* <Scene key='minhasPromos' component={MinhasPromocoes} hideNavBar={false} title='Minhas Promoções'/> */}
                     <Scene key='minhaPromocao' component={MinhaPromocao} hideNavBar={false} title='Minha Promoção'/>
                 </Stack>
             </Router>)
@@ -202,7 +194,7 @@ class Routes extends Component {
                             activeBackgroundColor='#fff'
                             inactiveTintColor='#fff'
                             inactiveBackgroundColor='#b30404'
-                            labelStyle={{fontFamily: 'segoeui'}}
+                            labelStyle={labelStyle}
                             showLabel={false}
                             navBar={TabBarHome}
                             style={{ height: 65 }}
@@ -229,7 +221,7 @@ class Routes extends Component {
                     activeTintColor='#b30404'
                     activeBackgroundColor='#fff'                
                     inactiveBackgroundColor='#b30404'
-                    labelStyle={{fontFamily: 'segoeui'}}
+                    labelStyle={labelStyle}
                     showLabel={false}
                     navBar={TabBarBackToHome2}
                     style={{ height: 65 }}
