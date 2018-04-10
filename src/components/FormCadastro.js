@@ -352,7 +352,21 @@ class formCadastro extends Component {
                     <View style={{ padding:40, flex:1, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
                         <View style={{backgroundColor:'#fff', flex: 1, padding: 20}}>
                             <Icon name='close' onPress={() => this.setModalVisible(false)} underlayColor="#999" containerStyle={{alignSelf: 'flex-end'}}/>
-                            <Text>Explicação!</Text>
+                            <Text>Escolha o tipo de perfil que atende suas necessidades!{'\n'}{'\n'}
+
+Como Cliente você poderá:
+{'\n'}{'\n'}
+- Resgatar Cupons;{'\n'}
+- Aproveitar Descontos únicos;{'\n'}
+- Compartilhar sua chave;{'\n'}
+- Medir suas economias;{'\n'}
+{'\n'}{'\n'}
+Como Estabalecimento você poderá:
+{'\n'}{'\n'}
+- Validar Cupons;{'\n'}
+- Criar Promoções;{'\n'}
+- Gerenciar suas Promoções;{'\n'}
+- Compartilhar sua chave;</Text>
                         </View>
                     </View>
                 </Modal>
