@@ -1,0 +1,5 @@
+<<<<<<< HEAD
+Misturando tudo
+=======
+versionamento realizado. uff
+>>>>>>> developes
